@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-12 my-2">
+    <!-- ? datatable -->
+    <ngx-datatable
+    #myTable
+    #tables
+    class="material expandable"
+    [columnMode]="columnMode.force"
+    [rows]="rows"
+    [loadingIndicator]="loadingIndicator"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [limit]="10"
+    [reorderable]="true"
+    [summaryRow]="true"
+    [summaryHeight]="55"
+  >
+    <!--  -->
+    <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
+      <ng-template
+        let-rowIndex="rowIndex"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <span>{{ rowIndex + 1 }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="date" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Fecha</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a [routerLink]="[(row.date.split('/')[0]).toLowerCase()]"
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="breakfast" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Desayuno</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="lunch" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Almuerzo</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="afternoonSnack" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Merienda</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="dinner" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Cena</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Promedio</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ row.breakfast + row.lunch + row.afternoonSnack + row.dinner / 4 }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    </ngx-datatable>
+    <!-- ? end datatable -->
+  </div>
+</div>

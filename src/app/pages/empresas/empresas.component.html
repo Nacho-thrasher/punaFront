@@ -1,0 +1,395 @@
+<!--@ CSS ANIMATED -->
+<div class="row">
+  <div class="col-12 my-2">
+    <button class="btn btn-primary"
+      data-toggle="modal" data-target="#crearEmpresa" data-whatever="@empresa"
+      (click)="resetForm()"
+    >
+      <i class="fa fa-plus"></i> Crear Empresa
+    </button>
+  </div>
+  <div class="col-12">
+    <!-- ? datatable -->
+    <ngx-datatable
+    #myTable
+    #tables
+    class="material expandable"
+    [columnMode]="columnMode.force"
+    [rows]="rows"
+    [loadingIndicator]="loadingIndicator"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [limit]="15"
+    [reorderable]="true"
+  >
+    <ng-template #nameSummaryCell let-row="row" let-value="value">
+      <div class="name-container">
+        <div class="chip" >
+          <span class="chip-text">{{value}}</span>
+        </div>
+      </div>
+    </ng-template>
+    <!--  -->
+    <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
+      <ng-template
+        let-rowIndex="rowIndex"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <span>{{ rowIndex + 1 }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="name" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Empresa</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable text-capitalize"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="description" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Descripcion</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable text-capitalize"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Direccion</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable text-capitalize"
+          >{{ row.direction }} {{row.city}}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="cuit" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Cuit</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable text-capitalize"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <!--todo end -->
+    <ngx-datatable-column name="contratista" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Contratista</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable text-capitalize"
+          >{{ value.name ? value.name : 'N/A' }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Editar</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <!-- button icon  -->
+        <button
+          class="btn btn-primary btn-sm"
+          style="cursor: pointer"
+          data-toggle="modal"
+          data-target="#modalEditarEmpresa"
+          (click)="editarEmpresa(row)"
+        >
+          <i class="fa fa-edit"></i>
+        </button>
+
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+
+    </ngx-datatable>
+    <!-- ? end datatable -->
+  </div>
+  <!-- # MODALS -->
+  <div class="modal fade" id="crearEmpresa" tabindex="-1" role="dialog" aria-labelledby="crearEmpresaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearEmpresaLabel">Crear Empresa</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearComensal"
+            autocomplete="off"
+            #formCrearComensal="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="crearEmpresa()"
+          >
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                placeholder="Nombre de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="description">Descripcion</label>
+              <input
+                type="text"
+                class="form-control"
+                id="description"
+                formControlName="description"
+                placeholder="Descripcion de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cuit">Cuit</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cuit"
+                formControlName="cuit"
+                placeholder="Cuit de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="direction">Direccion</label>
+              <input
+                type="text"
+                class="form-control"
+                id="direction"
+                formControlName="direction"
+                placeholder="Direccion de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="city">Ciudad</label>
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                formControlName="city"
+                placeholder="Ciudad de Empresa"
+              />
+            </div>
+            <!-- input que no se pueda ingresar  -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Empresa:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="idContratista" formControlName="idContratista" hidden>
+                  <input (keyup)="handlerChange($event)"
+                    type="text" class="form-control" id="empresa"
+                    formControlName="contratista"
+                    (clickOutside)="outsideFilter($event)"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoad">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let empresa of empresasFilter"
+                        class="p-1 item-hover"
+                        (click)="selectEmpresa(empresa)"
+                      >
+                        {{empresa.name}} - cuit: {{empresa.cuit}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * BUTTONS -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="crearEmpresa()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- # END COMENSAL -->
+  <div class="modal fade" id="modalEditarEmpresa" tabindex="-1" role="dialog" aria-labelledby="modalEditarEmpresaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarEmpresaLabel">Editar Empresa</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearComensal"
+            autocomplete="off"
+            #formCrearComensal="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="submitEditarEmpresa()"
+          >
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                placeholder="Nombre de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="description">Descripcion</label>
+              <input
+                type="text"
+                class="form-control"
+                id="description"
+                formControlName="description"
+                placeholder="Descripcion de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cuit">Cuit</label>
+              <input
+                type="text"
+                class="form-control"
+                id="cuit"
+                formControlName="cuit"
+                placeholder="Cuit de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="direction">Direccion</label>
+              <input
+                type="text"
+                class="form-control"
+                id="direction"
+                formControlName="direction"
+                placeholder="Direccion de Empresa"
+              />
+            </div>
+            <div class="form-group">
+              <label for="city">Ciudad</label>
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                formControlName="city"
+                placeholder="Ciudad de Empresa"
+              />
+            </div>
+            <!-- input que no se pueda ingresar  -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Empresa:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="idContratista" formControlName="idContratista" hidden>
+                  <input (keyup)="handlerChange($event)"
+                    type="text" class="form-control" id="empresa"
+                    formControlName="contratista"
+                    (clickOutside)="outsideFilter($event)"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoad">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let empresa of empresasFilter"
+                        class="p-1 item-hover"
+                        (click)="selectEmpresa(empresa)"
+                      >
+                        {{empresa.name}} - cuit: {{empresa.cuit}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * BUTTONS -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="submitEditarEmpresa()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

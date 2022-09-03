@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="col-12">
+    <!-- informar la fecha seleccionada -->
+    <div class="row">
+      <div class="col-12">
+        <h3 class="text-center font-weight-lighter">Fecha: {{ dia }} de <span class="text-capitalize">{{ mes }}</span></h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 my-2">
+    <!-- ? datatable -->
+    <ngx-datatable
+    #myTable
+    #tables
+    class="material expandable"
+    [columnMode]="columnMode.force"
+    [rows]="rows"
+    [loadingIndicator]="loadingIndicator"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [limit]="15"
+    [reorderable]="true"
+  >
+    <ng-template #nameSummaryCell let-row="row" let-value="value">
+      <div class="name-container">
+        <div class="chip" >
+          <span class="chip-text">{{value}}</span>
+        </div>
+      </div>
+    </ng-template>
+    <!--  -->
+    <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
+      <ng-template
+        let-rowIndex="rowIndex"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <span>{{ rowIndex + 1 }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="name" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Empresa</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a [routerLink]="[(row.name).toLowerCase().split(' ').join('-')]"
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="description" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Desc</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Ubicacion</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ row.city }} {{ row.direction }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="cuit" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Cuit</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column *ngIf="roleUser == 'supervisor' " name="visado" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Visar</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <div *ngIf="row.visado != null">
+          <span>
+            Fecha Registro: {{ row.visado.fechaRegistro }}
+          </span>
+          <span>
+            Fecha Visado: {{ row.visado.fechaVisado }}
+          </span><br>
+          <span>
+            Visó: {{ row.visado.usuario.firstName }}
+          </span>
+        </div>
+        <button *ngIf="row.visado == null" class="btn btn-primary btn-sm" (click)="visarRegistro(row)">Visar</button>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+
+    </ngx-datatable>
+    <!-- ? end datatable -->
+  </div>
+</div>

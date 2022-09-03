@@ -1,0 +1,12 @@
+.empresa-title
+{
+  border: 1px solid #14a2b8;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.empresa-title:hover
+{
+  background-color: aliceblue !important;
+  color: #14a2b8 !important;
+  border: 5px solid #14a2b8;
+}

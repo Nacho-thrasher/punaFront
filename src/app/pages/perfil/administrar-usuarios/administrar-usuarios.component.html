@@ -1,0 +1,527 @@
+<div class="row">
+  <div class="col-12">
+    <div class="">
+      <button
+        data-toggle="modal" data-target="#crearUsuario"
+        class="btn btn-primary btn-flat"
+        (click)="resetForm()"
+      >
+        Crear Usuario
+        <!-- icon -->
+      </button>
+    </div>
+    <hr>
+  </div>
+  <div class="col-12">
+    <!-- ? datatable -->
+    <ngx-datatable
+    #myTable
+    #tables
+    class="material expandable"
+    [columnMode]="columnMode.force"
+    [rows]="rows"
+    [loadingIndicator]="loadingIndicator"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    rowHeight="auto"
+    [limit]="10"
+    [reorderable]="true"
+  >
+    <!--? Row Detail Template -->
+    <ngx-datatable-row-detail
+      [rowHeight]="120"
+      #myDetailRow
+      (toggle)="onDetailToggle($event)"
+    >
+      <ng-template
+        let-row="row"
+        let-expanded="expanded"
+        ngx-datatable-row-detail-template
+      >
+        <!-- <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col-12">
+                  <span>Descripcion</span>
+                  <hr />
+                </div>
+                <div class="col-12">
+                  <span>{{ row.descripcion }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-12">
+                  <span>Comision</span>
+                  <hr />
+                </div>
+                <div class="col-12">
+                  <span>{{ row.comision }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-12">
+                  <span>Haber</span>
+                  <hr />
+                </div>
+                <div class="col-12">
+                  <span>{{ row.haber }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </ng-template>
+    </ngx-datatable-row-detail>
+    <!-- columns template -->
+    <!--? button responsive -->
+    <ngx-datatable-column
+      [width]="25"
+      [minWidth]="10"
+      [resizeable]="false"
+      [sortable]="false"
+      [draggable]="false"
+      [canAutoResize]="false"
+    >
+      <ng-template
+        let-row="row"
+        let-expanded="expanded"
+        ngx-datatable-cell-template
+      >
+        <a
+          href="javascript:void(0)"
+          [class.datatable-icon-right]="!expanded"
+          [class.datatable-icon-down]="expanded"
+          title="Expand/Collapse Row"
+          (click)="toggleExpandRow(row)"
+          class="cursor"
+          style="text-decoration: none"
+        >
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+    <!--  -->
+    <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
+      <ng-template
+        let-rowIndex="rowIndex"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <span>{{ rowIndex + 1 }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!--todo end -->
+    <ngx-datatable-column name="firstName" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Empleado </span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a
+          class="sm-textTable"
+          >{{ value }} {{row.lastName}}</a
+        >
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="typeDocument" [maxWidth]="100" [flexGrow]="1">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >T. Docu</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <span class="mobile-hidden sm-textTable">{{ value }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="document" [width]="80" [flexGrow]="1">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Documento</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <span class="mobile-hidden sm-textTable">{{ value }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="cuil" [width]="80" [flexGrow]="1">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Cuil</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <span class="mobile-hidden sm-textTable">{{ value }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="empresa" [width]="100" [flexGrow]="1">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Empresa</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <span class="mobile-hidden sm-textTable">{{ value.name }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="empresa" [width]="80" [flexGrow]="1">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Cuit</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <span class="mobile-hidden sm-textTable">{{ value.cuit }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="user_type" [width]="50" [flexGrow]="1">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Rol</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <span class="mobile-hidden sm-textTable">{{ row.user_type.name }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Eliminar</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <!-- button icon  -->
+        <button
+          class="btn btn-danger btn-sm"
+          style="cursor: pointer"
+        >
+          <i class="fa fa-trash"></i>
+        </button>
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+    <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor mobile-hidden" (click)="sort()"
+          >Editar</span
+        >
+      </ng-template>
+      <ng-template
+        let-row="row"
+        let-value="value"
+        ngx-datatable-cell-template
+      >
+        <!-- button icon  -->
+        <button
+          class="btn btn-primary btn-sm"
+          style="cursor: pointer"
+          data-toggle="modal"
+          data-target="#modalEditarUsuario"
+          (click)="editarUsuario(row)"
+        >
+          <i class="fa fa-edit"></i>
+        </button>
+
+      </ng-template>
+    </ngx-datatable-column>
+    <!-- todo -->
+
+    </ngx-datatable>
+    <!-- ? end datatable -->
+  </div>
+
+  <!-- # modal -->
+  <div class="modal fade" id="crearUsuario" tabindex="-1" role="dialog" aria-labelledby="crearUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crearUsuarioLabel">Crear Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearComensal"
+            autocomplete="off"
+            #myNgForm="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="submitted()"
+          >
+          <!-- * -->
+          <!-- * FILTER SEARCH -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Empresa:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="empresaId" formControlName="empresaId" hidden>
+                  <input (keyup)="handlerChange($event)"
+                    type="text" class="form-control" id="empresa"
+                    formControlName="empresa"
+                    (clickOutside)="outsideFilter($event)"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoad">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let empresa of empresasFilter"
+                        class="p-1 item-hover"
+                        (click)="selectEmpresa(empresa)"
+                      >
+                        {{empresa.name}} - cuit: {{empresa.cuit}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * FULLNAME -->
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <label for="message-text" class="col-form-label">Nombre:</label>
+                  <input type="text" class="form-control" id="nombre" formControlName="firstName">
+                </div>
+                <div class="col">
+                  <label for="message-text" class="col-form-label">Apellido:</label>
+                  <input type="text" class="form-control" id="apellido" formControlName="lastName">
+                </div>
+              </div>
+            </div>
+            <!-- * TYPE DOCUMENT -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Tipo de documento:</label>
+              <select class="form-control" formControlName="typeDocument">
+                <!-- default no seleccionable -->
+                <option value="">Seleccione un tipo de documento</option>
+                <option value="DNI">DNI</option>
+                <option value="CUIT">CUIT</option>
+                <option value="CUIL">CUIL</option>
+                <option value="PASAPORTE">PASAPORTE</option>
+              </select>
+            </div>
+            <!-- * NUMBER DOCUMENT -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Número de documento:</label>
+              <input type="text" class="form-control" id="numeroDocumento" formControlName="document">
+            </div>
+            <!-- * CUIL -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">CUIL:</label>
+              <input type="text" class="form-control" id="cuil" formControlName="cuil">
+            </div>
+            <!-- * TYpe User -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Tipo de Usuario:</label>
+              <select class="form-control" formControlName="typeUser">
+                <!-- default no seleccionable -->
+                <option value="">Seleccione un tipo de Usuario</option>
+                <option
+                  class="text-capitalize"
+                  *ngFor="let type of UserType" [value]="type.uid">
+                  {{type.name == 'user' ? 'Comensal' : type.name }}
+                </option>
+
+              </select>
+            </div>
+            <!-- * BUTTONS -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="submitted()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- # end modal, start modal editar -->
+  <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearComensal"
+            autocomplete="off"
+            #myNgForm="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="submittedEditar()"
+          >
+          <!-- * FILTER SEARCH -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Empresa:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="empresaId" formControlName="empresaId" hidden>
+                  <input (keyup)="handlerChange($event)"
+                    type="text" class="form-control" id="empresa"
+                    formControlName="empresa"
+                    (clickOutside)="outsideFilter($event)"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoad">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let empresa of empresasFilter"
+                        class="p-1 item-hover"
+                        (click)="selectEmpresa(empresa)"
+                      >
+                        {{empresa.name}} - cuit: {{empresa.cuit}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * FULLNAME -->
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <label for="message-text" class="col-form-label">Nombre:</label>
+                  <input type="text" class="form-control" id="nombre" formControlName="firstName">
+                </div>
+                <div class="col">
+                  <label for="message-text" class="col-form-label">Apellido:</label>
+                  <input type="text" class="form-control" id="apellido" formControlName="lastName">
+                </div>
+              </div>
+            </div>
+            <!-- * TYPE DOCUMENT -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Tipo de documento:</label>
+              <select class="form-control" formControlName="typeDocument">
+                <!-- default no seleccionable -->
+                <option value="">Seleccione un tipo de documento</option>
+                <option value="DNI">DNI</option>
+                <option value="CUIT">CUIT</option>
+                <option value="CUIL">CUIL</option>
+                <option value="PASAPORTE">PASAPORTE</option>
+              </select>
+            </div>
+            <!-- * NUMBER DOCUMENT -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Número de documento:</label>
+              <input type="text" class="form-control" id="numeroDocumento" formControlName="document">
+            </div>
+            <!-- * CUIL -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">CUIL:</label>
+              <input type="text" class="form-control" id="cuil" formControlName="cuil">
+            </div>
+            <!-- * TYpe User -->
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Tipo de Usuario:</label>
+              <select class="form-control" formControlName="typeUser">
+                <!-- default no seleccionable -->
+                <option value="">Seleccione un tipo de Usuario</option>
+                <option
+                  class="text-capitalize"
+                  *ngFor="let type of UserType" [value]="type.uid">
+                  {{type.name == 'user' ? 'Comensal' : type.name }}
+                </option>
+
+              </select>
+            </div>
+            <!-- * BUTTONS -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="submittedEditar()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- # end modal editar -->
+</div>

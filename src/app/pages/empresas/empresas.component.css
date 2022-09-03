@@ -1,0 +1,27 @@
+.list-unstiled{
+  list-style: none;
+}
+.border-radius{
+  border-radius: 0.32em;
+}
+.dropdown-search{
+  /* estara invisible hasta q se active input text */
+  /* display: none; */
+  /* por encima de otros elementos */
+  z-index: 1;
+  position: absolute;
+  /*  q tome el ancho del input de arriba */
+  border: solid #ced4da 1px;
+  /* sombra leve */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.item-hover{
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  color: #646464;
+}
+.item-hover:hover{
+  background-color: #0169d9;
+  border-radius: 0.32em;
+  color: #fff;
+}

@@ -1,0 +1,66 @@
+<!-- # USUARIO A DERECHA -->
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a routerLink="/" class="brand-link">
+    <!-- elevation-3 -->
+    <img src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1659745319/logo_txt_vector_lsa2bn.png" alt="Planeta Puna Logo" class="brand-image" style="opacity: .8">
+    <span class="brand-text font-weight-light">Planeta Puna</span>
+  </a>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <!--# imagen a -> 160px -->
+    <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img
+          [src]="usuario?.image"
+          class="img-circle elevation-2"
+          alt="User Image"
+        >
+      </div>
+      <div class="info">
+        <a href="#" class="d-block">Ignacio Burgos</a>
+      </div>
+    </div> -->
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <!-- @ Inicio -->
+        <li *ngFor="let item of sidebarService.menu" class="nav-item">
+
+          <a style="cursor: pointer;"
+            [routerLink]="item.url"
+            [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active"
+            class="nav-link"
+          >
+            <i [class]="item.icono"></i>
+            <p>
+              {{ item.titulo }}
+              <i *ngIf="item.child" class="right fas fa-angle-right"></i>
+            </p>
+          </a>
+          <ul *ngIf="item.child" class="nav nav-treeview">
+            <li *ngFor="let subMenuItem of item.subMenu" class="nav-item">
+              <a [routerLink]="subMenuItem.url" class="nav-link">
+                <p>{{subMenuItem.titulo}}</p>
+              </a>
+            </li>
+          </ul>
+
+        </li>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+  <!-- <div class="sidebar-custom"> -->
+    <!-- <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a> -->
+    <!-- <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a> -->
+  <!-- </div> -->
+  <!-- /.sidebar-custom -->
+</aside>

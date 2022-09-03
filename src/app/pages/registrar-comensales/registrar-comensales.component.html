@@ -1,0 +1,172 @@
+<div class="row p-1">
+  <div class="col-8 border-radius p-2">
+    <h4 class="text-capitalize">{{HoraComidaActual?.tipo}}</h4>
+    <hr>
+    <div class="row row-cols-1 row-cols-md-3">
+
+      <div class="col mb-4"
+        *ngFor="let registroDiario of registrosDiarios; let i = index"
+      >
+        <div class="card h-100">
+          <!-- <img src="..." class="card-img-top" alt="..."> -->
+          <div class="card-body">
+            <h5 class="card-title text-capitalize">{{registroDiario.usuario.userName}}</h5>
+            <p class="card-text">
+              <span>
+                Empresa: {{registroDiario.usuario.empresa!.name}}
+              </span><br>
+              <span>
+                DNI: {{registroDiario.usuario!.document}}
+              </span><br>
+              <span *ngIf="registroDiario?.breakfast?.dish">
+                Desayuno: {{registroDiario ? registroDiario?.breakfast?.dish : ''}}
+              </span>
+              <span *ngIf="registroDiario?.lunch?.dish">
+                Almuerzo: {{registroDiario ? registroDiario!.lunch.dish : ''}}
+              </span>
+              <span *ngIf="registroDiario?.afternoonSnack?.dish">
+                Merienda: {{registroDiario ? registroDiario!.afternoonSnack.dish : ''}}
+              </span>
+              <span *ngIf="registroDiario?.dinner?.dish">
+              Cena: {{registroDiario ? registroDiario!.dinner.dish : ''}}
+              </span>
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <!-- en nro colocar un length  -->
+              <div class="col">Nro: {{i + 1}}</div>
+              <div class="col">Fecha: {{registroDiario.date}} </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-4 border-radius p-2">
+    <h4 class="text-capitalize">{{fechaHoy}}</h4>
+    <hr>
+
+    <!-- card -->
+    <div class="card border-radius">
+      <div class="card-body">
+        <h5 class="card-title py-2">
+          Nombre: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.userName : ''}}
+        </h5>
+        <p class="card-text">
+          <span>
+            <!-- salto de linea -->
+            Empresa: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.empresa!.name : ''}}
+          </span><br>
+          <span>
+            DNI: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario!.document : ''}}
+          </span><br>
+          <span *ngIf="ultimoRegistroDiario?.breakfast?.dish">
+            Desayuno: {{ultimoRegistroDiario ? ultimoRegistroDiario!.breakfast.dish : ''}}
+          </span>
+          <span *ngIf="ultimoRegistroDiario?.lunch?.dish">
+            Almuerzo: {{ultimoRegistroDiario ? ultimoRegistroDiario!.lunch.dish : ''}}
+          </span>
+          <span *ngIf="ultimoRegistroDiario?.afternoonSnack?.dish">
+            Merienda: {{ultimoRegistroDiario ? ultimoRegistroDiario!.afternoonSnack.dish : ''}}
+          </span>
+          <span *ngIf="ultimoRegistroDiario?.dinner?.dish">
+          Cena: {{ultimoRegistroDiario ? ultimoRegistroDiario!.dinner.dish : ''}}
+          </span>
+          <!-- <hr> -->
+        </p>
+        <hr>
+        <div class="row">
+          <div class="col">Nro: {{cantidadRegistrosDiarios}}</div>
+          <div class="col">Fecha: {{ultimoRegistroDiario ? ultimoRegistroDiario!.date : '' }} </div>
+        </div>
+      </div>
+    </div>
+    <!-- form para ingresar dni con numeros de 0 a 9 -->
+    <!-- form dni -->
+    <form
+      id="formDni"
+      autocomplete="off"
+      #formDni="ngForm"
+      [formGroup]="formGroup"
+      (ngSubmit)="registrarComensal()"
+    >
+      <!-- input number -->
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <!-- <span class="input-group-text" id="basic-addon1">DNI</span> -->
+          <!-- class="input-group-text" -->
+          <!-- dropdown seleccionar dni o pasaporte defecto dni -->
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle text-uppercase"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {{typeDocument}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <span style="cursor: pointer;" class="dropdown-item" disabled (click)="cambiarTypeDocument('dni')" >DNI</span>
+              <span style="cursor: pointer;" class="dropdown-item" (click)="cambiarTypeDocument('pasaporte')" >Pasaporte</span>
+            </div>
+          </div>
+        </div>
+        <input type="text" class="form-control" placeholder="Ingrese Documento"
+        aria-label="Username" aria-describedby="basic-addon1" formControlName="nDocu" >
+      </div>
+      <div class="row" *ngIf="typeDocument == 'dni'">
+        <div class="col">
+          <div class="row">
+            <div (click)="handleClick(7)" class="col bg-white text-center border radius p-1 m-1">7</div>
+            <div (click)="handleClick(8)" class="col bg-white text-center border radius p-1 m-1">8</div>
+            <div (click)="handleClick(9)" class="col bg-white text-center border radius p-1 m-1">9</div>
+          </div>
+          <div class="row">
+            <div (click)="handleClick(4)" class="col bg-white text-center border radius p-1 m-1">4</div>
+            <div (click)="handleClick(5)" class="col bg-white text-center border radius p-1 m-1">5</div>
+            <div (click)="handleClick(6)" class="col bg-white text-center border radius p-1 m-1">6</div>
+          </div>
+          <div class="row">
+            <div (click)="handleClick(1)" class="col bg-white text-center border radius p-1 m-1">1</div>
+            <div (click)="handleClick(2)" class="col bg-white text-center border radius p-1 m-1">2</div>
+            <div (click)="handleClick(3)" class="col bg-white text-center border radius p-1 m-1">3</div>
+          </div>
+          <div class="row">
+            <div class="col bg-white text-center border radius p-1 m-1">-</div>
+            <div (click)="handleClick(0)" class="col bg-white text-center border radius p-1 m-1">0</div>
+            <div (click)="handleBorrar()" class="col bg-white text-center border radius p-1 m-1">
+              <!-- icon borrar -->
+              <i class="fas fa-backspace"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <!-- radius 2 opciones normal o dieta -->
+        <div class="col text-center p-2 m-1 ">
+          <div class="form-check form-check-inline"
+            *ngFor="let menu of menus"
+          >
+            <input formControlName="tipo" class="form-check-input" type="radio" id="inlineRadio1" [value]="menu.uid">
+            <label class="form-check-label text-capitalize" for="inlineRadio1">{{menu.type}}</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button [disabled]="!formGroup.valid" type="submit" class="btn btn-primary btn-sm float-left">
+            <i class="fas fa-check"></i> Cargar
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

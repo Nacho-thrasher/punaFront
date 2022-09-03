@@ -1,0 +1,10 @@
+.radius{
+  border-radius: 0.32em;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.radius:hover{
+  border: 1px solid #0169d9 !important;
+}
+/*  */
+

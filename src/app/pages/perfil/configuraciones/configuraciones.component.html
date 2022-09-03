@@ -1,0 +1,398 @@
+<div class="content">
+  <div class="row">
+    <div class="col-12">
+      <!-- card horarios -->
+      <hr>
+      <div class="row">
+        <div class="col">
+          <!-- mostrar lista de horarios -->
+          <div class="card mb-3" style="max-width: 100%;">
+            <div class="row no-gutters">
+              <div class="col-md-4 bg-dark img-horario">
+                <!-- <img width="50" src="https://sumedico.blob.core.windows.net/images/2020/01/16/tiemposdecomidadiabetes.jpg" alt="..."> -->
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title text-bold">Horarios de Comida:</h5>
+                  <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                    <!-- tabla sin bordes -->
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Hora Inicio</th>
+                          <th scope="col">Hora Final</th>
+                          <th scope="col">Tipo</th>
+                          <th scope="col">Editar</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let horario of Horarios; let i = index">
+                          <th scope="row"> {{i+1}} </th>
+                          <td>{{horario.horaInicio}}</td>
+                          <td>{{horario.horaFin}}</td>
+                          <td class="text-capitalize">{{horario.tipo}}</td>
+                          <td>
+                            <button class="btn btn-primary btn-sm"
+                            (click)="editarHorario(horario)"
+                            data-toggle="modal"
+                            data-target="#modalEditar"
+                            >
+                              <i class="fas fa-edit"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <!-- mostrar lista de horarios -->
+          <div class="card mb-3" style="max-width: 100%;">
+            <div class="row no-gutters">
+              <div class="col-md-4 bg-dark img-menues">
+                <!-- <img width="50" src="https://sumedico.blob.core.windows.net/images/2020/01/16/tiemposdecomidadiabetes.jpg" alt="..."> -->
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <div class="d-inline">
+                    <h5 class="card-title text-bold">Menues:</h5>
+                  </div>
+                  <!-- button crear menu -->
+                  <div class="d-inline float-right">
+                    <button
+                      data-toggle="modal"
+                      data-target="#modalCrearComidas"
+                      class="btn btn-primary btn-sm">
+                      <span>Crear Comidas</span>
+                    </button>
+                  </div>
+                    <!-- tabla sin bordes -->
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Tipo</th>
+                          <th scope="col">Desayuno</th>
+                          <th scope="col">Almuerzo</th>
+                          <th scope="col">Merienda</th>
+                          <th scope="col">Cena</th>
+                          <th scope="col">Cantidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let menu of Menues; let i = index">
+                          <th scope="row"> {{i+1}} </th>
+                          <td class="text-capitalize">{{menu.type}}</td>
+                          <td class="text-capitalize">{{menu.breakfast.dish}}</td>
+                          <td class="text-capitalize">{{menu.lunch.dish}}</td>
+                          <td class="text-capitalize">{{menu.afternoonSnack.dish}}</td>
+                          <td class="text-capitalize">{{menu.dinner.dish}}</td>
+                          <td class="text-capitalize text-center">{{menu.quantity ? menu.quantity : '-'}}</td>
+                          <td>
+                            <button class="btn btn-primary btn-sm"
+                            (click)="editarMenu(menu)"
+                            data-toggle="modal"
+                            data-target="#modalEditarMenu"
+                            >
+                              <i class="fas fa-edit"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- # modal editar horario -->
+  <!-- modalEditar -->
+  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLabel">Editar Horario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearComensal"
+            autocomplete="off"
+            #myNgForm="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="submitted()"
+          >
+            <div class="form-group">
+              <!-- seleccion hora del dia 24 hrs -->
+              <label for="horaInicio">Hora Inicio</label>
+              <input
+                type="time"
+                class="form-control"
+                id="horaInicio"
+                name="horaInicio"
+                required
+                formControlName="horaInicio"
+              />
+            </div>
+            <div class="form-group">
+              <!-- seleccion hora del dia 24 hrs -->
+              <label for="horaFin">Hora Fin</label>
+              <input
+                type="time"
+                class="form-control"
+                id="horaFin"
+                name="horaFin"
+                formControlName="horaFin"
+                required
+              />
+            </div>
+
+            <!-- * BUTTONS -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="submitted()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- # end modal editar horario -->
+  <!-- modalEditarMenu -->
+  <div class="modal fade" id="modalEditarMenu" tabindex="-1" role="dialog" aria-labelledby="modalEditarMenuLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarMenuLabel">Editar Menu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearComensal"
+            autocomplete="off"
+            #myNgForm2="ngForm"
+            [formGroup]="formGroup2"
+            (ngSubmit)="submitted()"
+          >
+            <!-- * -->
+            <div class="form-group">
+              <label for="name">Tipo de Menu</label>
+              <input
+                type="text"
+                class="form-control"
+                id="tipoMenu"
+                formControlName="type"
+                placeholder="Tipo de Menu"
+              />
+            </div>
+            <!-- * -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Desayuno:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="breakfastId" formControlName="breakfastId" hidden>
+                  <input (keyup)="handlerChangeBreakfast($event)"
+                    type="text" class="form-control" id="breakfast"
+                    formControlName="breakfast"
+                    (clickOutside)="outsideFilter($event, 'breakfast')"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoadBreakfast">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let item of BreakfastFilter"
+                        class="p-1 item-hover"
+                        (click)="selectDish(item, 'breakfast')"
+                      >
+                        {{item.dish}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Almuerzo:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="lunchId" formControlName="lunchId" hidden>
+                  <input (keyup)="handlerChangeLunch($event)"
+                    type="text" class="form-control" id="lunch"
+                    formControlName="lunch"
+                    (clickOutside)="outsideFilter($event, 'lunch')"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoadLunch">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let item of LunchFilter"
+                        class="p-1 item-hover"
+                        (click)="selectDish(item, 'lunch')"
+                      >
+                        {{item.dish}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Merienda:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="afternoonSnackId" formControlName="afternoonSnackId" hidden>
+                  <input (keyup)="handlerChangeAfternoonSnack($event)"
+                    type="text" class="form-control" id="afternoonSnack"
+                    formControlName="afternoonSnack"
+                    (clickOutside)="outsideFilter($event, 'afternoonSnack')"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoadAfternoonSnack">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let item of AfternoonSnackFilter"
+                        (click)="selectDish(item, 'afternoonSnack')"
+                        class="p-1 item-hover"
+                      >
+                        {{item.dish}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * -->
+            <div class="form-group">
+              <!-- tipo de usuario -->
+              <div class="row">
+                <div class="col-12">
+                  <label for="recipient-name" class="col-form-label">Cena:</label>
+                </div>
+                <div class="col-12">
+                  <!-- input hide para almacenar el id -->
+                  <input type="text" class="form-control" id="dinnerId" formControlName="dinnerId" hidden>
+                  <input (keyup)="handlerChangeDinner($event)"
+                    type="text" class="form-control" id="dinner"
+                    formControlName="dinner"
+                    (clickOutside)="outsideFilter($event, 'dinner')"
+                  >
+                </div>
+                <div class="col-12">
+                  <div class="" *ngIf="isLoadDinner">
+                    <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                      <li *ngFor="let item of DinnerFilter"
+                        class="p-1 item-hover"
+                        (click)="selectDish(item, 'dinner')"
+                      >
+                        {{item.dish}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- * -->
+            <div class="form-group">
+              <label for="name">Cantidad</label>
+              <input
+                type="number"
+                class="form-control"
+                id="quantity"
+                formControlName="quantity"
+                placeholder="quantity"
+              />
+            </div>
+            <!-- * BUTTONS -->
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup2.valid" (click)="submitEditarMenu()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- # modal crear menu -->
+  <!-- modalCrearMenu -->
+  <div class="modal fade" id="modalCrearComidas" tabindex="-1" role="dialog" aria-labelledby="modalCrearComidasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCrearComidasLabel">Crear Comidas</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id=""
+            autocomplete="off"
+            #myNgForm3="ngForm"
+            [formGroup]="formGroup3"
+            (ngSubmit)="submitCrearPlato()"
+          >
+            <!-- * INPUTS -->
+            <div class="form-group">
+              <label for="name">Tipo de comida</label>
+              <select class="form-control" formControlName="type">
+                <option value="breakfast">Desayuno</option>
+                <option value="lunch">Almuerzo</option>
+                <option value="afternoonSnack">Merienda</option>
+                <option value="dinner">Cena</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">Plato</label>
+              <input
+                type="text"
+                class="form-control"
+                id="dish"
+                formControlName="dish"
+                placeholder="Plato"
+              />
+            </div>
+            <!-- * END INPUTS -->
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup3.valid" (click)="submitCrearPlato()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- # end modal crear menu -->
+</div>

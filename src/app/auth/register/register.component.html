@@ -1,0 +1,148 @@
+<div class="register-page">
+  <div class="register-box">
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <a href="../../index2.html" class="h1">
+          <img class="brand-image" src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1659745319/logo_txt_vector_lsa2bn.png" alt="">
+        </a>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">Registro de Usuario</p>
+
+        <form
+          id="register-form"
+          autoComplete="off"
+          ngNativeValidate
+          [formGroup]="registerForm"
+          (ngSubmit)="crearUsuario()"
+        >
+          <!-- # userName -->
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              placeholder="userName"
+              class="form-control"
+              formControlName="userName"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # firstName -->
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="firstName"
+              formControlName="firstName"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # lastName -->
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="lastName"
+              formControlName="lastName"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # password -->
+          <div class="input-group mb-3">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Password"
+              formControlName="password"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # email -->
+          <div class="input-group mb-3">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              formControlName="email"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # typeDocument -->
+          <div class="input-group mb-3">
+            <!-- SELECT CON DNI  -->
+            <select
+              class="form-control"
+              formControlName="typeDocument"
+            >
+              <option value="DNI">DNI</option>
+              <option value="PASAPORTE">PASAPORTE</option>
+              <option value="OTRO">OTRO</option>
+            </select>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # document -->
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Document"
+              formControlName="document"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <!-- # cuil -->
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Cuil"
+              formControlName="cuil"
+            >
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+
+      <a href="login.html" class="text-center">Ya tengo una cuenta</a>
+      </div>
+      <!-- /.form-box -->
+    </div><!-- /.card -->
+  </div>
+</div>

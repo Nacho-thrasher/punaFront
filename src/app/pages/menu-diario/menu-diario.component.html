@@ -1,40 +1,20 @@
 
 <div class="row">
-  <div *ngFor="let menu of menus" class="col-6">
-    <!-- Default box -->
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title text-uppercase">{{menu.type}}</h3>
-
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-            <i class="fas fa-minus"></i>
-          </button>
-          <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
+  <!-- * -->
+  <div class="card-deck my-2 col-12">
+    <div *ngFor="let menu of menus" class="card bg-blur-menu">
+      <!-- <img src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1662518436/dfca14e455fba51b84266b8af1e1f5c8_jb9v2u.jpg" class="card-img-top" alt="..."> -->
+      <div class="card-body text-white">
+        <h3 class="card-title text-capitalize">{{menu.type}}</h3>
+        <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
       </div>
-      <div class="card-body text-capitalize">
-        <p>
-          Desayuno: {{menu.breakfast.dish}}
-        </p>
-        <p>
-          Almuerzo: {{menu.lunch.dish}}
-        </p>
-        <p>
-          Merienda: {{menu.afternoonSnack.dish}}
-        </p>
-        <p>
-          Cena: {{menu.dinner.dish}}
-        </p>
-
-      </div>
-      <div class="card-footer">
-        Fecha: {{menu.date}}
-      </div>
-      
+      <ul class="list-group list-group-flush bg-transparent">
+        <li class="list-group-item bg-transparent">Desayuno: {{menu.breakfast.dish}}</li>
+        <li class="list-group-item bg-transparent">Almuerzo: {{menu.lunch.dish}}</li>
+        <li class="list-group-item bg-transparent">Merienda: {{menu.afternoonSnack.dish}}</li>
+        <li class="list-group-item bg-transparent">Cena: {{menu.dinner.dish}}</li>
+      </ul>
     </div>
-
   </div>
+  <!-- * -->
 </div>

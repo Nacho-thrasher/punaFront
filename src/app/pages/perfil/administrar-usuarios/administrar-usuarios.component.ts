@@ -62,6 +62,7 @@ export class AdministrarUsuariosComponent implements OnInit {
     this.usuarioService.cargarAllUsuarios()
       .subscribe((data: Usuario[]) => {
         this.Usuarios = data;
+        console.log('usuarios',this.Usuarios);
         setTimeout(() => {
           this.temp = [...this.Usuarios];
           this.rows = this.Usuarios;
@@ -92,6 +93,27 @@ export class AdministrarUsuariosComponent implements OnInit {
   outsideFilter(e: Event){
     this.isLoad = false;
   }
+
+  updateFilter(event: any) {
+    // get the value of the key pressed and make it lowercase
+    let filter = event.target.value.toLowerCase();
+    // assign filtered matches to the active datatable
+    this.rows = this.filteredData.filter( (item:any) => {
+      // iterate through each row's column data
+      for (let i = 0; i < this.columnsWithSearch.length; i++){
+        var colValue = item[this.columnsWithSearch[i]];
+        // if no filter OR colvalue is NOT null AND contains the given filter
+        if(!filter || (!!colValue && colValue.toString().toLowerCase().indexOf(filter) !== -1)) {
+          // found match, return true to add to result set
+          return true;
+        }
+      }
+      return;
+    });
+    // TODO - whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+
 
   createFormGroup(): FormGroup {
     const formGroup = this.fb.group({

@@ -1,0 +1,9 @@
+.bg-blur-menu {
+  background-image: url(https://res.cloudinary.com/hysmatafuegos/image/upload/v1662518939/powerpoint-background-91_o9bkmx.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.bg-transparent {
+  color: aliceblue;
+}

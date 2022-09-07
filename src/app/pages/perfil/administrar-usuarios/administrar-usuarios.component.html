@@ -9,6 +9,15 @@
         Crear Usuario
         <!-- icon -->
       </button>
+      <div class="float-right">
+        <input
+          width="50"
+          type="text"
+          class="form-control"
+          placeholder="Buscar..."
+          (keyup)="updateFilter($event)"
+        />
+      </div>
     </div>
     <hr>
   </div>

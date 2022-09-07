@@ -18,83 +18,8 @@
     [reorderable]="true"
   >
     <!--? Row Detail Template -->
-    <ngx-datatable-row-detail
-      [rowHeight]="120"
-      #myDetailRow
-      (toggle)="onDetailToggle($event)"
-    >
-      <ng-template
-        let-row="row"
-        let-expanded="expanded"
-        ngx-datatable-row-detail-template
-      >
-        <!-- <div class="container">
-          <div class="row">
-            <div class="col">
-              <div class="row">
-                <div class="col-12">
-                  <span>Descripcion</span>
-                  <hr />
-                </div>
-                <div class="col-12">
-                  <span>{{ row.descripcion }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-12">
-                  <span>Comision</span>
-                  <hr />
-                </div>
-                <div class="col-12">
-                  <span>{{ row.comision }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-12">
-                  <span>Haber</span>
-                  <hr />
-                </div>
-                <div class="col-12">
-                  <span>{{ row.haber }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </ng-template>
-    </ngx-datatable-row-detail>
-    <!-- columns template -->
-    <!--? button responsive -->
-    <!-- <ngx-datatable-column
-      [width]="25"
-      [minWidth]="10"
-      [resizeable]="false"
-      [sortable]="false"
-      [draggable]="false"
-      [canAutoResize]="false"
-    >
-      <ng-template
-        let-row="row"
-        let-expanded="expanded"
-        ngx-datatable-cell-template
-      >
-        <a
-          href="javascript:void(0)"
-          [class.datatable-icon-right]="!expanded"
-          [class.datatable-icon-down]="expanded"
-          title="Expand/Collapse Row"
-          (click)="toggleExpandRow(row)"
-          class="cursor"
-          style="text-decoration: none"
-        >
-        </a>
-      </ng-template>
-    </ngx-datatable-column> -->
-    <!--  -->
+
+
     <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
       <ng-template
         let-rowIndex="rowIndex"

@@ -8,6 +8,7 @@ import { RegistroDiarioService } from './../../services/registro-diario.service'
 import { RegistroService } from 'src/models/registros/registroServicio.model';
 import { HorariosService } from './../../services/horarios.service';
 import { Horarios } from 'src/models/horarios/horarios.model';
+import { SweetAlert2Helper } from './../../helpers/sweet-alert-2.helper';
 
 declare const $: any;
 declare const jQuery: any;
@@ -44,7 +45,8 @@ export class RegistrarComensalesComponent implements OnInit {
     private fb: FormBuilder,
     private menuService: MenuService,
     private registroDiarioService: RegistroDiarioService,
-    private horariosService: HorariosService
+    private horariosService: HorariosService,
+    private sweetAlert2Helper: SweetAlert2Helper
   ) {
     this.formGroup = this.createFormGroup();
   }
@@ -98,6 +100,7 @@ export class RegistrarComensalesComponent implements OnInit {
         this.registrosDiarios = registros.filter((item) => {
           return item.uid != registros[registros.length - 1].uid;
         });
+        console.log('registros diarios: ', this.registrosDiarios);
         // cargar el ultimo registro diario
         // contar registros diarios
       },
@@ -135,6 +138,12 @@ export class RegistrarComensalesComponent implements OnInit {
     });
     if (!usuario) {
       console.log('no existe el usuario');
+      this.sweetAlert2Helper.error(
+        'Error',
+        'No existe el usuario',
+        () => {},
+        false
+      );
     }
     else{
       this.usuarioComensal = usuario;
@@ -151,9 +160,24 @@ export class RegistrarComensalesComponent implements OnInit {
         next: (res) => {
           console.log('registro diario: ', res);
           this.formSubmitted = true;
+          this.sweetAlert2Helper.success(
+            'Registro exitoso',
+            'El registro se realizo correctamente',
+            () => {
+              this.formGroup.reset();
+              this.formSubmitted = false;
+            },
+            false
+          );
         },
         error: (err) => {
           console.log(err);
+          this.sweetAlert2Helper.error(
+            'Error',
+            'No se pudo registrar el comensal',
+            () => {},
+            false
+          );
         },
         complete: () => {
           this.cargarRegistrosDiarios()

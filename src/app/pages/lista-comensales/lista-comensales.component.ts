@@ -43,7 +43,7 @@ export class ListaComensalesComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.Registros = data;
-        console.log(this.Registros);
+        console.log('registros aqui',this.Registros);
         setTimeout(() => {
           this.temp = [...this.Registros];
           this.rows = this.Registros;

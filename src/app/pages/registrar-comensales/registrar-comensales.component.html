@@ -218,8 +218,10 @@
           <div class="form-group">
             <label for="message-text" class="col-form-label">Tipo Comida:</label>
             <select class="form-control" formControlName="tipoComida">
-              <option value="normal">Normal</option>
-              <option value="dieta">Dieta</option>
+              <option value="breakfast">Desayuno</option>
+              <option value="lunch">Almuerzo</option>
+              <option value="afternoonsnack">Merienda</option>
+              <option value="dinner">Cena</option>
             </select>
           </div>
           <!--  -->
@@ -227,10 +229,9 @@
           <div class="form-group">
             <label for="message-text" class="col-form-label">Tipo Menu:</label>
             <select class="form-control" formControlName="tipoMenu">
-              <option value="saludable">Saludable</option>
-              <option value="vegetariano">Vegetariano</option>
-              <option value="vegano">Vegano</option>
-              <option value="normal">Normal</option>
+              <option class="text-capitalize" [value]="menu.uid" *ngFor="let menu of menus">
+                {{menu.type}}
+              </option>
             </select>
           </div>
           <!-- * BUTTONS -->

@@ -72,7 +72,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     .subscribe({
       next: ([usuarios, menus, registrosDiarios, horaComidaActual]) => {
         this.usuarios = usuarios;
-        this.menus = menus;
+        this.menus = menus; // menues, saludable etc
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
         this.cantidadRegistrosDiarios = registrosDiarios.length;
         this.registrosDiarios = registrosDiarios.filter((item) => {

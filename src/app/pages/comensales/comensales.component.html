@@ -1,16 +1,18 @@
 <div class="row">
   <!-- crear comensal button -->
-  <div class="col py-2">
+  <div class="col-md-8 col-sm-6 py-2">
     <div class="row">
+      <button class="btn btn-primary mx-1" data-toggle="modal" data-target="#crearComensal">
+        <i class="fa fa-plus"></i> Crear comensal
+      </button>
       <button class="btn btn-success" data-toggle="modal" data-target="#importarExcel">
         <i class="fa fa-file"></i> Crear comensal con excel
       </button>
     </div>
   </div>
-  <div class="col py-2">
+  <div class="col-md-4 col-sm-6 py-2">
     <div class="row">
       <input
-        width="50"
         type="text"
         class="form-control"
         placeholder="Buscar..."
@@ -220,27 +222,7 @@
         </ng-template>
       </ngx-datatable-row-detail>
       <!-- * ROW DETAIL -->
-      <!-- * BUTTON RESPONSIVE -->
-      <!-- <ngx-datatable-column
-        [width]="100"
-        [minWidth]="10"
-        [resizeable]="false"
-        [sortable]="false"
-        [draggable]="false"
-        [canAutoResize]="false"
-      >
-        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-          <a
-            href="javascript:void(0)"
-            [class.datatable-icon-right]="!expanded"
-            [class.datatable-icon-down]="expanded"
-            title="Expand/Collapse Row"
-            class=""
-          >
-          </a>
-        </ng-template>
-      </ngx-datatable-column> -->
-      <!-- * BUTTON RESPONSIVE -->
+    >
       <!-- * COLUMN INDICES -->
       <ngx-datatable-column name="Nro" [minWidth]="10" [width]="10">
         <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>

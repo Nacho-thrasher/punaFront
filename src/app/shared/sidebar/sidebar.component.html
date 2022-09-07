@@ -1,6 +1,6 @@
 <!-- # USUARIO A DERECHA -->
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a routerLink="/" class="brand-link">
     <!-- elevation-3 -->
@@ -46,6 +46,7 @@
           <ul *ngIf="item.child" class="nav nav-treeview">
             <li *ngFor="let subMenuItem of item.subMenu" class="nav-item">
               <a [routerLink]="subMenuItem.url" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
                 <p>{{subMenuItem.titulo}}</p>
               </a>
             </li>

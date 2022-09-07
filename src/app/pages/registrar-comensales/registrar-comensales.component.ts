@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators, ValidationErrors, ValidatorFn  } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from 'src/models/usuarios/usuario.model';
@@ -8,6 +8,7 @@ import { RegistroDiarioService } from './../../services/registro-diario.service'
 import { RegistroService } from 'src/models/registros/registroServicio.model';
 import { HorariosService } from './../../services/horarios.service';
 import { Horarios } from 'src/models/horarios/horarios.model';
+import { Subject, takeUntil, combineLatest } from 'rxjs';
 
 declare const $: any;
 declare const jQuery: any;
@@ -17,7 +18,8 @@ declare const jQuery: any;
   templateUrl: './registrar-comensales.component.html',
   styleUrls: ['./registrar-comensales.component.css']
 })
-export class RegistrarComensalesComponent implements OnInit {
+export class RegistrarComensalesComponent implements OnInit, OnDestroy {
+  public unsubscribe$ = new Subject();
   // fecha formato: lunes 1 de enero de 2020
   public fechaHoy: string = new Date().toLocaleDateString('es-AR', {
     // dia de la semaan en letras
@@ -48,64 +50,35 @@ export class RegistrarComensalesComponent implements OnInit {
   ) {
     this.formGroup = this.createFormGroup();
   }
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(null);
+    this.unsubscribe$.complete();
+  }
 
   ngOnInit(): void {
     // cargar usuarios comensales
-    this.cargarUsuarios()
-    this.cargarMenus()
-    this.cargarRegistrosDiarios()
-    this.cargarHoraComidaActual()
+    this.getData();
   }
   // usar combine latest
-  cargarUsuarios(){
-    this.usuarioService.cargarUsuariosByType("user")
-    .subscribe({
-      next: (usuarios) => {
-        console.log('comensal usuarios: ', usuarios);
-        this.usuarios = usuarios;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('complete');
-      }
-    });
-  }
-  cargarMenus(){
-    this.menuService.cargarMenus()
-    .subscribe({
-      next: (menu) => {
-        console.log('menus: ',menu);
-        this.menus = menu;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('complete');
-      }
-    })
-  }
-  cargarRegistrosDiarios(){
-    this.registroDiarioService.cargarAllRegistrosDiarios()
-    .subscribe({
-      next: (registros) => {
-        // cargar todos excepto el ultimo
-        this.ultimoRegistroDiario = registros[registros.length - 1];
-        this.cantidadRegistrosDiarios = registros.length;
 
-        this.registrosDiarios = registros.filter((item) => {
-          return item.uid != registros[registros.length - 1].uid;
+  getData():void {
+    const $combineLatest = combineLatest([
+      this.usuarioService.cargarUsuariosByType("user"),
+      this.menuService.cargarMenus(),
+      this.registroDiarioService.cargarAllRegistrosDiarios(),
+      this.horariosService.getCurrentTime()
+    ])
+    $combineLatest.pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+      next: ([usuarios, menus, registrosDiarios, horaComidaActual]) => {
+        this.usuarios = usuarios;
+        this.menus = menus;
+        this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
+        this.cantidadRegistrosDiarios = registrosDiarios.length;
+        this.registrosDiarios = registrosDiarios.filter((item) => {
+          return item.uid != registrosDiarios[registrosDiarios.length - 1].uid;
         });
-        // cargar el ultimo registro diario
-        // contar registros diarios
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('complete');
+        this.HoraComidaActual = horaComidaActual;
       }
     })
   }
@@ -156,7 +129,7 @@ export class RegistrarComensalesComponent implements OnInit {
           console.log(err);
         },
         complete: () => {
-          this.cargarRegistrosDiarios()
+          this.getData();
         }
       })
 
@@ -180,18 +153,6 @@ export class RegistrarComensalesComponent implements OnInit {
     this.formGroup.get('nDocu')?.setValue(newValue);
   }
 
-  cargarHoraComidaActual(): void {
-    // verificar en que horario de comida estamos cada cierto tiempo
-    // subscribirme a getCurrentTime para verificar cada cierto tiempo si estamos en un horario de comida o no
-    this.horariosService.getCurrentTime()
-    .subscribe({
-      next: (time) => {
-        console.log('time: ', time);
-        this.HoraComidaActual = time;
-      }
-    })
-  }
-
   cambiarTypeDocument(tipo: string): void {
     // si es dni
     if (tipo == 'dni') {
@@ -206,4 +167,9 @@ export class RegistrarComensalesComponent implements OnInit {
 
   }
 
+  crearRegistroManual(): void {
+
+  }
+
 }
+

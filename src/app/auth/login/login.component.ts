@@ -3,6 +3,7 @@ import { AbstractControlOptions, FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from 'src/models/usuarios/usuario.model';
+import { SweetAlert2Helper } from './../../helpers/sweet-alert-2.helper';
 
 declare var $: any;
 declare var Jquery: any;
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private router:Router,
     private fb:FormBuilder,
     private usuarioService: UsuarioService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private sweetAlert2Helper: SweetAlert2Helper
   ) { }
 
   public loginForm = this.fb.group({
@@ -39,16 +41,24 @@ export class LoginComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.formSubmitted = false;
-        this.ngZone.run(() => {
-          this.router.navigate(['/']);
-        });
+        this.sweetAlert2Helper.signedIn()
+
       },
       error: (err) => {
         this.formSubmitted = false;
         console.log(err);
+        this.sweetAlert2Helper.error(
+          'Error',
+          'Usuario o contraseña incorrectos',
+          ()=> {},
+          true
+        )
       },
       complete: () => {
         console.log('complete');
+        this.ngZone.run(() => {
+          this.router.navigate(['/']);
+        });
       }
     })
 

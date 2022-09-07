@@ -87,6 +87,28 @@ export class EmpresasComponent implements OnInit {
     })
   }
 
+
+  updateFilter(event: any) {
+    // get the value of the key pressed and make it lowercase
+    let filter = event.target.value.toLowerCase();
+    // assign filtered matches to the active datatable
+    this.rows = this.filteredData.filter( (item:any) => {
+      // iterate through each row's column data
+      for (let i = 0; i < this.columnsWithSearch.length; i++){
+        var colValue = item[this.columnsWithSearch[i]];
+        // if no filter OR colvalue is NOT null AND contains the given filter
+        if(!filter || (!!colValue && colValue.toString().toLowerCase().indexOf(filter) !== -1)) {
+          // found match, return true to add to result set
+          return true;
+        }
+      }
+      return;
+    });
+    // TODO - whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
+  }
+
+
   createFormGroup(): FormGroup {
     const formGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -94,8 +116,8 @@ export class EmpresasComponent implements OnInit {
       city: ['', Validators.required],
       direction: ['', Validators.required],
       cuit: ['', [Validators.required, Validators.minLength(3)]],
-      contratista: ['', Validators.required],
-      idContratista: ['', Validators.required],
+      contratista: [''],
+      idContratista: [''],
     })
     this.onFormGroupChanges(formGroup);
     return formGroup;

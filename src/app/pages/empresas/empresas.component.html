@@ -1,12 +1,21 @@
 <!--@ CSS ANIMATED -->
 <div class="row">
-  <div class="col-12 my-2">
+  <div class="col-6 my-2">
     <button class="btn btn-primary"
       data-toggle="modal" data-target="#crearEmpresa" data-whatever="@empresa"
       (click)="resetForm()"
     >
       <i class="fa fa-plus"></i> Crear Empresa
     </button>
+  </div>
+  <div class="col-6 my-2 float-right">
+    <input
+      width="50"
+      type="text"
+      class="form-control"
+      placeholder="Buscar..."
+      (keyup)="updateFilter($event)"
+    />
   </div>
   <div class="col-12">
     <!-- ? datatable -->

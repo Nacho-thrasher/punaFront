@@ -33,6 +33,7 @@ export class TotalesComponent implements OnInit, OnDestroy {
   @ViewChild(DatatableComponent) tables?: DatatableComponent;
   // ? end Datatables vars
   @ViewChild('nameSummaryCell', {static: true}) nameSummaryCell?: TemplateRef<any>;
+  public userRol: string = this.usuarioService.role;
 
   constructor(
     private registroDiarioService: RegistroDiarioService,

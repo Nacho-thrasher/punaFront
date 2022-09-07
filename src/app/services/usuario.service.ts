@@ -143,6 +143,7 @@ export class UsuarioService {
   //* actualizar usuario
   actualizarUsuario(usuario: Usuario, id: string | null): Observable<Usuario> {
     return this.http.put<Usuario>(`${base_url}/users/${id}`, usuario, this.headers).pipe(
+      // delay para simular un tiempo de respuesta
       map((resp: any) => {
         console.log('editar usuario service: ',resp);
         return resp;
@@ -150,5 +151,9 @@ export class UsuarioService {
     );
   }
 
+  crearComensalesExcel(comensales: any, idCompany: string): Observable<any> {
+    const url = `${base_url}/comensales/excel/${idCompany}`;
+    return this.http.post(url, comensales, this.headers)
+  }
 
 }

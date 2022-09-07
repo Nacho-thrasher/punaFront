@@ -1,20 +1,109 @@
 <div class="row">
   <!-- crear comensal button -->
-  <div class="col-md-12 py-2">
-    <!-- (click)="crearComensal()" -->
-    <button class="btn btn-primary"
-      data-toggle="modal" data-target="#crearComensal" data-whatever="@comensal"
-    >
-      <i class="fa fa-plus"></i> Crear comensal
-    </button>
-    <!-- crear comensale con excel -->
-    <button class="btn btn-success ml-2">
-      <i class="fa fa-file"></i> Crear comensal con excel
-    </button>
+  <div class="col py-2">
+    <div class="row">
+      <button class="btn btn-success" data-toggle="modal" data-target="#importarExcel">
+        <i class="fa fa-file"></i> Crear comensal con excel
+      </button>
+    </div>
+  </div>
+  <div class="col py-2">
+    <div class="row">
+      <input
+        width="50"
+        type="text"
+        class="form-control"
+        placeholder="Buscar..."
+        (keyup)="updateFilter($event)"
+      />
+    </div>
   </div>
 
 </div>
 <!-- # MODALS -->
+<!-- ? modal importar excel -->
+<div class="modal fade" id="importarExcel" tabindex="-1" role="dialog" aria-labelledby="importarExcel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importarExcel">Importar excell</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          id="formImportarExcell"
+          autocomplete="off"
+          #myNgForm="ngForm"
+          [formGroup]="formGroup"
+        >
+          <!-- select contratista -->
+          <!-- * FILTER SEARCH -->
+          <div class="form-group">
+            <!-- tipo de usuario -->
+            <div class="row">
+              <div class="col-12">
+                <label for="recipient-name" class="col-form-label">Empresa:</label>
+              </div>
+              <div class="col-12">
+                <!-- input hide para almacenar el id -->
+                <input type="text" class="form-control" id="empresaId" formControlName="empresaId" hidden>
+                <input (keyup)="handlerChange($event)"
+                  type="text" class="form-control" id="empresa"
+                  formControlName="empresa"
+                  placeholder="Buscar contratista"
+                  (clickOutside)="outsideFilter($event)"
+                >
+              </div>
+              <div class="col-12">
+                <div class="" *ngIf="isLoad">
+                  <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                    <li *ngFor="let empresa of empresasFilter"
+                      class="p-1 item-hover"
+                      (click)="selectEmpresa(empresa)"
+                    >
+                      {{empresa.name}} - cuit: {{empresa.cuit}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- input file -->
+          <div class="input-group mb-3">
+            <!-- input file -->
+            <div class="custom-file">
+              <input type="hidden" value="" name="...">
+              <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"
+                (change)="upload($event)" #inputFile accept=".xls, .xlsx"
+              >
+              <label class="custom-file-label" for="inputGroupFile01">Elegir Archivo</label>
+            </div>
+
+            <!-- button enviar  -->
+            <div class="input-group-append">
+              <!-- ! si no hay archivo cargado deshabilitar boton -->
+              <button [disabled]="jsonData.length == 0" class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="submitExcel()">
+                <i class="fa fa-upload"></i> Enviar
+              </button>
+            </div>
+
+          </div>
+        </form>
+        <!-- <p class="m-auto" *ngIf="subiendoData">
+          Subiendo data: {{ numeroData }} de {{ totalData }}
+        </p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <!-- <button type="submit" [disabled]="!formGroup.valid" (click)="submitted()" class="btn btn-primary">Guardar</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ? modal crear comensal -->
 <div class="modal fade" id="crearComensal" tabindex="-1" role="dialog" aria-labelledby="crearComensalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -132,7 +221,7 @@
       </ngx-datatable-row-detail>
       <!-- * ROW DETAIL -->
       <!-- * BUTTON RESPONSIVE -->
-      <ngx-datatable-column
+      <!-- <ngx-datatable-column
         [width]="100"
         [minWidth]="10"
         [resizeable]="false"
@@ -150,7 +239,7 @@
           >
           </a>
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
       <!-- * BUTTON RESPONSIVE -->
       <!-- * COLUMN INDICES -->
       <ngx-datatable-column name="Nro" [minWidth]="10" [width]="10">

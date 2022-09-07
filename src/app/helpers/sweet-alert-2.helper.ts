@@ -182,7 +182,29 @@ export class SweetAlert2Helper {
       }
     });
   }
+  // signed in sweet alert 2
+  public signedIn() {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    Toast.fire({
+      icon: 'success',
+      title: 'Inicio de sesión exitoso'
+    })
+
+  }
 }
+
+
+
 
 class SweetAlert2Options {
   timer: Timer;
@@ -208,3 +230,4 @@ class Timer {
     this.long = 5000;
   }
 }
+

@@ -8,7 +8,7 @@
   /* estara invisible hasta q se active input text */
   /* display: none; */
   /* por encima de otros elementos */
-  z-index: 1;
+  z-index: 100;
   position: absolute;
   width: 450px;
   border: solid #ced4da 1px;

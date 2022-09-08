@@ -307,7 +307,7 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       }
     });
     // convertir array de json a array de observables
-    of(jsonCortado).pipe(
+    of(nuevoJson).pipe(
       // recorrer y esperar a que termine cada uno
       mergeMap((item) => {
         toast.fire();

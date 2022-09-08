@@ -284,7 +284,7 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       }
     })
     // recortar json tomar los 5 primeros
-    const jsonCortado = nuevoJson.slice(0, 10);
+    const jsonCortado = nuevoJson.slice(0, 5);
     console.log('nuevoJson: ', jsonCortado);
     // tomar idEmpresa del form
     const empresaId = this.formGroup.get('empresaId')?.value;
@@ -307,9 +307,10 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       }
     });
     // convertir array de json a array de observables
-    of(nuevoJson).pipe(
+    of(jsonCortado).pipe(
       // recorrer y esperar a que termine cada uno
       mergeMap((item) => {
+        toast.fire();
         return item;
       }),
       // ejecutar cada uno de los observables

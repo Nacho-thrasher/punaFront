@@ -1,10 +1,10 @@
 <div  class="row justify-content-center">
-  <div *ngIf="roleUser == 'admin'" class="col-10 my-2 bg-prueba-1 text-center "
+  <div *ngIf="roleUser == 'admin' || roleUser == 'operario'" class="col-10 my-2 bg-prueba-1 text-center "
     (click)="openDropdown('registros')"
   >
     <div class="contain" style="cursor: pointer;" data-toggle="modal" data-target="#modalRegistros">
       <span class="text-light">
-        <h1>Certificacion de servicios</h1>
+        <h1>Registros de Comensales</h1>
       </span>
     </div>
   </div>
@@ -14,7 +14,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalRegistros">Certificacion de Servicios</h5>
+          <h5 class="modal-title" id="modalRegistros">Registros de Comensales</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -22,10 +22,10 @@
         <div class="modal-body">
           <!-- mostrar 2 opciones  -->
           <div class="row">
-            <div class="col-6">
+            <div class="col">
               <a type="button" class="btn btn-primary btn-lg btn-block" (click)="redirigir('registrar-comensales', 'modalRegistros')" >Registrar Comenales</a>
             </div>
-            <div class="col-6">
+            <div *ngIf="roleUser != 'operario'" class="col">
               <button type="button" class="btn btn-primary btn-lg btn-block" (click)="redirigir('lista-comensales', 'modalRegistros')">Lista Registro</button>
             </div>
           </div>
@@ -40,10 +40,10 @@
   </div>
 
   <!--  -->
-  <div *ngIf="roleUser !== 'cocina'" class="col-10 my-2 bg-prueba-2 text-center" routerLink="/dashboard/totales">
+  <div *ngIf="roleUser !== 'cocina' && roleUser !== 'operario' " class="col-10 my-2 bg-prueba-2 text-center" routerLink="/dashboard/totales">
     <div class="contain" style="cursor: pointer;">
       <span class="text-light">
-        <h1>Totales</h1>
+        <h1>Certificacion de Servicios</h1>
       </span>
     </div>
   </div>
@@ -79,7 +79,7 @@
   </div>
 
   <!--  -->
-  <div class="col-10 my-2 bg-prueba-3 text-center">
+  <div *ngIf="roleUser !== 'operario' " class="col-10 my-2 bg-prueba-3 text-center">
     <div class="contain" style="cursor: pointer;" data-toggle="modal" data-target="#modalServicios">
       <span class="text-light">
         <h1>Menu Diario</h1>

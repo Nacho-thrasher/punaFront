@@ -6,14 +6,14 @@
     menu.type == 'dieta' ? 'card bg-blur-menu-dieta' : 'card bg-blur-menu-saludable'">
       <!-- <img src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1662518436/dfca14e455fba51b84266b8af1e1f5c8_jb9v2u.jpg" class="card-img-top" alt="..."> -->
       <div class="card-body text-white">
-        <h3 class="card-title text-capitalize">{{menu.type}}</h3>
+        <h3 class="card-title text-capitalize text-shadow">{{menu.type}}</h3>
         <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
       </div>
       <ul class="list-group list-group-flush bg-transparent">
-        <li class="list-group-item bg-transparent">Desayuno: {{menu.breakfast.dish}}</li>
-        <li class="list-group-item bg-transparent">Almuerzo: {{menu.lunch.dish}}</li>
-        <li class="list-group-item bg-transparent">Merienda: {{menu.afternoonSnack.dish}}</li>
-        <li class="list-group-item bg-transparent">Cena: {{menu.dinner.dish}}</li>
+        <li class="list-group-item bg-transparent">Desayuno: {{menu.breakfast.dish}}, Inicio: {{menu.horasBreakfast.horaInicio}} - Hasta: {{menu.horasBreakfast.horaFin}} </li>
+        <li class="list-group-item bg-transparent">Almuerzo: {{menu.lunch.dish}}, Inicio: {{menu.horasLunch.horaInicio}} - Hasta: {{menu.horasLunch.horaFin}}</li>
+        <li class="list-group-item bg-transparent">Merienda: {{menu.afternoonSnack.dish}}, Inicio: {{menu.horasAfternoonSnack.horaInicio}} - Hasta: {{menu.horasAfternoonSnack.horaFin}}</li>
+        <li class="list-group-item bg-transparent">Cena: {{menu.dinner.dish}}, Inicio: {{menu.horasDinner.horaInicio}} - Hasta: {{menu.horasDinner.horaFin}}</li>
       </ul>
     </div>
   </div>

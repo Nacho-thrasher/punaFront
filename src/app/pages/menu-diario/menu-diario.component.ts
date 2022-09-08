@@ -12,7 +12,7 @@ declare const jQuery: any;
 })
 export class MenuDiarioComponent implements OnInit {
 
-  public menus: Menu[] = [];
+  public menus: any[] = [];
   public isLoad: boolean = true;
   constructor(
     private menuService: MenuService

@@ -16,7 +16,21 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+.card {
+  border-radius: 0.32em;
+}
 
 .bg-transparent {
   color: aliceblue;
+  /* bg blur */
+  background-color: rgba(0, 0, 0, 0.377) !important;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  border-radius: 20px 0 20px 0px;
+  padding: 1rem;
+}
+
+.text-shadow {
+  text-shadow: rgba(0, 0, 0, 0.877) 0.1em 0.1em 0.2em !important;
+  /* sombra en letras */
+  font-size: 1.2rem;
 }

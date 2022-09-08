@@ -1,9 +1,22 @@
-.bg-blur-menu {
+.bg-blur-menu-saludable {
   background-image: url(https://res.cloudinary.com/hysmatafuegos/image/upload/v1662518939/powerpoint-background-91_o9bkmx.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
+.bg-blur-menu-dieta {
+  background-image: url(https://res.cloudinary.com/hysmatafuegos/image/upload/v1662599982/fondo_2_o8qn8y.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.bg-blur-menu-normal {
+  background-image: url(https://res.cloudinary.com/hysmatafuegos/image/upload/v1662599981/fondo_1_fk4wmf.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .bg-transparent {
   color: aliceblue;
 }

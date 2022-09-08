@@ -205,22 +205,22 @@
           id="formCrearCrearRegistroManual"
           autocomplete="off"
           #formCrearCrearRegistroManual="ngForm"
-          [formGroup]="formGroup"
+          [formGroup]="formGroup2"
           (ngSubmit)="crearRegistroManual()"
         >
           <!-- * Nro Documento -->
           <div class="form-group">
                 <label for="message-text" class="col-form-label">Nro. Documento:</label>
-                <input type="text" class="form-control" id="nroDoc" formControlName="nroDoc">
+                <input type="text" class="form-control" id="nroDoc" formControlName="nDocumento">
           </div>
           <!-- * Tipo comida -->
           <!-- select -->
           <div class="form-group">
             <label for="message-text" class="col-form-label">Tipo Comida:</label>
-            <select class="form-control" formControlName="tipoComida">
+            <select class="form-control" formControlName="horaMenu">
               <option value="breakfast">Desayuno</option>
               <option value="lunch">Almuerzo</option>
-              <option value="afternoonsnack">Merienda</option>
+              <option value="afternoonSnack">Merienda</option>
               <option value="dinner">Cena</option>
             </select>
           </div>
@@ -239,7 +239,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" [disabled]="formGroup2.invalid" (click)="crearRegistroManual()" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

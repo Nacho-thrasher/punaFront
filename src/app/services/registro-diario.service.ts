@@ -128,4 +128,15 @@ export class RegistroDiarioService {
     )
   }
 
+  crearRegistroManual(arg: any){
+    const url = `${base_url}/registro-diario/manual`;
+    return this.http.post<{ ok: boolean, registro: any }>(url,arg)
+    .pipe(
+      map((resp: { ok: boolean, registro: any } ) => {
+        console.log(`registro diario service: `,resp);
+        return resp.registro
+      })
+    )
+  }
+
 }

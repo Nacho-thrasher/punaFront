@@ -31,6 +31,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   });
   public formSubmitted = false;
   public formGroup: FormGroup;
+  public formGroup2: FormGroup;
   public usuarios: Usuario[] = [];
   public usuarioComensal: Usuario | null = null;
   public menus: Menu[] = [];
@@ -50,6 +51,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     private sweetAlert2Helper: SweetAlert2Helper
   ) {
     this.formGroup = this.createFormGroup();
+    this.formGroup2 = this.createFormGroup2();
   }
   ngOnDestroy(): void {
     this.unsubscribe$.next(null);
@@ -91,6 +93,14 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     })
     this.onFormGroupChanges(formGroup);
     return formGroup;
+  }
+  createFormGroup2(): FormGroup {
+    const formGroup2 = this.fb.group({
+      nDocumento: ['', [Validators.required]],
+      horaMenu: ['', [Validators.required]],
+      tipoMenu: ['', [Validators.required]],
+    })
+    return formGroup2;
   }
 
   onFormGroupChanges(formGroup: FormGroup): void {
@@ -190,7 +200,60 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   }
 
   crearRegistroManual(): void {
+    if (this.formGroup2.valid) {
+      const documento = this.formGroup2.get('nDocumento')?.value
+      const usuario = this.usuarios.find((item) => {
+        return item.document == (documento).toString().trim();
+      });
+      if (!usuario) {
+        console.log('no existe el usuario');
+        this.sweetAlert2Helper.error(
+          'Error',
+          'No existe el usuario',
+          () => {},
+          false
+        );
+        return
+      }
+      this.usuarioComensal = usuario;
+      const args = {
+        idUser: usuario!.uid,
+        horaMenu: this.formGroup2.get('horaMenu')?.value,
+        tipoMenu: this.formGroup2.get('tipoMenu')?.value,
+        idCompany: this.usuarioComensal!.empresa!.uid,
+      }
+      console.log('args: ', args);
+      this.registroDiarioService.crearRegistroManual(args)
+      .subscribe({
+        next: (res) => {
+          console.log('registro diario: ', res);
+          this.formSubmitted = true;
+          this.sweetAlert2Helper.success(
+            'Registro exitoso',
+            'El registro se realizo correctamente',
+            () => {
+              this.formGroup2.reset();
+              this.formSubmitted = false;
+            },
+            false
+          );
+        },
+        error: (err) => {
+          console.log(err);
+          this.sweetAlert2Helper.error(
+            'Error',
+            'No se pudo registrar el comensal',
+            () => {},
+            false
+          );
+        },
+        complete: () => {
+          this.getData();
+        }
+      })
 
+      $('#modalCrearRegistroManual').modal('hide');
+    }
   }
 
 }

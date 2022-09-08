@@ -2,7 +2,8 @@
 <div class="row">
   <!-- * -->
   <div class="card-deck my-2 col-12">
-    <div *ngFor="let menu of menus" class="card bg-blur-menu">
+    <div *ngFor="let menu of menus"  [ngClass]="menu.type == 'normal' ? 'card bg-blur-menu-normal' :
+    menu.type == 'dieta' ? 'card bg-blur-menu-dieta' : 'card bg-blur-menu-saludable'">
       <!-- <img src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1662518436/dfca14e455fba51b84266b8af1e1f5c8_jb9v2u.jpg" class="card-img-top" alt="..."> -->
       <div class="card-body text-white">
         <h3 class="card-title text-capitalize">{{menu.type}}</h3>

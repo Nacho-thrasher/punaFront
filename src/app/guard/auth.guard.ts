@@ -19,6 +19,7 @@ export class AuthGuard implements CanActivate, CanLoad {
       return true;
     }
     else{
+
       return this.usuarioService.validarToken()
       .pipe(
         // tap para ejecutar una funcion antes de la respuesta
@@ -34,7 +35,6 @@ export class AuthGuard implements CanActivate, CanLoad {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
     if (this.usuarioService.token === undefined || this.usuarioService.token === null) {
       return true;
     }

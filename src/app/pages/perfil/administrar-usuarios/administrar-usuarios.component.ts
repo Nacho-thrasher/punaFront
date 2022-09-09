@@ -136,6 +136,7 @@ export class AdministrarUsuariosComponent implements OnInit {
       document: ['', [Validators.required, Validators.minLength(3)]],
       cuil: ['', [Validators.required, Validators.minLength(3)]],
       typeUser: ['', [Validators.required]],
+      password: [''],
     })
     this.onFormGroupChanges(formGroup);
     return formGroup;
@@ -188,6 +189,7 @@ export class AdministrarUsuariosComponent implements OnInit {
     if(this.formGroup.invalid){
       return;
     }
+    this.formGroup.value.password = this.formGroup.value.document;
     console.log(this.formGroup.value);
     this.usuarioService.createUserWithCompany(
       this.formGroup.value,
@@ -239,11 +241,14 @@ export class AdministrarUsuariosComponent implements OnInit {
       document: usuario.document,
       cuil: usuario.cuil,
       typeUser: usuario.user_type?.uid,
+      password: ''
     });
     this.idSelected = usuario.uid;
   }
 
   submittedEditar() {
+    console.log('editar', this.formGroup.value, this.idSelected);
+
     if (this.formGroup.valid) {
       this.sweetAlert2Helper.question(
         '¿Estas seguro?',
@@ -251,6 +256,9 @@ export class AdministrarUsuariosComponent implements OnInit {
         'Si, editar',
         'No, cancelar',
         ()=> {
+          if (this.formGroup.value.password === '') {
+            this.formGroup.value.password = this.formGroup.value.document;
+          }
           // insertar en la base de datos el registro
           this.usuarioService.actualizarUsuario(this.formGroup.value, this.idSelected).subscribe({
             next: (data: any) => {

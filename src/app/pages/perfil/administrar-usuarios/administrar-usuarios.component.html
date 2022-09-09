@@ -1,22 +1,35 @@
 <div class="row">
   <div class="col-12">
-    <div class="">
-      <button
-        data-toggle="modal" data-target="#crearUsuario"
-        class="btn btn-primary btn-flat"
-        (click)="resetForm()"
-      >
-        Crear Usuario
-        <!-- icon -->
-      </button>
-      <div class="float-right">
-        <input
-          width="50"
-          type="text"
-          class="form-control"
-          placeholder="Buscar..."
-          (keyup)="updateFilter($event)"
-        />
+    <div class="row">
+      <div class="col">
+        <button
+          data-toggle="modal" data-target="#crearUsuario"
+          class="btn btn-primary btn-flat"
+          (click)="resetForm()"
+        >
+          Crear Usuario
+          <!-- icon -->
+        </button>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar empleado por nombre, documento..."
+              (keyup)="updateFilter($event)"
+            />
+          </div>
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar empleado por empresa..."
+              (keyup)="searchByEmpresa($event)"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <hr>
@@ -258,7 +271,7 @@
       </ng-template>
     </ngx-datatable-column>
     <!-- todo -->
-    <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
+    <!-- <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
       <ng-template
         let-column="column"
         let-sort="sortFn"
@@ -273,7 +286,6 @@
         let-value="value"
         ngx-datatable-cell-template
       >
-        <!-- button icon  -->
         <button
           class="btn btn-danger btn-sm"
           style="cursor: pointer"
@@ -281,7 +293,7 @@
           <i class="fa fa-trash"></i>
         </button>
       </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> -->
     <!-- todo -->
     <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
       <ng-template

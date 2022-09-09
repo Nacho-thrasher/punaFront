@@ -20,6 +20,7 @@ import { TotalesComponent } from './totales/totales.component';
 import { MesTotalesComponent } from './totales/mes-totales/mes-totales.component';
 import { EmpresasTotalesComponent } from './totales/empresas-totales/empresas-totales.component';
 import { DiasTotalesComponent } from './totales/dias-totales/dias-totales.component';
+import { ExtrasComponent } from './extras/extras.component';
 
 const ChildRoutes: Routes = [
   { path: '', component: DashboardComponent, data: {titulo: 'Inicio'} },
@@ -37,6 +38,7 @@ const ChildRoutes: Routes = [
   { path: 'totales/:mes', component: MesTotalesComponent, data: {titulo: 'Mes Totales', content: 'mes-totales'} },
   { path: 'totales/:mes/:dia', component: EmpresasTotalesComponent, data: {titulo: 'Empresas Totales', content: 'empresas-totales'} },
   { path: 'totales/:mes/:dia/:empresa', component: DiasTotalesComponent, data: {titulo: 'Dias Totales', content: 'dias-totales'} },
+  { path: 'extras', component: ExtrasComponent, data: {titulo: 'Extras', content: 'extras'} },
 ]
 
 @NgModule({

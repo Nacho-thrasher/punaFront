@@ -99,15 +99,22 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       nDocumento: ['', [Validators.required]],
       horaMenu: ['', [Validators.required]],
       tipoMenu: ['', [Validators.required]],
+      fecha: [''],
     })
     return formGroup2;
   }
 
   onFormGroupChanges(formGroup: FormGroup): void {
     if (!formGroup) return
-    // formGroup.get('nDocu')?.valueChanges.subscribe((val) => {
-    //   this.formGroup.get('nDocu')?.setValue(val.trim());
-    // });
+    formGroup.get('nDocu')?.valueChanges.subscribe((val) => {
+      // si el valor contiene arroba
+      if (val.includes('@')) {
+        // separar por arroba y seleccionar el item 4 que es el documento
+        const nDocu = val.split('@')[4];
+        // setear el valor del ndocu
+        formGroup.get('nDocu')?.setValue(nDocu);
+      }
+    });
   }
 
   registrarComensal(): void {
@@ -216,11 +223,20 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         return
       }
       this.usuarioComensal = usuario;
+      const fecha = this.formGroup2.get('fecha')?.value ? this.formGroup2.get('fecha')?.value.split('-').reverse().join('/') : new Date().toLocaleDateString('es-AR',
+       {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+       }
+      );
       const args = {
         idUser: usuario!.uid,
         horaMenu: this.formGroup2.get('horaMenu')?.value,
         tipoMenu: this.formGroup2.get('tipoMenu')?.value,
         idCompany: this.usuarioComensal!.empresa!.uid,
+        fecha: fecha,
       }
       console.log('args: ', args);
       this.registroDiarioService.crearRegistroManual(args)

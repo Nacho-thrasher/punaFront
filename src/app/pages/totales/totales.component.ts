@@ -53,6 +53,7 @@ export class TotalesComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (resp: any) => {
         this.TotalesMeses = resp;
+        console.log(this.TotalesMeses);
         setTimeout(() => {
           this.temp = [...this.TotalesMeses];
           this.rows = this.TotalesMeses;

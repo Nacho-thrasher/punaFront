@@ -1,6 +1,14 @@
 <div class="row">
   <div class="col-12">
-
+    <div class="mb-2 w-25">
+      <input
+        width=""
+        type="text"
+        class="form-control"
+        placeholder="Buscar por operador..."
+        (keyup)="createdBySearch($event)"
+      />
+    </div>
   </div>
   <div class="col-12">
     <!-- ? datatable -->
@@ -8,7 +16,7 @@
     #myTable
     #tables
     class="material expandable"
-    [columnMode]="columnMode.force"
+    [columnMode]="ColumnMode.force"
     [rows]="rows"
     [loadingIndicator]="loadingIndicator"
     [headerHeight]="50"
@@ -210,6 +218,24 @@
       </ng-template>
     </ngx-datatable-column>
     <!-- todo -->
+    <ngx-datatable-column name="createdBy" [width]="100" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Creado Por</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <a class="sm-textTable">
+          {{ value.userName }} {{value.document }}
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
 
     </ngx-datatable>
     <!-- ? end datatable -->

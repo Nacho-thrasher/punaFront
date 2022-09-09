@@ -15,18 +15,18 @@ export class ListaComensalesComponent implements OnInit {
 
   public Registros: RegistroService[] = [];
   // ? Datatables vars
-  rows: any[] = [];
-  filteredData: any[] = [];
+  rows: any = [];
+  cols:any = [];
+  temp: any = [];
+  filteredData: any = [];
   columnsWithSearch: string[] = [];
-  temp: any[] = [];
-  cols: any[] = [];
   expanded: any = {};
-  loadingIndicator: boolean = true;
-  reorderable: boolean = true;
-  columnMode = ColumnMode;
-  @ViewChild('editTmpl', {static: true}) editTmpl?: TemplateRef<any>;
-  @ViewChild('hdrTpl', {static: true}) hdrTpl?: TemplateRef<any>;
-  @ViewChild('myTable') table?: any;
+  loadingIndicator = true;
+  reorderable = true;
+  ColumnMode = ColumnMode;
+  @ViewChild('editTmpl',{static: true}) editTmpl?: TemplateRef<any>;
+  @ViewChild('hdrTpl',{static: true}) hdrTpl?: TemplateRef<any>;
+  @ViewChild('myTable') table: any;
   @ViewChild(DatatableComponent) tables?: DatatableComponent;
   // ? end Datatables vars
 
@@ -57,6 +57,44 @@ export class ListaComensalesComponent implements OnInit {
 
   onDetailToggle(event: any) {
     //console.log('Detail Toggled', event);
+  }
+
+  createdBySearch(event: any) {
+    let filter = event.target.value.toLowerCase();
+    this.rows = this.filteredData.filter((item:any) => {
+      console.log('item',item.createdBy);
+      // buscar coincidencias dentro de objeto createdBy
+      if (item.createdBy.userName.toLowerCase().indexOf(filter) !== -1) {
+        return true;
+      } else if (item.createdBy.document.toLowerCase().indexOf(filter) !== -1) {
+        return true;
+      }
+      return;
+    });
+    this.table.offset = 0;
+    console.log('rows',this.rows);
+  }
+
+  updateFilter(event: any) {
+    // get the value of the key pressed and make it lowercase
+    let filter = event.target.value.toLowerCase();
+    // assign filtered matches to the active datatable
+    this.rows = this.filteredData.filter((item:any) => {
+      // iterate through each row's column data
+      for (let i = 0; i < this.columnsWithSearch.length; i++){
+        var colValue = item[this.columnsWithSearch[i]];
+        console.log('colValue',colValue);
+        // if no filter OR colvalue is NOT null AND contains the given filter
+        if(!filter || (!!colValue && colValue.toString().toLowerCase().indexOf(filter) !== -1)) {
+          // found match, return true to add to result set
+          return true;
+        }
+      }
+      return;
+    });
+    console.log('rows',this.rows);
+    // TODO - whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
   }
 
   toggleExpandRow(row: any) {

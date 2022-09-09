@@ -20,8 +20,10 @@ export class RegistroDiarioService {
   ) { }
 
   crearRegistroDiario(arg: any){
+    const token = this.usuarioService.token;
+    const headers = { 'authorization': token };
     const url = `${base_url}/registro-diario`;
-    return this.http.post<{ ok: boolean, registro: RegistroService }>(url,arg)
+    return this.http.post<{ ok: boolean, registro: RegistroService }>(url, arg, { headers })
     .pipe(
       map((resp: { ok: boolean, registro: RegistroService } ) => {
         console.log(`registro diario service: `,resp);
@@ -129,8 +131,10 @@ export class RegistroDiarioService {
   }
 
   crearRegistroManual(arg: any){
+    const token = this.usuarioService.token;
+    const headers = { 'authorization': token };
     const url = `${base_url}/registro-diario/manual`;
-    return this.http.post<{ ok: boolean, registro: any }>(url,arg)
+    return this.http.post<{ ok: boolean, registro: any }>(url,arg, { headers })
     .pipe(
       map((resp: { ok: boolean, registro: any } ) => {
         console.log(`registro diario service: `,resp);

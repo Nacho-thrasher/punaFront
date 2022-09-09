@@ -25,6 +25,7 @@ import { TotalesComponent } from './totales/totales.component';
 import { MesTotalesComponent } from './totales/mes-totales/mes-totales.component';
 import { EmpresasTotalesComponent } from './totales/empresas-totales/empresas-totales.component';
 import { DiasTotalesComponent } from './totales/dias-totales/dias-totales.component';
+import { ExtrasComponent } from './extras/extras.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { DiasTotalesComponent } from './totales/dias-totales/dias-totales.compon
     MesTotalesComponent,
     EmpresasTotalesComponent,
     DiasTotalesComponent,
+    ExtrasComponent,
   ],
   exports: [
     PagesComponent,

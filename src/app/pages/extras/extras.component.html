@@ -1,0 +1,383 @@
+<div class="row">
+  <div class="col-12 my-2">
+    <div class="row">
+      <div class="col-3">
+        <!-- button crear -->
+        <button
+            data-toggle="modal" data-target="#crear"
+            class="btn btn-primary btn-flat"
+            (click)="resetForm()"
+          >
+            Crear Extra
+            <!-- icon -->
+          </button>
+      </div>
+      <div class="col-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar empleado por nombre, documento..."
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+      <!-- ? datatable -->
+      <ngx-datatable
+      #myTable
+      #tables
+      class="material expandable"
+      [columnMode]="columnMode.force"
+      [rows]="rows"
+      [loadingIndicator]="loadingIndicator"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      rowHeight="auto"
+      [limit]="10"
+      [reorderable]="true"
+    >
+      <!--? Row Detail Template -->
+      <ngx-datatable-row-detail
+        [rowHeight]="120"
+        #myDetailRow
+        (toggle)="onDetailToggle($event)"
+      >
+        <ng-template
+          let-row="row"
+          let-expanded="expanded"
+          ngx-datatable-row-detail-template
+        >
+        </ng-template>
+      </ngx-datatable-row-detail>
+      <!-- columns template -->
+      <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
+        <ng-template
+          let-rowIndex="rowIndex"
+          let-row="row"
+          ngx-datatable-cell-template
+        >
+          <span>{{ rowIndex + 1 }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <!--todo end -->
+      <ngx-datatable-column name="empresa" [width]="50" [flexGrow]="1">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Empresa</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mobile-hidden sm-textTable">{{ value }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="fecha" [width]="50" [flexGrow]="1">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Fecha</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mobile-hidden sm-textTable">{{ value }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="cantServ" [width]="50" [flexGrow]="1">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Cantidad Servicios</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mobile-hidden sm-textTable">{{ value }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="usuario" [width]="50" [flexGrow]="1">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Usuario</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mobile-hidden sm-textTable">{{ value }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="detalle" [width]="50" [flexGrow]="1">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Detalle</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <span class="mobile-hidden sm-textTable">{{ value }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- todo -->
+      <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Eliminar</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <!-- button icon  -->
+          <button
+            class="btn btn-danger btn-sm"
+            style="cursor: pointer"
+            (click)="deleteExtra(row)"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+      <!-- todo -->
+      <ngx-datatable-column name="" [flexGrow]="1" [maxWidth]="85">
+        <ng-template
+          let-column="column"
+          let-sort="sortFn"
+          ngx-datatable-header-template
+        >
+          <span class="cursor mobile-hidden" (click)="sort()"
+            >Editar</span
+          >
+        </ng-template>
+        <ng-template
+          let-row="row"
+          let-value="value"
+          ngx-datatable-cell-template
+        >
+          <!-- button icon  -->
+          <button
+            class="btn btn-primary btn-sm"
+            style="cursor: pointer"
+            data-toggle="modal"
+            data-target="#modalEditar"
+            (click)="editForm(row)"
+          >
+            <i class="fa fa-edit"></i>
+          </button>
+
+        </ng-template>
+      </ngx-datatable-column>
+      <!-- todo -->
+
+      </ngx-datatable>
+      <!-- ? end datatable -->
+  </div>
+
+   <!-- # modal -->
+   <div class="modal fade" id="crear" tabindex="-1" role="dialog" aria-labelledby="crear" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="crear">Crear Extra</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearExtra"
+            autocomplete="off"
+            #myNgForm="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="submitted()"
+          >
+            <!-- input string empresa -->
+            <div class="form-group">
+              <label for="empresa">Empresa</label>
+              <input
+                type="text"
+                class="form-control"
+                id="empresa"
+                formControlName="empresa"
+                placeholder="Empresa"
+              />
+            </div>
+            <!-- input string fecha  -->
+            <div class="form-group">
+              <label for="fecha">Fecha</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fecha"
+                formControlName="fecha"
+                placeholder="Fecha"
+              />
+            </div>
+            <!-- input string cantServ number -->
+            <div class="form-group">
+              <label for="cantServ">Cantidad de Servicios</label>
+              <input
+                type="number"
+                class="form-control"
+                id="cantServ"
+                formControlName="cantServ"
+                placeholder="Cantidad de Servicios"
+              />
+            </div>
+            <!-- input usuario -->
+            <div class="form-group">
+              <label for="usuario">Usuario</label>
+              <input
+                type="text"
+                class="form-control"
+                id="usuario"
+                formControlName="usuario"
+                placeholder="Usuario"
+              />
+            </div>
+            <!-- detalle  -->
+            <div class="form-group">
+              <label for="detalle">Detalle</label>
+              <textarea
+                class="form-control"
+                id="detalle"
+                formControlName="detalle"
+                placeholder="Detalle"
+              ></textarea>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="submitted()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modalEditar -->
+  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditar" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditar">Editar Extra</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="formCrearExtra"
+            autocomplete="off"
+            #myNgForm="ngForm"
+            [formGroup]="formGroup"
+            (ngSubmit)="submittEdit()"
+          >
+            <!-- input string empresa -->
+            <div class="form-group">
+              <label for="empresa">Empresa</label>
+              <input
+                type="text"
+                class="form-control"
+                id="empresa"
+                formControlName="empresa"
+                placeholder="Empresa"
+              />
+            </div>
+            <!-- input string fecha  -->
+            <div class="form-group">
+              <label for="fecha">Fecha</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fecha"
+                formControlName="fecha"
+                placeholder="Fecha"
+              />
+            </div>
+            <!-- input string cantServ number -->
+            <div class="form-group">
+              <label for="cantServ">Cantidad de Servicios</label>
+              <input
+                type="number"
+                class="form-control"
+                id="cantServ"
+                formControlName="cantServ"
+                placeholder="Cantidad de Servicios"
+              />
+            </div>
+            <!-- input usuario -->
+            <div class="form-group">
+              <label for="usuario">Usuario</label>
+              <input
+                type="text"
+                class="form-control"
+                id="usuario"
+                formControlName="usuario"
+                placeholder="Usuario"
+              />
+            </div>
+            <!-- detalle  -->
+            <div class="form-group">
+              <label for="detalle">Detalle</label>
+              <textarea
+                class="form-control"
+                id="detalle"
+                formControlName="detalle"
+                placeholder="Detalle"
+              ></textarea>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" [disabled]="!formGroup.valid" (click)="submittEdit()" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -134,7 +134,7 @@
       </ng-template>
     </ngx-datatable-column>
     <!-- todo -->
-    <ngx-datatable-column *ngIf="userRol != 'admin'" name="" [width]="100" [flexGrow]="1" >
+    <ngx-datatable-column *ngIf="userRol == 'admin'" name="" [width]="100" [flexGrow]="1" >
       <ng-template
         let-column="column"
         let-sort="sortFn"
@@ -154,6 +154,29 @@
       </ng-template>
     </ngx-datatable-column>
     <!-- todo -->
+    <ngx-datatable-column *ngIf="userRol == 'admin'" name="" [width]="80" [flexGrow]="1" >
+      <ng-template
+        let-column="column"
+        let-sort="sortFn"
+        ngx-datatable-header-template
+      >
+        <span class="cursor" (click)="sort()">Visados</span>
+      </ng-template>
+      <ng-template
+        let-value="value"
+        let-row="row"
+        ngx-datatable-cell-template
+      >
+        <div class="sm-textTable">
+          <!-- icono check fontawesome -->
+          <i *ngIf="row.visado == row.total && row.visado > 0" class="fas fa-check"></i>
+          <span *ngIf="row.visado || row.noVisado">
+            <!-- icono check fontawesome -->
+            visados: {{ row.visado }} de {{ row.total }}
+          </span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
     </ngx-datatable>
     <!-- ? end datatable -->
   </div>

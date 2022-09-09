@@ -80,6 +80,7 @@ export class EmpresasTotalesComponent implements OnInit {
     .subscribe({
       next: (resp: any) => {
         this.RegistrosByDate = resp;
+        console.log(this.RegistrosByDate);
         setTimeout(() => {
           this.temp = [...this.RegistrosByDate];
           this.rows = this.RegistrosByDate;
@@ -95,7 +96,7 @@ export class EmpresasTotalesComponent implements OnInit {
   }
 
   visarRegistro(registro: any) {
-    console.log(registro);
+    console.log('visado: ',registro);
     const meses = [
       { mes: '01', nombre: 'enero' },
       { mes: '02', nombre: 'febrero' },
@@ -113,7 +114,8 @@ export class EmpresasTotalesComponent implements OnInit {
     const args = {
       empresa: registro.uid,
       usuario: this.usuario.uid,
-      fechaRegistro: `${this.dia}/${meses.find(m => m.nombre === this.mes)?.mes}/${new Date().getFullYear()}`
+      fechaRegistro: `${this.dia}/${meses.find(m => m.nombre === this.mes)?.mes}/${new Date().getFullYear()}`,
+      registroDiarioId: registro.registroId
     }
 
     this.registroDiarioService.crearVisado(args)

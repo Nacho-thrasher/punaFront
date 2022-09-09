@@ -133,6 +133,7 @@
             </div>
           </div>
           <input type="text" class="form-control" placeholder="Ingrese Documento"
+          (blur)="validarDni()"
           aria-label="Username" aria-describedby="basic-addon1" formControlName="nDocu" >
         </div>
         <div class="row" *ngIf="typeDocument == 'dni'">

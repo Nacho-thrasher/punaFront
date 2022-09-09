@@ -106,15 +106,26 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
 
   onFormGroupChanges(formGroup: FormGroup): void {
     if (!formGroup) return
-    formGroup.get('nDocu')?.valueChanges.subscribe((val) => {
-      // si el valor contiene arroba
-      if (val.includes('@')) {
-        // separar por arroba y seleccionar el item 4 que es el documento
-        const nDocu = val.split('@')[4];
-        // setear el valor del ndocu
-        formGroup.get('nDocu')?.setValue(nDocu);
+    // formGroup.get('nDocu')?.valueChanges.subscribe((val) => {
+    //   // si el valor contiene arroba
+    //   if (val.includes('@')) {
+    //     // separar por arroba y seleccionar el item 4 que es el documento
+    //     const nDocu = val.split('@')[4];
+    //     // setear el valor del ndocu
+    //     formGroup.get('nDocu')?.setValue(nDocu);
+    //   }
+    // });
+  }
+
+  validarDni(): void {
+    console.log('validar dni');
+    const ndocu = this.formGroup.get('nDocu')?.value;
+    if (ndocu.length > 0) {
+      if (ndocu.includes('@')) {
+        const nDocu = ndocu.split('@')[4];
+        this.formGroup.get('nDocu')?.setValue(nDocu);
       }
-    });
+    }
   }
 
   registrarComensal(): void {

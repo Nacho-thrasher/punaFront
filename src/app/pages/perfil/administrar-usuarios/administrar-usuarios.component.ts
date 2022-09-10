@@ -237,6 +237,7 @@ export class AdministrarUsuariosComponent implements OnInit {
   }
 
   editarUsuario(usuario: Usuario){
+
     console.log('editar', usuario);
     this.formGroup.setValue({
       firstName: usuario.firstName,
@@ -247,7 +248,7 @@ export class AdministrarUsuariosComponent implements OnInit {
       document: usuario.document,
       cuil: usuario.cuil,
       typeUser: usuario.user_type?.uid,
-      password: ''
+      password: 'passwrord'
     });
     this.idSelected = usuario.uid;
   }
@@ -262,7 +263,7 @@ export class AdministrarUsuariosComponent implements OnInit {
         'Si, editar',
         'No, cancelar',
         ()=> {
-          if (this.formGroup.value.password === '') {
+          if (this.formGroup.value.password === '' || this.formGroup.value.password === 'passwrord') {
             this.formGroup.value.password = this.formGroup.value.document;
           }
           // insertar en la base de datos el registro

@@ -107,8 +107,9 @@
         autocomplete="off"
         #formDni="ngForm"
         [formGroup]="formGroup"
-        (ngSubmit)="registrarComensal()"
+        (ngSubmit)="validarDni()"
       >
+      <!-- registrarComensal() -->
         <!-- input number -->
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -178,7 +179,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <button [disabled]="!formGroup.valid" type="submit" class="btn btn-primary btn-sm float-left">
+            <button (click)="registrarComensal()" [disabled]="!formGroup.valid" type="button" class="btn btn-primary btn-sm float-left">
               <i class="fas fa-check"></i> Cargar
             </button>
           </div>

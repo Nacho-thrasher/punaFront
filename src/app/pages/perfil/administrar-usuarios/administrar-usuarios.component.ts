@@ -95,7 +95,13 @@ export class AdministrarUsuariosComponent implements OnInit {
   }
 
   searchByEmpresa(event: any){
-    let filter = event.target.value.toLowerCase();
+
+    // si showAdmins es true, entonces se muestran todos los usuarios
+    // si showAdmins es false, entonces se muestran todos los usuarios menos los admins
+    const showAdmins = event.target.checked;
+
+    // let filter = event.target.value.toLowerCase();
+    let filter = showAdmins ? 'puna administracion' : '';
     this.rows = this.filteredData.filter( (item:any) => {
       if (item.empresa.name.toLowerCase().indexOf(filter) !== -1) {
         return true;

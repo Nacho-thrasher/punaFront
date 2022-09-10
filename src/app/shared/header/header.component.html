@@ -108,6 +108,9 @@
             <div *ngIf="roleUser == 'admin'" class="col-12 py-1">
               <a routerLink="administrar-usuarios" class="btn btn-default btn-flat hoverable">Administrar Usuarios</a>
             </div>
+            <div class="col-12 py-1"><!-- cambiar contraseña -->
+              <a data-toggle="modal" data-target="#cambiarPassword" class="btn btn-default btn-flat hoverable">Cambiar Contraseña</a>
+            </div>
             <div class="col-12">
               <a href="#" (click)="logout()" class="btn btn-default btn-flat hoverable">Cerrar Sesion</a>
             </div>
@@ -119,3 +122,44 @@
   </ul>
 </nav>
 <!-- /.navbar -->
+
+<!-- # MODALS -->
+<div class="modal fade" id="cambiarPassword" tabindex="-1" role="dialog" aria-labelledby="cambiarPassword" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cambiarPassword">Cambiar Contraseña</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          id="formCambiarPass"
+          autocomplete="off"
+          [formGroup]="formGroup"
+          (ngSubmit)="cambiarPassword()"
+        >
+          <!-- input cambiar password -->
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              placeholder="Ingrese su contraseña"
+            />
+            <small class="text-danger" *ngIf="!formGroup.valid">
+              La contraseña es requerida
+            </small>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" [disabled]="!formGroup.valid" (click)="cambiarPassword()" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

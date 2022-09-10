@@ -32,7 +32,13 @@
                           <th scope="row"> {{i+1}} </th>
                           <td>{{horario.horaInicio}}</td>
                           <td>{{horario.horaFin}}</td>
-                          <td class="text-capitalize">{{horario.tipo}}</td>
+                          <td class="">
+                            {{horario.tipo == 'breakfast' ? 'Desayuno' : ''}}
+                            {{horario.tipo == 'lunch' ? 'Almuerzo' : ''}}
+                            {{horario.tipo == 'dinner' ? 'Cena' : ''}}
+                            {{horario.tipo == 'afternoonSnack' ? 'Merienda' : ''}}
+
+                          </td>
                           <td>
                             <button class="btn btn-primary btn-sm"
                             (click)="editarHorario(horario)"

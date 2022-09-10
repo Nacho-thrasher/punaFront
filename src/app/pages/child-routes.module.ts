@@ -33,7 +33,7 @@ const ChildRoutes: Routes = [
   { path: 'promedios-diarios/:id', component: PromediDiarioByEmpresaComponent, data: {titulo: 'Promedios Diarios', content: 'promedios-diarios'} },
   { path: 'administrar-usuarios', canActivate: [AdminGuard], component: AdministrarUsuariosComponent, data: {titulo: 'Administrar Usuarios', content: 'administrar-usuarios'} },
   { path: 'configuraciones', canActivate: [AdminGuard], component: ConfiguracionesComponent, data: {titulo: 'Configuraciones', content: 'configuraciones'} },
-  { path: 'lista-comensales', component: ListaComensalesComponent, data: {titulo: 'Lista Comensales', content: 'lista-comensales'} },
+  { path: 'lista-comensales', component: ListaComensalesComponent, data: {titulo: 'Lista Registros', content: 'lista-registros'} },
   { path: 'totales', component: TotalesComponent, data: {titulo: 'Totales', content: 'totales'} },
   { path: 'totales/:mes', component: MesTotalesComponent, data: {titulo: 'Mes Totales', content: 'mes-totales'} },
   { path: 'totales/:mes/:dia', component: EmpresasTotalesComponent, data: {titulo: 'Empresas Totales', content: 'empresas-totales'} },

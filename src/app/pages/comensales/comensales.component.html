@@ -11,14 +11,20 @@
     </div>
   </div>
   <div class="col-md-4 col-sm-6 py-2">
-    <div class="row">
+    <form class="form-inline">
       <input
         type="text"
-        class="form-control"
+        class="form-control mx-1"
         placeholder="Buscar..."
         (keyup)="updateFilter($event)"
       />
-    </div>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por empresa..."
+        (keyup)="searchByEmpresa($event)"
+      />
+    </form>
   </div>
 
 </div>

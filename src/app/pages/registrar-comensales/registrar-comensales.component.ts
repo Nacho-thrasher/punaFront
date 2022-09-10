@@ -130,7 +130,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
 
   registrarComensal(): void {
     // usuario comensal
-    const dni = this.formGroup.get('nDocu')?.value;
+    const dni = this.formGroup.get('nDocu')?.value.trim();
     // buscar con find en this usuarios el usuario con el dni
     const usuario = this.usuarios.find((item) => {
       return item.document == (dni).toString();
@@ -177,6 +177,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
             () => {},
             false
           );
+          return
         },
         complete: () => {
           this.getData();

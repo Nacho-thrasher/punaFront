@@ -120,7 +120,7 @@
       </ng-template>
     </ngx-datatable-column>
     <!-- todo -->
-    
+
     <ngx-datatable-column  name="visado" [width]="100" [flexGrow]="1" >
       <ng-template
         let-column="column"
@@ -137,7 +137,7 @@
         <div *ngIf="row.visado != null">
           <span>
             Fecha Registro: {{ row.visado.fechaRegistro }}
-          </span>
+          </span><br>
           <span>
             Fecha Visado: {{ row.visado.fechaVisado }}
           </span><br>

@@ -99,6 +99,21 @@ export class ComensalesComponent implements OnInit, OnDestroy {
 
   }
 
+
+  searchByEmpresa(event: any){
+
+    
+    let filter = event.target.value.toLowerCase();
+
+    this.rows = this.filteredData.filter( (item:any) => {
+      if (item.empresa.name.toLowerCase().indexOf(filter) !== -1) {
+        return true;
+      }
+      return;
+    });
+
+  }
+
   updateFilter(event: any) {
     // get the value of the key pressed and make it lowercase
     let filter = event.target.value.toLowerCase();

@@ -156,4 +156,13 @@ export class UsuarioService {
     return this.http.post(url, comensales, this.headers)
   }
 
+  cambiarPassword(password: any, id: string | null): Observable<any> {
+    return this.http.put(`${base_url}/users/password/${id}`, { password }, this.headers).pipe(
+      map((resp: any) => {
+        console.log('editar usuario service: ',resp);
+        return resp;
+      })
+    );
+  }
+
 }

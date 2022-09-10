@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+// import { FormsModule } from '@angular/forms';
 //? pipes module
 import { SweetAlert2Helper } from 'src/app/helpers/sweet-alert-2.helper';
 
@@ -26,6 +26,7 @@ import { SweetAlert2Helper } from 'src/app/helpers/sweet-alert-2.helper';
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }

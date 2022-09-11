@@ -10,6 +10,9 @@ import { HorariosService } from './../../services/horarios.service';
 import { Horarios } from 'src/models/horarios/horarios.model';
 import { SweetAlert2Helper } from './../../helpers/sweet-alert-2.helper';
 import { Subject, takeUntil, combineLatest } from 'rxjs';
+import { Empresa } from './../../../models/empresas/empresa.model';
+import { EmpresaService } from './../../services/empresa.service';
+import { UserType } from './../../../models/usuarios/user_type.model';
 declare const $: any;
 declare const jQuery: any;
 
@@ -18,6 +21,7 @@ declare const jQuery: any;
   templateUrl: './registrar-comensales.component.html',
   styleUrls: ['./registrar-comensales.component.css']
 })
+
 export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   public unsubscribe$ = new Subject();
   // fecha formato: lunes 1 de enero de 2020
@@ -32,15 +36,21 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   public formSubmitted = false;
   public formGroup: FormGroup;
   public formGroup2: FormGroup;
+  public formGroup3: FormGroup;
   public usuarios: Usuario[] = [];
   public usuarioComensal: Usuario | null = null;
+  public Empresas: Empresa[] = [];
+  public empresasFilter: Empresa[] = [];
+  public UserTypes: UserType[] = [];
   public menus: Menu[] = [];
   public registrosDiarios: RegistroService[] = [];
   public ultimoRegistroDiario: RegistroService | null = null;
+  public todosRegistrosDiariosDelDia: RegistroService[] = [];
   public cantidadRegistrosDiarios: number = 0;
   public HoraComidaActual: Horarios | null = null;
   // other vars
   public typeDocument: string = 'dni'
+  public isLoad: boolean = false;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -48,10 +58,12 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     private menuService: MenuService,
     private registroDiarioService: RegistroDiarioService,
     private horariosService: HorariosService,
-    private sweetAlert2Helper: SweetAlert2Helper
+    private sweetAlert2Helper: SweetAlert2Helper,
+    private empresaService: EmpresaService
   ) {
     this.formGroup = this.createFormGroup();
     this.formGroup2 = this.createFormGroup2();
+    this.formGroup3 = this.createFormGroup3();
   }
   ngOnDestroy(): void {
     this.unsubscribe$.next(null);
@@ -68,20 +80,26 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     const $combineLatest = combineLatest([
       this.usuarioService.cargarUsuariosByType("user"),
       this.menuService.cargarMenus(),
-      this.registroDiarioService.cargarAllRegistrosDiarios(),
-      this.horariosService.getCurrentTime()
+      this.registroDiarioService.cargarAllRegistrosDiarios(), // sin all solo trae los del dia actual
+      this.horariosService.getCurrentTime(),
+      this.empresaService.cargarEmpresas(),
+      this.usuarioService.cargarUsersTypes()
     ])
     $combineLatest.pipe(takeUntil(this.unsubscribe$))
     .subscribe({
-      next: ([usuarios, menus, registrosDiarios, horaComidaActual]) => {
+      next: ([usuarios, menus, registrosDiarios, horaComidaActual, empresas, userTypes]) => {
         this.usuarios = usuarios;
-        this.menus = menus; // menues, saludable etc
+        this.menus = menus; //* menues, saludable etc
+        this.todosRegistrosDiariosDelDia = registrosDiarios;
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
         this.cantidadRegistrosDiarios = registrosDiarios.length;
         this.registrosDiarios = registrosDiarios.filter((item) => {
           return item.uid != registrosDiarios[registrosDiarios.length - 1].uid;
         });
         this.HoraComidaActual = horaComidaActual;
+        this.Empresas = empresas;
+        this.empresasFilter = empresas;
+        this.UserTypes = userTypes;
       }
     })
   }
@@ -103,20 +121,35 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     })
     return formGroup2;
   }
-
+  createFormGroup3(): FormGroup {
+    const formGroup3 = this.fb.group({
+      empresaId: ['', Validators.required],
+      empresa: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      typeDocument: ['', [Validators.required]],
+      document: ['', [Validators.required, Validators.minLength(3)]],
+      cuil: ['', [Validators.required, Validators.minLength(3)]],
+    })
+    this.onFormGroupChanges3(formGroup3);
+    return formGroup3;
+  }
   onFormGroupChanges(formGroup: FormGroup): void {
     if (!formGroup) return
-    // formGroup.get('nDocu')?.valueChanges.subscribe((val) => {
-    //   // si el valor contiene arroba
-    //   if (val.includes('@')) {
-    //     // separar por arroba y seleccionar el item 4 que es el documento
-    //     const nDocu = val.split('@')[4];
-    //     // setear el valor del ndocu
-    //     formGroup.get('nDocu')?.setValue(nDocu);
-    //   }
-    // });
-  }
 
+  }
+  onFormGroupChanges3(formGroup3: FormGroup): void {
+    if (!formGroup3) return
+    formGroup3.get('empresa')?.valueChanges.subscribe((val) => {
+      const empresa = this.Empresas.find((item) => {
+        return item.name.toLowerCase() === val;
+      });
+      if (empresa) {
+        this.formGroup.get('empresaId')?.setValue(empresa.uid);
+      }
+    })
+  }
   validarDni(): void {
     console.log('validar dni');
     const ndocu = this.formGroup.get('nDocu')?.value;
@@ -129,9 +162,8 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   }
 
   registrarComensal(): void {
-    // usuario comensal
+    //* si existe o no usuario
     const dni = this.formGroup.get('nDocu')?.value.trim();
-    // buscar con find en this usuarios el usuario con el dni
     const usuario = this.usuarios.find((item) => {
       return item.document == (dni).toString();
     });
@@ -145,45 +177,135 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       );
     }
     else{
-      this.usuarioComensal = usuario;
-      //* 1 armar objeto a mandar
-      const args = {
-        idUser: this.usuarioComensal.uid,
-        idMenu: this.formGroup.value.tipo,
-        idCompany: this.usuarioComensal!.empresa!.uid,
-      }
-      console.log('mostrar args: ', args);
-      //* 2 mandar objeto a servicio
-      this.registroDiarioService.crearRegistroDiario(args)
-      .subscribe({
-        next: (res) => {
-          console.log('registro diario: ', res);
-          this.formSubmitted = true;
-          this.sweetAlert2Helper.success(
-            'Registro exitoso',
-            'El registro se realizo correctamente',
-            () => {
-              this.formGroup.reset();
-              this.formSubmitted = false;
-            },
-            false
-          );
-        },
-        error: (err) => {
-          console.log(err);
+      //* si existe o no registro diario A la misma hora
+      // const horaComidaActual = this.HoraComidaActual?.hora;
+      const registroExist = this.todosRegistrosDiariosDelDia.filter((item: any) => {
+        if (item.usuario.uid == usuario?.uid) {
+          return item;
+        }
+      })
+      console.log('registroExist', registroExist);
+      console.log('comida actual', this.HoraComidaActual?.tipo);
+      const horaComidatipo: string = this.HoraComidaActual!.tipo;
+      if (registroExist.length > 0) {
+        // si horaComidaActual.tipo es breakfast y registroExist.breakfast tiene valor
+        if (horaComidatipo == 'breakfast' && registroExist.find((item: any) => { if (Object.keys(item.breakfast).length > 0) return item })) {
+          console.log('ya registro desayuno');
           this.sweetAlert2Helper.error(
             'Error',
-            'No se pudo registrar el comensal',
+            'Ya registro desayuno',
             () => {},
             false
           );
-          return
-        },
-        complete: () => {
-          this.getData();
         }
-      })
-
+        else if (horaComidatipo == 'lunch' && registroExist.find((item: any) => { if (Object.keys(item.lunch).length > 0) return item })) {
+          console.log('ya registro almuerzo');
+          this.sweetAlert2Helper.error(
+            'Error',
+            'Ya registro almuerzo',
+            () => {},
+            false
+          );
+        }
+        else if (horaComidatipo == 'dinner' && registroExist.find((item: any) => { if (Object.keys(item.dinner).length > 0) return item })) {
+          console.log('ya registro cena');
+          this.sweetAlert2Helper.error(
+            'Error',
+            'Ya registro cena',
+            () => {},
+            false
+          );
+        }
+        else if (horaComidatipo == 'afternoonSnack' && registroExist.find((item: any) => { if (Object.keys(item.afternoonSnack).length > 0) return item })) {
+          console.log('ya registro merienda');
+          this.sweetAlert2Helper.error(
+            'Error',
+            'Ya registro merienda',
+            () => {},
+            false
+          );
+        }
+        // else{
+        //   this.usuarioComensal = usuario;
+        //   //* 1 armar objeto a mandar
+        //   const args = {
+        //     idUser: this.usuarioComensal.uid,
+        //     idMenu: this.formGroup.value.tipo,
+        //     idCompany: this.usuarioComensal!.empresa!.uid,
+        //   }
+        //   console.log('mostrar se envio: ', args);
+        //   //* 2 mandar objeto a servicio
+        //   this.registroDiarioService.crearRegistroDiario(args)
+        //   .subscribe({
+        //     next: (res) => {
+        //       console.log('registro diario: ', res);
+        //       this.formSubmitted = true;
+        //       this.sweetAlert2Helper.success(
+        //         'Registro exitoso',
+        //         'El registro se realizo correctamente',
+        //         () => {
+        //           this.formGroup.reset();
+        //           this.formSubmitted = false;
+        //         },
+        //         false
+        //       );
+        //     },
+        //     error: (err) => {
+        //       console.log(err);
+        //       this.sweetAlert2Helper.error(
+        //         'Error',
+        //         'No se pudo registrar el comensal',
+        //         () => {},
+        //         false
+        //       );
+        //       return
+        //     },
+        //     complete: () => {
+        //       this.getData();
+        //     }
+        //   })
+        // }
+      }
+      else{
+        this.usuarioComensal = usuario;
+        //* 1 armar objeto a mandar
+        const args = {
+          idUser: this.usuarioComensal.uid,
+          idMenu: this.formGroup.value.tipo,
+          idCompany: this.usuarioComensal!.empresa!.uid,
+        }
+        console.log('mostrar se envio: ', args);
+        //* 2 mandar objeto a servicio
+        this.registroDiarioService.crearRegistroDiario(args)
+        .subscribe({
+          next: (res) => {
+            console.log('registro diario: ', res);
+            this.formSubmitted = true;
+            this.sweetAlert2Helper.success(
+              'Registro exitoso',
+              'El registro se realizo correctamente',
+              () => {
+                this.formGroup.reset();
+                this.formSubmitted = false;
+              },
+              false
+            );
+          },
+          error: (err) => {
+            console.log(err);
+            this.sweetAlert2Helper.error(
+              'Error',
+              'No se pudo registrar el comensal',
+              () => {},
+              false
+            );
+            return
+          },
+          complete: () => {
+            this.getData();
+          }
+        })
+      }
       // borrar inputs del formulario
       this.formGroup.get('nDocu')?.setValue('');
       this.formGroup.get('tipo')?.setValue('');
@@ -283,6 +405,76 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       $('#modalCrearRegistroManual').modal('hide');
     }
   }
+
+  crearComensal(): void {
+    const comensal = this.formGroup3.value;
+    const userType = this.UserTypes.find((item) => {
+      return item.name === 'user';
+    });
+    this.usuarioService.createUserWithCompany(comensal, comensal.empresaId, userType!.uid)
+    .subscribe({
+      next: (res) => {
+        console.log(res);
+        this.sweetAlert2Helper.success(
+          'Comensal creado',
+          'El comensal se creo correctamente',
+          () => {
+            this.formGroup.reset();
+            this.formSubmitted = false;
+            this.getData();
+          },
+          false
+        );
+      },
+      error: (err) => {
+        console.log(err);
+        this.sweetAlert2Helper.error(
+          'Error',
+          'No se pudo crear el comensal',
+          () => {},
+          false
+        );
+      },
+      complete: () => {
+        console.log('complete');
+        $('#crearComensal').modal('hide');
+      }
+    })
+  }
+
+  handlerChange(event: any){
+    const val = event.target.value;
+    if (val && val.trim() != '') {
+      this.isLoad = true;
+      this.empresasFilter = this.Empresas.filter((item) => {
+        return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
+      }).slice(0, 10);
+    }
+    else {
+      this.empresasFilter = this.Empresas;
+      this.isLoad = false;
+    }
+  }
+
+  outsideFilter(e: Event){
+    this.isLoad = false;
+  }
+
+  selectEmpresa(empresa: Empresa){
+    this.isLoad = false;
+    this.formGroup3.get('empresa')?.setValue(empresa.name);
+    this.formGroup3.get('empresaId')?.setValue(empresa.uid);
+    console.log('empresa: ', empresa);
+  }
+
+  submitted(){
+    this.formSubmitted = true;
+    if(this.formGroup3.invalid){
+      return;
+    }
+    this.crearComensal();
+  }
+
 
 }
 

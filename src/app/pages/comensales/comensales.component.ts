@@ -102,7 +102,7 @@ export class ComensalesComponent implements OnInit, OnDestroy {
 
   searchByEmpresa(event: any){
 
-    
+
     let filter = event.target.value.toLowerCase();
 
     this.rows = this.filteredData.filter( (item:any) => {
@@ -210,7 +210,6 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       }
 
     })
-
   }
 
   crearComensalExcel(){

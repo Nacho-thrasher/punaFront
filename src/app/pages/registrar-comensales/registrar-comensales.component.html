@@ -9,6 +9,12 @@
       >
         Crear registro manual
       </button>
+      <button class="btn btn-primary btn-sm float-right mx-1"
+        data-toggle="modal"
+        data-target="#crearComensal"
+      >
+        Crear comensal
+      </button>
     </div>
   </div>
   <div class="row">
@@ -67,11 +73,14 @@
 
       <!-- card -->
       <div class="card border-radius">
-        <div class="card-body">
-          <h5 class="card-title py-2">
-            Nombre: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.userName : ''}}
-          </h5>
+        <div class="card-body" style="padding: 0.5rem;">
+          <!-- <h5 class="card-title py-2">
+
+          </h5> -->
           <p class="card-text">
+            <span>
+              Nombre: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.userName : ''}}
+            </span><br>
             <span>
               <!-- salto de linea -->
               Empresa: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.empresa!.name : ''}}
@@ -140,24 +149,24 @@
         <div class="row" *ngIf="typeDocument == 'dni'">
           <div class="col">
             <div class="row">
-              <div (click)="handleClick(7)" class="col bg-white text-center border radius p-1 m-1">7</div>
-              <div (click)="handleClick(8)" class="col bg-white text-center border radius p-1 m-1">8</div>
-              <div (click)="handleClick(9)" class="col bg-white text-center border radius p-1 m-1">9</div>
+              <div (click)="handleClick(7)" class="col bg-white text-center border radius p-2 m-1">7</div>
+              <div (click)="handleClick(8)" class="col bg-white text-center border radius p-2 m-1">8</div>
+              <div (click)="handleClick(9)" class="col bg-white text-center border radius p-2 m-1">9</div>
             </div>
             <div class="row">
-              <div (click)="handleClick(4)" class="col bg-white text-center border radius p-1 m-1">4</div>
-              <div (click)="handleClick(5)" class="col bg-white text-center border radius p-1 m-1">5</div>
-              <div (click)="handleClick(6)" class="col bg-white text-center border radius p-1 m-1">6</div>
+              <div (click)="handleClick(4)" class="col bg-white text-center border radius p-2 m-1">4</div>
+              <div (click)="handleClick(5)" class="col bg-white text-center border radius p-2 m-1">5</div>
+              <div (click)="handleClick(6)" class="col bg-white text-center border radius p-2 m-1">6</div>
             </div>
             <div class="row">
-              <div (click)="handleClick(1)" class="col bg-white text-center border radius p-1 m-1">1</div>
-              <div (click)="handleClick(2)" class="col bg-white text-center border radius p-1 m-1">2</div>
-              <div (click)="handleClick(3)" class="col bg-white text-center border radius p-1 m-1">3</div>
+              <div (click)="handleClick(1)" class="col bg-white text-center border radius p-2 m-1">1</div>
+              <div (click)="handleClick(2)" class="col bg-white text-center border radius p-2 m-1">2</div>
+              <div (click)="handleClick(3)" class="col bg-white text-center border radius p-2 m-1">3</div>
             </div>
             <div class="row">
-              <div class="col bg-white text-center border radius p-1 m-1">-</div>
-              <div (click)="handleClick(0)" class="col bg-white text-center border radius p-1 m-1">0</div>
-              <div (click)="handleBorrar()" class="col bg-white text-center border radius p-1 m-1">
+              <div class="col bg-white text-center border radius p-2 m-1">-</div>
+              <div (click)="handleClick(0)" class="col bg-white text-center border radius p-2 m-1">0</div>
+              <div (click)="handleBorrar()" class="col bg-white text-center border radius p-2 m-1">
                 <!-- icon borrar -->
                 <i class="fas fa-backspace"></i>
               </div>
@@ -172,7 +181,7 @@
               *ngFor="let menu of menus"
             >
               <input formControlName="tipo" class="form-check-input" type="radio" id="inlineRadio1" [value]="menu.uid">
-              <label class="form-check-label text-capitalize" for="inlineRadio1">{{menu.type}}</label>
+              <label style="font-size: 1.3rem;" class="form-check-label text-capitalize" for="inlineRadio1">{{menu.type}}</label>
             </div>
           </div>
 
@@ -255,3 +264,89 @@
   </div>
 </div>
 <!-- * End Modal crear registro manual -->
+<div class="modal fade" id="crearComensal" tabindex="-1" role="dialog" aria-labelledby="crearComensalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Crear comensal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          id="formCrearComensal"
+          autocomplete="off"
+          #formCrearComensal="ngForm"
+          [formGroup]="formGroup3"
+          (ngSubmit)="crearComensal()"
+        >
+        <!-- * FILTER SEARCH -->
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Empresa:</label>
+            <!-- input hide para almacenar el id -->
+            <input type="text" class="form-control" id="empresaId" formControlName="empresaId" hidden>
+            <input (keyup)="handlerChange($event)"
+              type="text" class="form-control" id="empresa"
+              formControlName="empresa"
+              (clickOutside)="outsideFilter($event)"
+            >
+            <div class="" *ngIf="isLoad">
+              <ul class="bg-light my-1 p-2 border-radius dropdown-search list-unstiled">
+                <li *ngFor="let empresa of empresasFilter"
+                  class="p-1 item-hover"
+                  (click)="selectEmpresa(empresa)"
+                >
+                  {{empresa.name}} - cuit: {{empresa.cuit}}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- * FULLNAME -->
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <label for="message-text" class="col-form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" formControlName="firstName">
+              </div>
+              <div class="col">
+                <label for="message-text" class="col-form-label">Apellido:</label>
+                <input type="text" class="form-control" id="apellido" formControlName="lastName">
+              </div>
+            </div>
+          </div>
+          <!-- * Email -->
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Email:</label>
+            <input type="email" class="form-control" id="email" formControlName="email">
+          </div>
+          <!-- * TYPE DOCUMENT -->
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Tipo de documento:</label>
+            <select class="form-control" formControlName="typeDocument">
+              <option value="DNI">DNI</option>
+              <option value="CUIT">CUIT</option>
+              <option value="CUIL">CUIL</option>
+              <option value="PASAPORTE">PASAPORTE</option>
+            </select>
+          </div>
+          <!-- * NUMBER DOCUMENT -->
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Número de documento:</label>
+            <input type="text" class="form-control" id="numeroDocumento" formControlName="document">
+          </div>
+          <!-- * CUIL -->
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">CUIL:</label>
+            <input type="text" class="form-control" id="cuil" formControlName="cuil">
+          </div>
+          <!-- * BUTTONS -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" [disabled]="!formGroup3.valid" (click)="submitted()" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

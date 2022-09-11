@@ -90,7 +90,7 @@
                           <th scope="col">Almuerzo</th>
                           <th scope="col">Merienda</th>
                           <th scope="col">Cena</th>
-                          <th scope="col">Cantidad</th>
+                          <!-- <th scope="col">Cantidad</th> -->
                         </tr>
                       </thead>
                       <tbody>
@@ -101,7 +101,7 @@
                           <td class="text-capitalize">{{menu.lunch.dish}}</td>
                           <td class="text-capitalize">{{menu.afternoonSnack.dish}}</td>
                           <td class="text-capitalize">{{menu.dinner.dish}}</td>
-                          <td class="text-capitalize text-center">{{menu.quantity ? menu.quantity : '-'}}</td>
+                          <!-- <td class="text-capitalize text-center">{{menu.quantity ? menu.quantity : '-'}}</td> -->
                           <td>
                             <button class="btn btn-primary btn-sm"
                             (click)="editarMenu(menu)"
@@ -329,16 +329,17 @@
               </div>
             </div>
             <!-- * -->
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="name">Cantidad</label>
               <input
-                type="number"
+                type="hide"
                 class="form-control"
                 id="quantity"
                 formControlName="quantity"
                 placeholder="quantity"
+                value="1"
               />
-            </div>
+            </div> -->
             <!-- * BUTTONS -->
           </form>
 

@@ -242,7 +242,7 @@
           <span class="cursor" (click)="sort()" >Empleado</span>
         </ng-template>
         <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-          <a class="sm-textTable" [routerLink]="['/dashboard/usuario', row['uid']]">
+          <a class="sm-textTable text-capitalize" [routerLink]="['/dashboard/usuario', row['uid']]">
             {{value}}
           </a>
         </ng-template>

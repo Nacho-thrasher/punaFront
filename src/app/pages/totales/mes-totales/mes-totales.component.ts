@@ -13,6 +13,7 @@ import { RegistroDiarioService } from './../../../services/registro-diario.servi
 })
 export class MesTotalesComponent implements OnInit {
 
+  roleUser: string = this.usuarioService.role;
   // obtener parametro de la url
   public mes: string | null = '';
   public TotalesDias: any[] = [];

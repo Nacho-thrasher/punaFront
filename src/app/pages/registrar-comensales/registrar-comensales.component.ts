@@ -96,6 +96,12 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         this.registrosDiarios = registrosDiarios.filter((item) => {
           return item.uid != registrosDiarios[registrosDiarios.length - 1].uid;
         });
+        // foreach y agregar un numero a cada registro
+        this.registrosDiarios.forEach((item, index) => {
+          item.nro = index + 1;
+        });
+        // los ultimos 9 registros diarios
+        this.registrosDiarios = this.registrosDiarios.slice(Math.max(this.registrosDiarios.length - 6, 0));
         this.HoraComidaActual = horaComidaActual;
         this.Empresas = empresas;
         this.empresasFilter = empresas;

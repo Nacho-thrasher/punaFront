@@ -5,6 +5,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { SweetAlert2Helper } from 'src/app/helpers/sweet-alert-2.helper';
 import { Usuario } from 'src/models/usuarios/usuario.model';
 import { RegistroDiarioService } from './../../../services/registro-diario.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-mes-totales',
@@ -45,6 +47,30 @@ export class MesTotalesComponent implements OnInit {
     this.mes = this.route.snapshot.paramMap.get('mes');
     console.log('mes-totales.component.ts', this.mes);
     this.cargarTotalesDias()
+    // this.downloadPDF();
+  }
+
+  downloadPDF() {
+    console.log('descargar pdf');
+    // tomar this.totalDias json y convertirlo a pdf
+    //htmlTable
+    const data = document.getElementById('htmlTable')!;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(data, options).then((canvas) => {
+      const img = canvas.toDataURL('image/PNG');
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      doc.save('table.pdf');
+    })
+
   }
 
   cargarTotalesDias() {

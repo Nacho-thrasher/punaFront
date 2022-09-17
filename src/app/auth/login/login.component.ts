@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       next: (data) => {
         this.formSubmitted = false;
         this.sweetAlert2Helper.signedIn()
-
+        // console.log('login.component.ts, linea 77:',data);
       },
       error: (err) => {
         this.formSubmitted = false;

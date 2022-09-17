@@ -4,11 +4,23 @@
       <div class="col-12">
         <h3 class="text-center font-weight-lighter">Empresa: <span class="text-capitalize">{{empresa}}</span>, Fecha: {{ dia }} de <span class="text-capitalize">{{ mes }}</span></h3>
       </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-3">
+            <button class="btn btn-primary btn-sm"
+                (click)="downloadPDF()"
+            >
+              Descargar pdf
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-12 my-2">
     <!-- ? datatable -->
     <ngx-datatable
+    id="htmlTable"
     #myTable
     #tables
     class="material expandable"
@@ -18,8 +30,10 @@
     [headerHeight]="50"
     [footerHeight]="50"
     rowHeight="auto"
-    [limit]="15"
+    [limit]="30"
     [reorderable]="true"
+    [summaryRow]="true"
+    [summaryHeight]="55"
   >
     <ng-template #nameSummaryCell let-row="row" let-value="value">
       <div class="name-container">
@@ -94,7 +108,7 @@
       >
         <a
           class="sm-textTable"
-          >{{ value.dish ? 'si' : 'no' }}</a
+          >{{ value == 1 ? 'si' : 'no' }}</a
         >
       </ng-template>
     </ngx-datatable-column>
@@ -114,7 +128,7 @@
       >
         <a
           class="sm-textTable"
-          >{{ value.dish ? 'si' : 'no' }}</a
+          >{{ value == 1 ? 'si' : 'no' }}</a
         >
       </ng-template>
     </ngx-datatable-column>
@@ -134,7 +148,7 @@
       >
         <a
           class="sm-textTable"
-          >{{ value.dish ? 'si' : 'no' }}</a
+          >{{ value == 1 ? 'si' : 'no' }}</a
         >
       </ng-template>
     </ngx-datatable-column>
@@ -154,7 +168,7 @@
       >
         <a
           class="sm-textTable"
-          >{{ value.dish ? 'si' : 'no' }}</a
+          >{{ value == 1 ? 'si' : 'no' }}</a
         >
       </ng-template>
     </ngx-datatable-column>

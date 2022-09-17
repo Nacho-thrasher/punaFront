@@ -17,6 +17,7 @@ declare var jQuery: any;
 })
 export class HeaderComponent implements OnInit {
 
+  public Notificaciones: any[] = [];
   public usuario?: Usuario;
   public isActive: boolean = false;
   public roleUser: string = this.usuarioService.role;
@@ -38,6 +39,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.usuario = this.usuarioService.usuario;
     console.log('header: ',this.usuario);
+    // cargar de localStorage notficaciones
+    this.Notificaciones = JSON.parse(localStorage.getItem('notifications')!) || [];
+    console.log('notificaciones: ', this.Notificaciones);
   }
 
   logout(){

@@ -19,7 +19,8 @@ export class RegistroService {
     public dinner: Dinner,
     public usuario: Usuario,
     public empresa: Empresa,
-    public createdBy: Usuario
+    public createdBy: Usuario,
+    public nro?: number | null,
   ) { }
 
 }

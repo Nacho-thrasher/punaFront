@@ -40,6 +40,11 @@ export class UsuarioService {
     }
   }
 
+  //* get notifications
+  get notifications(): any {
+    return
+  }
+
   //* get user id
   get uid(): string {
     return this.usuario.uid || '';
@@ -79,6 +84,9 @@ export class UsuarioService {
         map((resp: any) => {
           this.usuario = resp.user;
           this.guardarStorage(resp.token, resp.menu);
+          //? guardar notificaciones en el localstorage
+          // si resp.notifications viene null, se guarda un array vacio
+          localStorage.setItem('notifications', JSON.stringify(resp.notificaciones || []));
           return true;
         }),
         //? catchError para manejar errores, of para retornar un observable vacio si hay error y no hay respuesta del servidor o si hay respuesta pero no hay token

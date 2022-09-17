@@ -288,19 +288,27 @@ export class ComensalesComponent implements OnInit, OnDestroy {
   submitExcel(){
     const nameColumn = Object.keys(this.jsonData[0]);
     const nuevoJson = this.jsonData.map((item: any) => {
+      const fullName = item[nameColumn[2]].toLowerCase();
+      let firstName; let lastName;
+      if (fullName.includes(',')) {
+        firstName = fullName.split(',')[1].trim();
+        lastName = fullName.split(',')[0].trim();
+      } else {
+        firstName = fullName.split(' ')[0].trim();
+        lastName = fullName.split(' ')[1].trim();
+      }
       return {
         contratista: item[nameColumn[0]].toLowerCase(),
         cuit: item[nameColumn[1]].toLowerCase(),
         empleado: item[nameColumn[2]].toLowerCase(),
-        cuil: item[nameColumn[3]].toLowerCase(),
+        firstName: firstName,
+        lastName: lastName,
+        cuil: (item[nameColumn[3]]).toString(),
         tipoDocumento: item[nameColumn[4]].toLowerCase(),
-        numeroDocumento: item[nameColumn[5]].toLowerCase(),
+        numeroDocumento: (item[nameColumn[5]]).toString(),
       }
     })
     // recortar json tomar los 5 primeros
-    const jsonCortado = nuevoJson.slice(0, 5);
-    console.log('nuevoJson: ', jsonCortado);
-    // tomar idEmpresa del form
     const empresaId = this.formGroup.get('empresaId')?.value;
     if (!empresaId) {
       this.sweetAlert2Helper.warning(

@@ -5,6 +5,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from 'src/models/usuarios/usuario.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistroDiarioService } from 'src/app/services/registro-diario.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-dias-totales',
@@ -14,6 +16,7 @@ import { RegistroDiarioService } from 'src/app/services/registro-diario.service'
 export class DiasTotalesComponent implements OnInit {
 
   public RegistrosEmpresa: any[] = [];
+  // public NuevoArrayRegistros: any[] = [];
   public mes: string | null = '';
   public dia: string | null = '';
   public empresa: string | null = '';
@@ -52,6 +55,34 @@ export class DiasTotalesComponent implements OnInit {
     .subscribe({
       next: (resp: any) => {
         this.RegistrosEmpresa = resp;
+        console.log(this.RegistrosEmpresa);
+        // mapear y si es un objeto agregar 1  y si no 0
+        this.RegistrosEmpresa.forEach((element: any) => {
+          if (Object.keys(element.breakfast).length > 0) {
+            element.breakfast = 1;
+          } else {
+            element.breakfast = 0;
+          }
+          if (Object.keys(element.lunch).length > 0) {
+            element.lunch = 1;
+          }
+          else {
+            element.lunch = 0;
+          }
+          if (Object.keys(element.dinner).length > 0) {
+            element.dinner = 1;
+          }
+          else {
+            element.dinner = 0;
+          }
+          if (Object.keys(element.afternoonSnack).length > 0) {
+            element.afternoonSnack = 1;
+          }
+          else {
+            element.afternoonSnack = 0;
+          }
+        });
+
         if(this.RegistrosEmpresa.length == 0) {
           this.sweetAlert2Helper.warning(
             'No hay registros',
@@ -73,5 +104,29 @@ export class DiasTotalesComponent implements OnInit {
       }
     })
   }
+
+  downloadPDF() {
+    console.log('descargar pdf');
+    // tomar this.totalDias json y convertirlo a pdf
+    //htmlTable
+    const data = document.getElementById('htmlTable')!;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(data, options).then((canvas) => {
+      const img = canvas.toDataURL('image/PNG');
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      doc.save('table.pdf');
+    })
+
+  }
+
 
 }

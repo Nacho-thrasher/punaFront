@@ -133,10 +133,10 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       empresa: ['', Validators.required],
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [''],
       typeDocument: ['', [Validators.required]],
       document: ['', [Validators.required, Validators.minLength(3)]],
-      cuil: ['', [Validators.required, Validators.minLength(3)]],
+      cuil: [''],
     })
     this.onFormGroupChanges3(formGroup3);
     return formGroup3;
@@ -414,6 +414,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
 
   crearComensal(): void {
     const comensal = this.formGroup3.value;
+    comensal.cuil = this.formGroup3.get('document')?.value;
     const userType = this.UserTypes.find((item) => {
       return item.name === 'user';
     });

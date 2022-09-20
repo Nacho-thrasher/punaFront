@@ -112,7 +112,7 @@ export class EmpresasComponent implements OnInit {
   createFormGroup(): FormGroup {
     const formGroup = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(3)]],
+      description: [''],
       city: ['', Validators.required],
       direction: ['', Validators.required],
       cuit: ['', [Validators.required, Validators.minLength(3)]],

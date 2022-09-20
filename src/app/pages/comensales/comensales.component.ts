@@ -284,28 +284,61 @@ export class ComensalesComponent implements OnInit, OnDestroy {
     fileReader.readAsArrayBuffer(this.file);
 
   }
-
   submitExcel(){
+    let linea = 0;
     const nameColumn = Object.keys(this.jsonData[0]);
     const nuevoJson = this.jsonData.map((item: any) => {
+      linea++;
+      console.log('item: ', item);
+      if(!item[nameColumn[5]]){
+        this.sweetAlert2Helper.error(
+          'Error',
+          `Falta el campo Nro. Doc. en la linea ${linea}`,
+          ()=>{},
+          false
+        )
+        return
+      }
+      if(!item[nameColumn[2]]) {
+        this.sweetAlert2Helper.error(
+          'Error',
+          `Falta el campo ${nameColumn[2]} en la linea ${linea}`,
+          ()=>{},
+          false
+        )
+        return
+      }
+      if(!item[nameColumn[1]]) {
+        this.sweetAlert2Helper.error(
+          'Error',
+          `Falta el campo ${nameColumn[1]} en la linea ${linea}`,
+          ()=>{},
+          false
+        )
+        return
+      }
+
       const fullName = item[nameColumn[2]].toLowerCase();
       let firstName; let lastName;
       if (fullName.includes(',')) {
         firstName = fullName.split(',')[1].trim();
         lastName = fullName.split(',')[0].trim();
       } else {
-        firstName = fullName.split(' ')[0].trim();
-        lastName = fullName.split(' ')[1].trim();
+        let nospaces = fullName.trim();
+        firstName = nospaces.split(' ')[0].trim();
+        lastName = nospaces.split(' ')[1].trim();
       }
+      console.log('firstName: ', firstName, 'lastName: ', lastName);
       return {
         contratista: item[nameColumn[0]].toLowerCase(),
         cuit: item[nameColumn[1]].toLowerCase(),
         empleado: item[nameColumn[2]].toLowerCase(),
         firstName: firstName,
         lastName: lastName,
-        cuil: (item[nameColumn[3]]).toString(),
+        cuil: (item[nameColumn[3]]).toString() || (item[nameColumn[5]]).toString(),
         tipoDocumento: item[nameColumn[4]].toLowerCase(),
         numeroDocumento: (item[nameColumn[5]]).toString(),
+        linea: linea
       }
     })
     // recortar json tomar los 5 primeros
@@ -319,7 +352,6 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       );
       return
     }
-    let i = 0;
     const toast = Swal.mixin({
       title: 'Cargando comensales',
       html: 'No cierre esta ventana',
@@ -328,7 +360,9 @@ export class ComensalesComponent implements OnInit, OnDestroy {
         Swal.showLoading();
       }
     });
+    console.log('nuevoJson: ', nuevoJson);
     // convertir array de json a array de observables
+    let errorIndex = 0;
     of(nuevoJson).pipe(
       // recorrer y esperar a que termine cada uno
       mergeMap((item) => {
@@ -337,6 +371,7 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       }),
       // ejecutar cada uno de los observables
       concatMap((item) => {
+        errorIndex++;
         return this.usuarioService.crearComensalesExcel(item, empresaId);
       })
     ).subscribe({
@@ -345,6 +380,15 @@ export class ComensalesComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.log(err);
+        // cerrar modal en error index
+        $('#crearComensal').modal('hide');
+        this.sweetAlert2Helper.error(
+          'Error al cargar los comensales',
+          `${err.error.msg} ${errorIndex}`,
+          ()=>{},
+          false
+        );
+        return
       },
       complete: () => {
         console.log('complete');

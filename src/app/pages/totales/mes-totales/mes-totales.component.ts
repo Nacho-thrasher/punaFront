@@ -8,6 +8,8 @@ import { RegistroDiarioService } from './../../../services/registro-diario.servi
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+declare var $: any;
+// declare var jsPDF: any;
 @Component({
   selector: 'app-mes-totales',
   templateUrl: './mes-totales.component.html',
@@ -15,6 +17,9 @@ import html2canvas from 'html2canvas';
 })
 export class MesTotalesComponent implements OnInit {
 
+  public idDonwloadPdf: boolean = false;
+  public fechaHoy: any = new Date().toLocaleDateString('es-AR');
+  public horaActual: any = new Date().toLocaleTimeString('es-AR');
   roleUser: string = this.usuarioService.role;
   // obtener parametro de la url
   public mes: string | null = '';
@@ -50,26 +55,62 @@ export class MesTotalesComponent implements OnInit {
     // this.downloadPDF();
   }
 
+
   downloadPDF() {
-    console.log('descargar pdf');
-    // tomar this.totalDias json y convertirlo a pdf
+    this.idDonwloadPdf = true;
     //htmlTable
     const data = document.getElementById('htmlTable')!;
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
-      scale: 3
+      scale: 4,
     };
-    html2canvas(data, options).then((canvas) => {
-      const img = canvas.toDataURL('image/PNG');
-      const bufferX = 15;
-      const bufferY = 15;
-      const imgProps = (doc as any).getImageProperties(img);
-      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-      doc.save('table.pdf');
-    })
+    // agregar imagen de cabecera
+    var img = new Image();
+    img.src = 'https://res.cloudinary.com/hysmatafuegos/image/upload/v1663884304/caratula_iiijz8.png';
+    img.onload = function () {
+      // cargar imagen de cabecera logo
+      // doc.addImage(img, 'PNG', 0, 0, 500, 100);
+      doc.addImage(img, 50, 10, 500, 80)
+      // cargar tabla
+
+      html2canvas(data, options).then((canvas) => {
+        // bajar la tabla 100px
+        // const imgData = canvas.toDataURL('image/png');
+        // const imgWidth = 500;
+        // const pageHeight = 800;
+        // const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        // let heightLeft = imgHeight;
+        // let position = 0;
+        // doc.addImage(imgData, 'PNG', 0, 100, imgWidth, imgHeight);
+        // heightLeft -= pageHeight;
+        // while (heightLeft >= 0) {
+        //   position = heightLeft - imgHeight;
+        //   doc.addPage();
+        //   doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        //   heightLeft -= pageHeight;
+        // }
+        // doc.save('tableToPdf.pdf');
+        // escribir arriba de la tabla fecha y hora
+        const fechaHoy: any = new Date().toLocaleDateString('es-AR');
+        const horaActual: any = new Date().toLocaleTimeString('es-AR');
+        doc.addFont('ArialMS', 'Arial', 'normal');
+        doc.setFont('Arial');
+        doc.setFontSize(10);
+        doc.text(`Planeta Puna - Posco - ${fechaHoy} - ${horaActual}`,15,110);
+
+        const img = canvas.toDataURL('image/PNG');
+        const bufferX = 15;
+        // bajar la tabla 100px
+        const bufferY = 120;
+        const imgProps = (doc as any).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+        doc.save('table.pdf');
+      })
+
+    };
 
   }
 

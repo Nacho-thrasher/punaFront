@@ -319,6 +319,14 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
 
   }
 
+  selectRadio(menu: any) {
+    console.log('menu', menu);
+    this.formGroup.get('tipo')?.setValue(menu.uid);
+    // seleccionar radio button
+    $(`#${menu.type}`).prop('checked', true);
+
+  }
+
   handleClick(number: number): void {
     // setear a ndocu el valor despues del anterior valor
     const oldValue = this.formGroup.get('nDocu')?.value;

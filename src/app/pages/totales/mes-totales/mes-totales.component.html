@@ -7,11 +7,14 @@
     </button>
   </div>
 </div>
-<div class="row">
+<div class="row" id="htmlTable">
+  <div class="col-12 mt-3">
+
+  </div>
   <div class="col-12 my-2">
     <!-- ? datatable -->
     <ngx-datatable
-    id="htmlTable"
+
     #myTable
     #tables
     class="material expandable"
@@ -26,6 +29,7 @@
     [summaryRow]="true"
     [summaryHeight]="55"
   >
+
     <!--  -->
     <ngx-datatable-column name="Index" [minWidth]="60" [width]="80" [maxWidth]="50">
       <ng-template

@@ -149,24 +149,24 @@
         <div class="row" *ngIf="typeDocument == 'dni'">
           <div class="col">
             <div class="row">
-              <div (click)="handleClick(7)" class="col bg-white text-center border radius p-2 m-1">7</div>
-              <div (click)="handleClick(8)" class="col bg-white text-center border radius p-2 m-1">8</div>
-              <div (click)="handleClick(9)" class="col bg-white text-center border radius p-2 m-1">9</div>
+              <div (click)="handleClick(7)" class="col bg-white text-center border radius h4 p-3 m-1">7</div>
+              <div (click)="handleClick(8)" class="col bg-white text-center border radius h4 p-3 m-1">8</div>
+              <div (click)="handleClick(9)" class="col bg-white text-center border radius h4 p-3 m-1">9</div>
             </div>
             <div class="row">
-              <div (click)="handleClick(4)" class="col bg-white text-center border radius p-2 m-1">4</div>
-              <div (click)="handleClick(5)" class="col bg-white text-center border radius p-2 m-1">5</div>
-              <div (click)="handleClick(6)" class="col bg-white text-center border radius p-2 m-1">6</div>
+              <div (click)="handleClick(4)" class="col bg-white text-center border radius h4 p-3 m-1">4</div>
+              <div (click)="handleClick(5)" class="col bg-white text-center border radius h4 p-3 m-1">5</div>
+              <div (click)="handleClick(6)" class="col bg-white text-center border radius h4 p-3 m-1">6</div>
             </div>
             <div class="row">
-              <div (click)="handleClick(1)" class="col bg-white text-center border radius p-2 m-1">1</div>
-              <div (click)="handleClick(2)" class="col bg-white text-center border radius p-2 m-1">2</div>
-              <div (click)="handleClick(3)" class="col bg-white text-center border radius p-2 m-1">3</div>
+              <div (click)="handleClick(1)" class="col bg-white text-center border radius h4 p-3 m-1">1</div>
+              <div (click)="handleClick(2)" class="col bg-white text-center border radius h4 p-3 m-1">2</div>
+              <div (click)="handleClick(3)" class="col bg-white text-center border radius h4 p-3 m-1">3</div>
             </div>
             <div class="row">
-              <div class="col bg-white text-center border radius p-2 m-1">-</div>
-              <div (click)="handleClick(0)" class="col bg-white text-center border radius p-2 m-1">0</div>
-              <div (click)="handleBorrar()" class="col bg-white text-center border radius p-2 m-1">
+              <div class="col bg-white text-center border radius h4 p-3 m-1">-</div>
+              <div (click)="handleClick(0)" class="col bg-white text-center border radius h4 p-3 m-1">0</div>
+              <div (click)="handleBorrar()" class="col bg-white text-center border radius h4 p-3 m-1">
                 <!-- icon borrar -->
                 <i class="fas fa-backspace"></i>
               </div>
@@ -180,8 +180,8 @@
             <div class="form-check form-check-inline"
               *ngFor="let menu of menus"
             >
-              <input formControlName="tipo" class="form-check-input" type="radio" id="inlineRadio1" [value]="menu.uid">
-              <label style="font-size: 1.3rem;" class="form-check-label text-capitalize" for="inlineRadio1">{{menu.type}}</label>
+              <input formControlName="tipo" class="form-check-input size-input" type="radio" [id]="menu.type" [value]="menu.uid">
+              <label style="font-size: 1.5rem;" class="form-check-label text-capitalize" (click)="selectRadio(menu)" for="inlineRadio1">{{menu.type}}</label>
             </div>
           </div>
 

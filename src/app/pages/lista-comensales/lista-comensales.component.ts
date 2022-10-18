@@ -62,11 +62,26 @@ export class ListaComensalesComponent implements OnInit {
   createdBySearch(event: any) {
     let filter = event.target.value.toLowerCase();
     this.rows = this.filteredData.filter((item:any) => {
-      console.log('item',item.createdBy);
+      console.log('item buscado',item.createdBy);
       // buscar coincidencias dentro de objeto createdBy
       if (item.createdBy.userName.toLowerCase().indexOf(filter) !== -1) {
         return true;
       } else if (item.createdBy.document.toLowerCase().indexOf(filter) !== -1) {
+        return true;
+      }
+      return;
+    });
+    this.table.offset = 0;
+    console.log('rows',this.rows);
+  }
+  empleadoSearch(event: any) {
+    let filter = event.target.value.toLowerCase();
+    this.rows = this.filteredData.filter((item:any) => {
+      console.log('item buscado',item.usuario);
+      // buscar coincidencias dentro de objeto createdBy
+      if (item.usuario.firstName.toLowerCase().indexOf(filter) !== -1) {
+        return true;
+      } else if (item.usuario.firstName.toLowerCase().indexOf(filter) !== -1) {
         return true;
       }
       return;

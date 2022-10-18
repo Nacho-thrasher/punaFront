@@ -360,7 +360,8 @@ export class ComensalesComponent implements OnInit, OnDestroy {
         Swal.showLoading();
       }
     });
-    console.log('nuevoJson: ', nuevoJson);
+    // const fiveItems = nuevoJson.slice(0, 5);
+    // console.log('nuevoJson: ', fiveItems);
     // convertir array de json a array de observables
     let errorIndex = 0;
     of(nuevoJson).pipe(

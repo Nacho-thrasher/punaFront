@@ -329,14 +329,20 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
 
   handleClick(number: number): void {
     // setear a ndocu el valor despues del anterior valor
-    const oldValue = this.formGroup.get('nDocu')?.value;
-    const newValue = oldValue + number;
+    const oldValue = this.formGroup.get('nDocu')?.value || '';
+    const newValue = `${oldValue}${number}`;
+
     this.formGroup.get('nDocu')?.setValue(newValue);
+
+
+
+    // this.formGroup.get('nDocu')?.setValue(newValue);
   }
   handleBorrar(): void {
     // borrar el ultimo valor del ndocu
     const oldValue = this.formGroup.get('nDocu')?.value;
     const newValue = oldValue.slice(0, -1);
+    console.log('newValue:', newValue);
     this.formGroup.get('nDocu')?.setValue(newValue);
   }
 
@@ -415,7 +421,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
           this.getData();
         }
       })
-
+      this.formGroup.reset();
       $('#modalCrearRegistroManual').modal('hide');
     }
   }

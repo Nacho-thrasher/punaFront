@@ -17,6 +17,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public isActive: boolean = false;
   public imgSubscription?: Subscription;
   public imagen: string = '';
+  public roleUser = this.usuarioService.role;
+  public isComensal: boolean = false;
 
   constructor(
     public sidebarService: SidebarService,
@@ -37,6 +39,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.isComensal = this.roleUser == 'comensal';
 
     $('[data-widget="treeview"]').Treeview("init");
     console.log(`sidebar menu`, this.sidebarService.menu);

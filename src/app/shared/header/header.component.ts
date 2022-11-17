@@ -26,6 +26,8 @@ export class HeaderComponent implements OnInit {
   public formGroup: FormGroup;
   public idSelected: string | null = null;
 
+  public isComensal: boolean = false;
+
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
@@ -37,6 +39,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isComensal = this.roleUser == 'comensal';
     this.usuario = this.usuarioService.usuario;
     console.log('header: ',this.usuario);
     // cargar de localStorage notficaciones

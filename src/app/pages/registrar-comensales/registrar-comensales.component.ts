@@ -51,6 +51,9 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   // other vars
   public typeDocument: string = 'dni'
   public isLoad: boolean = false;
+  // metodo get role
+  public roleUser = this.usuarioService.role;
+  public isComensal: boolean = false;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -72,7 +75,9 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // cargar usuarios comensales
+    this.isComensal = this.roleUser == 'comensal';
     this.getData();
+    console.log('this.isComensal =>', this.isComensal);
   }
   // usar combine latest
 
@@ -92,6 +97,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         this.menus = menus; //* menues, saludable etc
         this.todosRegistrosDiariosDelDia = registrosDiarios;
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
+        console.log('ultimoRegistroDiario =>', this.ultimoRegistroDiario);
         this.cantidadRegistrosDiarios = registrosDiarios.length;
         this.registrosDiarios = registrosDiarios.filter((item) => {
           return item.uid != registrosDiarios[registrosDiarios.length - 1].uid;

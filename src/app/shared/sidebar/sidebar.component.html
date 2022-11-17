@@ -2,11 +2,16 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a routerLink="/" class="brand-link">
+  <a *ngIf="!isComensal" routerLink="/" class="brand-link">
     <!-- elevation-3 -->
     <img src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1659745319/logo_txt_vector_lsa2bn.png" alt="Planeta Puna Logo" class="brand-image" style="opacity: .8">
     <span class="brand-text font-weight-light">Planeta Puna</span>
   </a>
+  <div *ngIf="isComensal" class="brand-link">
+    <!-- elevation-3 -->
+    <img src="https://res.cloudinary.com/hysmatafuegos/image/upload/v1659745319/logo_txt_vector_lsa2bn.png" alt="Planeta Puna Logo" class="brand-image" style="opacity: .8">
+    <span class="brand-text font-weight-light">Planeta Puna</span>
+  </div>
   <!-- Sidebar -->
   <div class="sidebar">
     <!-- Sidebar user (optional) -->
@@ -25,7 +30,8 @@
     </div> -->
     <!-- Sidebar Menu -->
     <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+      <ul *ngIf="!isComensal"
+      class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <!-- @ Inicio -->

@@ -1,5 +1,5 @@
-<div class="container-fluid">
-  <div class="row">
+<div class="container">
+  <div *ngIf="!isComensal" class="row">
     <div class="col">
       <!-- button crear registro manual -->
       <button
@@ -18,7 +18,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-8 col-sm-12 border-radius p-2">
+
+    <!-- <div class="col-md-8 col-sm-12 border-radius p-2">
       <h4 class="text-capitalize">Comida: {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
           HoraComidaActual?.tipo == 'breakfast' ? 'desayuno' :
           HoraComidaActual?.tipo == 'afternoonSnack' ? 'merienda' :
@@ -31,7 +32,6 @@
           *ngFor="let registroDiario of registrosDiarios; let i = index"
         >
           <div class="card h-100">
-            <!-- <img src="..." class="card-img-top" alt="..."> -->
             <div class="card-body">
               <h5 class="card-title text-capitalize">{{registroDiario.usuario.userName}}</h5>
               <p class="card-text">
@@ -57,7 +57,6 @@
             </div>
             <div class="card-footer">
               <div class="row">
-                <!-- en nro colocar un length  -->
                 <div class="col">Nro: {{registroDiario.nro}}</div>
                 <div class="col">Fecha: {{registroDiario.date}} </div>
               </div>
@@ -66,23 +65,21 @@
         </div>
 
       </div>
-    </div>
-    <div class="col-md-4 col-sm-12 border-radius p-2">
+    </div> -->
+
+    <div class="col-md-8 mx-auto col-sm-12 border-radius p-2">
       <h4 class="text-capitalize">{{fechaHoy}}</h4>
       <hr>
 
       <!-- card -->
       <div class="card border-radius">
-        <div class="card-body" style="padding: 0.5rem;">
-          <!-- <h5 class="card-title py-2">
+        <div class="card-body p-4">
 
-          </h5> -->
-          <p class="card-text">
+          <!-- <p class="card-text">
             <span>
               Nombre: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.userName : ''}}
             </span><br>
             <span>
-              <!-- salto de linea -->
               Empresa: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.empresa!.name : ''}}
             </span><br>
             <span>
@@ -92,21 +89,98 @@
               Desayuno: {{ultimoRegistroDiario ? ultimoRegistroDiario!.breakfast.dish : ''}}
             </span>
             <span *ngIf="ultimoRegistroDiario?.lunch?.dish">
-              Almuerzo: {{ultimoRegistroDiario ? ultimoRegistroDiario!.lunch.dish : ''}}
             </span>
             <span *ngIf="ultimoRegistroDiario?.afternoonSnack?.dish">
               Merienda: {{ultimoRegistroDiario ? ultimoRegistroDiario!.afternoonSnack.dish : ''}}
             </span>
             <span *ngIf="ultimoRegistroDiario?.dinner?.dish">
-            Cena: {{ultimoRegistroDiario ? ultimoRegistroDiario!.dinner.dish : ''}}
+              Cena: {{ultimoRegistroDiario ? ultimoRegistroDiario!.dinner.dish : ''}}
             </span>
-            <!-- <hr> -->
-          </p>
-          <hr>
-          <div class="row">
-            <div class="col">Nro: {{cantidadRegistrosDiarios}}</div>
-            <div class="col">Fecha: {{ultimoRegistroDiario ? ultimoRegistroDiario!.date : '' }} </div>
+          </p> -->
+
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Nombre:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.userName : ''}}
+                </span>
+              </div>
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Empresa:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.empresa!.name : ''}}
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  DNI:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario!.document : ''}}
+                </span>
+              </div>
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Desayuno:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.breakfast.dish : 'No registrado'}}
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Almuerzo:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.lunch.dish : ''}}
+                </span>
+              </div>
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Merienda:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.afternoonSnack.dish : ''}}
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Cena:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.dinner.dish : ''}}
+                </span>
+              </div>
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Fecha:
+                </h3>
+                <span class="text-muted">
+                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.date : '' }}
+                </span>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-12">
+                <hr>
+              </div>
+              <div class="col">Nro: {{cantidadRegistrosDiarios}}</div>
+              <div class="col">Fecha: {{ultimoRegistroDiario ? ultimoRegistroDiario!.date : '' }} </div>
+            </div> -->
           </div>
+
+
         </div>
       </div>
       <!-- form para ingresar dni con numeros de 0 a 9 -->
@@ -174,7 +248,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row p-2">
           <!-- radius 2 opciones normal o dieta -->
           <div class="col text-center p-2 m-1 ">
             <div class="form-check form-check-inline"
@@ -188,7 +262,8 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <button (click)="registrarComensal()" [disabled]="!formGroup.valid" type="button" class="btn btn-primary btn-sm float-left">
+            <button (click)="registrarComensal()" [disabled]="!formGroup.valid" type="button"
+            class="btn btn-primary btn-lg">
               <i class="fas fa-check"></i> Cargar
             </button>
           </div>
@@ -202,7 +277,13 @@
 
 <!-- * Modal crear registro manual -->
 <!-- ? modal crear comensal -->
-<div class="modal fade" id="modalCrearRegistroManual" tabindex="-1" role="dialog" aria-labelledby="modalCrearRegistroManualLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="modalCrearRegistroManual"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalCrearRegistroManualLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">

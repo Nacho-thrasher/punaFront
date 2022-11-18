@@ -190,17 +190,28 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     }
     else{
       //* si existe o no registro diario A la misma hora
-      // const horaComidaActual = this.HoraComidaActual?.hora;
+      console.log('existe el usuario', this.todosRegistrosDiariosDelDia);
+
       const registroExist = this.todosRegistrosDiariosDelDia.filter((item: any) => {
         if (item.usuario.uid == usuario?.uid) {
           return item;
         }
       })
-      console.log('registroExist', registroExist);
-      console.log('comida actual', this.HoraComidaActual?.tipo);
+
       const horaComidatipo: string = this.HoraComidaActual!.tipo;
+      console.log('registro =>', {
+        registroExist,
+        horaComidatipo,
+      });
+
+
+
       if (registroExist.length > 0) {
-        // si horaComidaActual.tipo es breakfast y registroExist.breakfast tiene valor
+        console.log('existe registro diario =>', {
+          horaComidatipo,
+          registroExist
+        });
+
         if (horaComidatipo == 'breakfast' && registroExist.find((item: any) => { if (Object.keys(item.breakfast).length > 0) return item })) {
           console.log('ya registro desayuno');
           this.sweetAlert2Helper.error(
@@ -228,7 +239,9 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
             false
           );
         }
-        else if (horaComidatipo == 'afternoonSnack' && registroExist.find((item: any) => { if (Object.keys(item.afternoonSnack).length > 0) return item })) {
+        else if (horaComidatipo == 'afternoonSnack' && registroExist.find((item: any) => {
+          if (Object.keys(item.afternoonSnack).length > 0) return item
+        })) {
           console.log('ya registro merienda');
           this.sweetAlert2Helper.error(
             'Error',
@@ -237,46 +250,46 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
             false
           );
         }
-        // else{
-        //   this.usuarioComensal = usuario;
-        //   //* 1 armar objeto a mandar
-        //   const args = {
-        //     idUser: this.usuarioComensal.uid,
-        //     idMenu: this.formGroup.value.tipo,
-        //     idCompany: this.usuarioComensal!.empresa!.uid,
-        //   }
-        //   console.log('mostrar se envio: ', args);
-        //   //* 2 mandar objeto a servicio
-        //   this.registroDiarioService.crearRegistroDiario(args)
-        //   .subscribe({
-        //     next: (res) => {
-        //       console.log('registro diario: ', res);
-        //       this.formSubmitted = true;
-        //       this.sweetAlert2Helper.success(
-        //         'Registro exitoso',
-        //         'El registro se realizo correctamente',
-        //         () => {
-        //           this.formGroup.reset();
-        //           this.formSubmitted = false;
-        //         },
-        //         false
-        //       );
-        //     },
-        //     error: (err) => {
-        //       console.log(err);
-        //       this.sweetAlert2Helper.error(
-        //         'Error',
-        //         'No se pudo registrar el comensal',
-        //         () => {},
-        //         false
-        //       );
-        //       return
-        //     },
-        //     complete: () => {
-        //       this.getData();
-        //     }
-        //   })
-        // }
+        else{
+          this.usuarioComensal = usuario;
+          //* 1 armar objeto a mandar
+          const args = {
+            idUser: this.usuarioComensal.uid,
+            idMenu: this.formGroup.value.tipo,
+            idCompany: this.usuarioComensal!.empresa!.uid,
+          }
+          console.log('mostrar se envio: ', args);
+          //* 2 mandar objeto a servicio
+          this.registroDiarioService.crearRegistroDiario(args)
+          .subscribe({
+            next: (res) => {
+              console.log('registro diario: ', res);
+              this.formSubmitted = true;
+              this.sweetAlert2Helper.success(
+                'Registro exitoso',
+                'El registro se realizo correctamente',
+                () => {
+                  this.formGroup.reset();
+                  this.formSubmitted = false;
+                },
+                false
+              );
+            },
+            error: (err) => {
+              console.log(err);
+              this.sweetAlert2Helper.error(
+                'Error',
+                'No se pudo registrar el comensal',
+                () => {},
+                false
+              );
+              return
+            },
+            complete: () => {
+              this.getData();
+            }
+          })
+        }
       }
       else{
         this.usuarioComensal = usuario;

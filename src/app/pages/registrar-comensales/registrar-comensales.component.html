@@ -69,6 +69,11 @@
 
     <div class="col-md-8 mx-auto col-sm-12 border-radius p-2">
       <h4 class="text-capitalize">{{fechaHoy}}</h4>
+      <h4 class="text-capitalize">Comida: {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
+        HoraComidaActual?.tipo == 'breakfast' ? 'desayuno' :
+        HoraComidaActual?.tipo == 'afternoonSnack' ? 'merienda' :
+        HoraComidaActual?.tipo == 'dinner' ? 'cena' : ''
+      }}</h4>
       <hr>
 
       <!-- card -->

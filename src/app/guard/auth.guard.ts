@@ -25,7 +25,6 @@ export class AuthGuard implements CanActivate, CanLoad {
         // tap para ejecutar una funcion antes de la respuesta
         tap(estaAutenticado => {
           if (!estaAutenticado) {
-            console.log('canload: ', estaAutenticado);
             this.router.navigateByUrl('/login');
           }
         })
@@ -44,7 +43,6 @@ export class AuthGuard implements CanActivate, CanLoad {
         // tap para ejecutar una funcion antes de la respuesta
         tap(estaAutenticado => {
           if (!estaAutenticado) {
-            console.log('canactivate: ', estaAutenticado);
             this.router.navigateByUrl('/login');
           }
         })

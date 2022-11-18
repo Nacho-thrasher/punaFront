@@ -30,14 +30,13 @@
     </div> -->
     <!-- Sidebar Menu -->
     <nav class="mt-2">
-      <ul *ngIf="!isComensal"
-      class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <!-- @ Inicio -->
         <li *ngFor="let item of sidebarService.menu" class="nav-item">
 
-          <a style="cursor: pointer;"
+          <a *ngIf="!isComensal" style="cursor: pointer;"
             [routerLink]="item.url"
             [routerLinkActiveOptions]="{exact:true}"
             routerLinkActive="active"

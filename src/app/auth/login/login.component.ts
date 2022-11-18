@@ -41,7 +41,16 @@ export class LoginComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.formSubmitted = false;
+        const roleUser = data.user.user_type.name;
         this.sweetAlert2Helper.signedIn()
+        if (roleUser == 'comensal') {
+          console.log('redirigir comensal');
+          this.ngZone.run(() => this.router.navigateByUrl('/dashboard/registrar-comensales'));
+        } else {
+          this.ngZone.run(() => {
+            this.router.navigate(['/']);
+          });
+        }
         // console.log('login.component.ts, linea 77:',data);
       },
       error: (err) => {
@@ -55,10 +64,9 @@ export class LoginComponent implements OnInit {
         )
       },
       complete: () => {
-        console.log('complete');
-        this.ngZone.run(() => {
-          this.router.navigate(['/']);
-        });
+        // this.ngZone.run(() => {
+        //   this.router.navigate(['/']);
+        // });
       }
     })
 

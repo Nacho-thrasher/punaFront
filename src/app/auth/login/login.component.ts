@@ -16,7 +16,7 @@ declare var Jquery: any;
 export class LoginComponent implements OnInit {
 
   public formSubmitted = false;
-
+  public roleUser: any;
   constructor(
     private router:Router,
     private fb:FormBuilder,
@@ -41,17 +41,8 @@ export class LoginComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.formSubmitted = false;
-        const roleUser = data.user.user_type.name;
+        this.roleUser = data.user.user_type.name;
         this.sweetAlert2Helper.signedIn()
-        if (roleUser == 'comensal') {
-          console.log('redirigir comensal');
-          this.ngZone.run(() => this.router.navigateByUrl('/dashboard/registrar-comensales'));
-        } else {
-          this.ngZone.run(() => {
-            this.router.navigate(['/']);
-          });
-        }
-        // console.log('login.component.ts, linea 77:',data);
       },
       error: (err) => {
         this.formSubmitted = false;
@@ -67,6 +58,14 @@ export class LoginComponent implements OnInit {
         // this.ngZone.run(() => {
         //   this.router.navigate(['/']);
         // });
+        if (this.roleUser == 'comensal') {
+          console.log('redirigir comensal');
+          this.ngZone.run(() => this.router.navigateByUrl('/dashboard/registrar-comensales'));
+        } else {
+          //* refresh page
+          this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
+
+        }
       }
     })
 

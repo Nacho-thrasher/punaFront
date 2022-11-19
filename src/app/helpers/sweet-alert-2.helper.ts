@@ -201,6 +201,21 @@ export class SweetAlert2Helper {
     })
 
   }
+
+  public showLoading() {
+    Swal.fire({
+      title: 'Cargando...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+  }
+
+  public hideLoading() {
+    Swal.close();
+  }
+
 }
 
 

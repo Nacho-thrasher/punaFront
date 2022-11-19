@@ -54,6 +54,10 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   // metodo get role
   public roleUser = this.usuarioService.role;
   public isComensal: boolean = false;
+  public ultimaComidaNombre: string = '';
+  public ultimaComidaTipo: string = '';
+  public cargoUsuarioComensal: boolean = false;
+  public usuarioComensalDetalle: any | null = null;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -77,7 +81,6 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     // cargar usuarios comensales
     this.isComensal = this.roleUser == 'comensal';
     this.getData();
-    console.log('this.isComensal =>', this.isComensal);
   }
   // usar combine latest
 
@@ -94,10 +97,22 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     .subscribe({
       next: ([usuarios, menus, registrosDiarios, horaComidaActual, empresas, userTypes]) => {
         this.usuarios = usuarios;
+        console.log('usuarios => ',this.usuarios);
         this.menus = menus; //* menues, saludable etc
         this.todosRegistrosDiariosDelDia = registrosDiarios;
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
-        console.log('ultimoRegistroDiario =>', this.ultimoRegistroDiario);
+        this.ultimaComidaTipo =
+        Object.keys(this.ultimoRegistroDiario.dinner).length > 0 ? 'Cena' :
+        Object.keys(this.ultimoRegistroDiario.lunch).length > 0 ? 'Almuerzo' :
+        Object.keys(this.ultimoRegistroDiario.breakfast).length > 0 ? 'Desayuno' :
+        Object.keys(this.ultimoRegistroDiario.afternoonSnack).length > 0 ? 'Merienda' : '';
+        this.ultimaComidaNombre =
+        Object.keys(this.ultimoRegistroDiario.dinner).length > 0 ? this.ultimoRegistroDiario.dinner.dish :
+        Object.keys(this.ultimoRegistroDiario.lunch).length > 0 ? this.ultimoRegistroDiario.lunch.dish :
+        Object.keys(this.ultimoRegistroDiario.breakfast).length > 0 ? this.ultimoRegistroDiario.breakfast.dish :
+        Object.keys(this.ultimoRegistroDiario.afternoonSnack).length > 0 ? this.ultimoRegistroDiario.afternoonSnack.dish : '';
+        console.log('ultimo registro diario => ',this.ultimoRegistroDiario);
+
         this.cantidadRegistrosDiarios = registrosDiarios.length;
         this.registrosDiarios = registrosDiarios.filter((item) => {
           return item.uid != registrosDiarios[registrosDiarios.length - 1].uid;
@@ -162,6 +177,36 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       }
     })
   }
+  cargarUsuarioComensal(): void {
+    //* cargar en la tarjeta el usuario comensal
+    const form = this.formGroup.value;
+    let ndocu = form.nDocu;
+    //* asegurarse que exista ndocu
+    if (ndocu) {
+      //* pasarle trim para que no tenga espacios
+      ndocu = ndocu.trim();
+    }
+    const usuarioFind = this.usuarios.find((item) => {
+      return item.document == ndocu;
+    });
+    if (usuarioFind) {
+      this.cargoUsuarioComensal = true;
+      this.usuarioComensalDetalle = usuarioFind;
+    } else {
+      this.sweetAlert2Helper.error(
+        'error',
+        'No se encontro el usuario',
+        () => {
+          this.cargoUsuarioComensal = false;
+        },
+        false
+      );
+    }
+
+  }
+  cancelarCargarUsuarioComensal(): void {
+    this.cargoUsuarioComensal = false;
+  }
   validarDni(): void {
     console.log('validar dni');
     const ndocu = this.formGroup.get('nDocu')?.value;
@@ -172,13 +217,28 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   registrarComensal(): void {
+    console.log('registrar comensal', this.HoraComidaActual);
+    if (this.HoraComidaActual == null) {
+      this.sweetAlert2Helper.error(
+        'error',
+        'No se puede registrar el comensal fuera de las horas de comida',
+        () => {
+          this.cargoUsuarioComensal = false;
+          //* resetear el formGroup
+          this.formGroup.reset();
+        },
+        false
+      );
+      return;
+    }
+
     //* si existe o no usuario
     const dni = this.formGroup.get('nDocu')?.value.trim();
     const usuario = this.usuarios.find((item) => {
       return item.document == (dni).toString();
     });
+    this.cargoUsuarioComensal = false;
     if (!usuario) {
       console.log('no existe el usuario');
       this.sweetAlert2Helper.error(
@@ -199,10 +259,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
       })
 
       const horaComidatipo: string = this.HoraComidaActual!.tipo;
-      console.log('registro =>', {
-        registroExist,
-        horaComidatipo,
-      });
+      console.log('horaComidatipo', horaComidatipo);
 
 
 

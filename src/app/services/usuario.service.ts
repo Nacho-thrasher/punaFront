@@ -109,6 +109,7 @@ export class UsuarioService {
     console.log('usuario service linea 110:',usuario);
     return this.http.post(`${base_url}/auth`, usuario).pipe(
       map((resp: any) => {
+        this.usuario = resp.user;
         this.guardarStorage(resp.token, resp.menu);
         return resp;
       })

@@ -107,7 +107,8 @@ export class DiasTotalesComponent implements OnInit {
     })
   }
 
-  downloadPDF() {
+  downloadPDF(): any {
+    this.sweetAlert2Helper.showLoading();
     //htmlTable
     const data = document.getElementById('htmlTable')!;
     const doc = new jsPDF('p', 'pt', 'a4');
@@ -118,30 +119,11 @@ export class DiasTotalesComponent implements OnInit {
     // agregar imagen de cabecera
     var img = new Image();
     img.src = 'https://res.cloudinary.com/hysmatafuegos/image/upload/v1663884304/caratula_iiijz8.png';
+    const that = this;
     img.onload = function () {
-      // cargar imagen de cabecera logo
-      // doc.addImage(img, 'PNG', 0, 0, 500, 100);
       doc.addImage(img, 50, 10, 500, 60)
       // cargar tabla
-
       html2canvas(data, options).then((canvas) => {
-        // bajar la tabla 100px
-        // const imgData = canvas.toDataURL('image/png');
-        // const imgWidth = 500;
-        // const pageHeight = 800;
-        // const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        // let heightLeft = imgHeight;
-        // let position = 0;
-        // doc.addImage(imgData, 'PNG', 0, 100, imgWidth, imgHeight);
-        // heightLeft -= pageHeight;
-        // while (heightLeft >= 0) {
-        //   position = heightLeft - imgHeight;
-        //   doc.addPage();
-        //   doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        //   heightLeft -= pageHeight;
-        // }
-        // doc.save('tableToPdf.pdf');
-        // escribir arriba de la tabla fecha y hora
         const fechaHoy: any = new Date().toLocaleDateString('es-AR');
         const horaActual: any = new Date().toLocaleTimeString('es-AR');
         doc.setFontSize(10);
@@ -156,8 +138,8 @@ export class DiasTotalesComponent implements OnInit {
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
         doc.save('table.pdf');
+        that.sweetAlert2Helper.hideLoading();
       })
-
     };
 
   }

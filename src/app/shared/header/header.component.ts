@@ -41,10 +41,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.isComensal = this.roleUser == 'comensal';
     this.usuario = this.usuarioService.usuario;
-    console.log('header: ',this.usuario);
-    // cargar de localStorage notficaciones
     this.Notificaciones = JSON.parse(localStorage.getItem('notifications')!) || [];
-    console.log('notificaciones: ', this.Notificaciones);
+    this.Notificaciones.sort((a: any, b: any) => {
+      return new Date((b.date).split('/').reverse().join('-')).getTime() - new Date((a.date).split('/').reverse().join('-')).getTime();
+    });
+    console.log("notificaciones => ",this.Notificaciones);
   }
 
   logout(){

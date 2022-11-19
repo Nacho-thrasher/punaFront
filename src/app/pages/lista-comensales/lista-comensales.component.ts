@@ -43,10 +43,10 @@ export class ListaComensalesComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.Registros = data;
-        // order by date
-        // this.Registros.sort((a, b) => {
-        //   return <any>new Date(b.date) - <any>new Date(a.date);
-        // });
+        //* ordernar por fecha
+        this.Registros.sort((a: any, b: any) => {
+          return new Date((b.date).split('/').reverse().join('-')).getTime() - new Date((a.date).split('/').reverse().join('-')).getTime();
+        });
 
         console.log('registros aqui',this.Registros);
         setTimeout(() => {

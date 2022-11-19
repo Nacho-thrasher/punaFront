@@ -76,35 +76,56 @@
       }}</h4>
       <hr>
 
-      <!-- card -->
-      <div class="card border-radius">
+      <!-- * card se cargo el usuario -->
+      <div class="card border-radius" *ngIf="cargoUsuarioComensal">
         <div class="card-body p-4">
-
-          <!-- <p class="card-text">
-            <span>
-              Nombre: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.userName : ''}}
-            </span><br>
-            <span>
-              Empresa: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario.empresa!.name : ''}}
-            </span><br>
-            <span>
-              DNI: {{ultimoRegistroDiario ? ultimoRegistroDiario!.usuario!.document : ''}}
-            </span><br>
-            <span *ngIf="ultimoRegistroDiario?.breakfast?.dish">
-              Desayuno: {{ultimoRegistroDiario ? ultimoRegistroDiario!.breakfast.dish : ''}}
-            </span>
-            <span *ngIf="ultimoRegistroDiario?.lunch?.dish">
-            </span>
-            <span *ngIf="ultimoRegistroDiario?.afternoonSnack?.dish">
-              Merienda: {{ultimoRegistroDiario ? ultimoRegistroDiario!.afternoonSnack.dish : ''}}
-            </span>
-            <span *ngIf="ultimoRegistroDiario?.dinner?.dish">
-              Cena: {{ultimoRegistroDiario ? ultimoRegistroDiario!.dinner.dish : ''}}
-            </span>
-          </p> -->
-
           <div class="container">
-            <div class="row">
+            <div class="row py-2">
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Nombre:
+                </h3>
+                <span class="text-muted">
+                  {{ usuarioComensalDetalle?.userName }}
+                </span>
+              </div>
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Empresa:
+                </h3>
+                <span class="text-muted">
+                  {{ usuarioComensalDetalle?.empresa?.name }}
+                </span>
+              </div>
+            </div>
+            <div class="row py-2">
+              <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  Documento:
+                </h3>
+                <span class="text-muted">
+                  {{ usuarioComensalDetalle?.document }}
+                </span>
+              </div>
+              <!-- <div class="col">
+                <h3 class="text-capitalize mb-0">
+                  {{ultimaComidaTipo}}:
+                </h3>
+                <span class="text-muted">
+                  {{ultimaComidaNombre ? ultimaComidaNombre : ''}}
+                </span>
+              </div> -->
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <!-- * card se confirmo el usuario -->
+      <!-- <div class="card border-radius" *ngIf="cargoUsuarioComensal">
+        <div class="card-body p-4">
+          <div class="container">
+            <div class="row py-2">
               <div class="col">
                 <h3 class="text-capitalize mb-0">
                   Nombre:
@@ -122,7 +143,7 @@
                 </span>
               </div>
             </div>
-            <div class="row">
+            <div class="row py-2">
               <div class="col">
                 <h3 class="text-capitalize mb-0">
                   DNI:
@@ -133,63 +154,19 @@
               </div>
               <div class="col">
                 <h3 class="text-capitalize mb-0">
-                  Desayuno:
+                  {{ultimaComidaTipo}}:
                 </h3>
                 <span class="text-muted">
-                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.breakfast.dish : 'No registrado'}}
+                  {{ultimaComidaNombre ? ultimaComidaNombre : ''}}
                 </span>
               </div>
             </div>
-            <div class="row">
-              <div class="col">
-                <h3 class="text-capitalize mb-0">
-                  Almuerzo:
-                </h3>
-                <span class="text-muted">
-                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.lunch.dish : ''}}
-                </span>
-              </div>
-              <div class="col">
-                <h3 class="text-capitalize mb-0">
-                  Merienda:
-                </h3>
-                <span class="text-muted">
-                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.afternoonSnack.dish : ''}}
-                </span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <h3 class="text-capitalize mb-0">
-                  Cena:
-                </h3>
-                <span class="text-muted">
-                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.dinner.dish : ''}}
-                </span>
-              </div>
-              <div class="col">
-                <h3 class="text-capitalize mb-0">
-                  Fecha:
-                </h3>
-                <span class="text-muted">
-                  {{ultimoRegistroDiario ? ultimoRegistroDiario!.date : '' }}
-                </span>
-              </div>
-            </div>
-            <!-- <div class="row">
-              <div class="col-12">
-                <hr>
-              </div>
-              <div class="col">Nro: {{cantidadRegistrosDiarios}}</div>
-              <div class="col">Fecha: {{ultimoRegistroDiario ? ultimoRegistroDiario!.date : '' }} </div>
-            </div> -->
           </div>
 
 
         </div>
-      </div>
-      <!-- form para ingresar dni con numeros de 0 a 9 -->
-      <!-- form dni -->
+      </div> -->
+
       <form
         id="formDni"
         autocomplete="off"
@@ -265,12 +242,25 @@
           </div>
 
         </div>
-        <div class="row">
+        <div class="row pb-4">
           <div class="col-12">
-            <button (click)="registrarComensal()" [disabled]="!formGroup.valid" type="button"
-            class="btn btn-primary btn-lg">
-              <i class="fas fa-check"></i> Cargar
+            <button *ngIf="!cargoUsuarioComensal" (click)="cargarUsuarioComensal()" [disabled]="!formGroup.valid" type="button"
+            class="btn btn-primary btn-md mx-2">
+              <!-- cargar comensal -->
+              <i class="fas fa-user-plus"></i> Cargar
             </button>
+            <!-- button cancelar -->
+            <button *ngIf="cargoUsuarioComensal" (click)="cancelarCargarUsuarioComensal()" type="button"
+            class="btn btn-danger btn-md mx-2">
+              <!-- cancelar usuario -->
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+            <button *ngIf="cargoUsuarioComensal" (click)="registrarComensal()" type="button"
+            class="btn btn-primary btn-md mx-2">
+              <!-- confirmar usuario -->
+              <i class="fas fa-check"></i> Confirmar
+            </button>
+
           </div>
         </div>
 

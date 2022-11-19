@@ -73,5 +73,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
       )
   }
 
+  cerrarSesion(){
+    this.usuarioService.logout();
+  }
+
 
 }

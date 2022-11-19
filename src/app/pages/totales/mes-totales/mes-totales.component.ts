@@ -50,14 +50,13 @@ export class MesTotalesComponent implements OnInit {
 
   ngOnInit(): void {
     this.mes = this.route.snapshot.paramMap.get('mes');
-    console.log('mes-totales.component.ts', this.mes);
     this.cargarTotalesDias()
     // this.downloadPDF();
   }
 
-
-  downloadPDF() {
+  downloadPDF(): any {
     this.idDonwloadPdf = true;
+    this.SweetAlert2Helper.showLoading();
     //htmlTable
     const data = document.getElementById('htmlTable')!;
     const doc = new jsPDF('p', 'pt', 'a4');
@@ -68,12 +67,13 @@ export class MesTotalesComponent implements OnInit {
     // agregar imagen de cabecera
     var img = new Image();
     img.src = 'https://res.cloudinary.com/hysmatafuegos/image/upload/v1663884304/caratula_iiijz8.png';
+    const that = this;
     img.onload = function () {
       // cargar imagen de cabecera logo
       // doc.addImage(img, 'PNG', 0, 0, 500, 100);
       doc.addImage(img, 50, 10, 500, 80)
       // cargar tabla
-
+      let seCargoTabla = false;
       html2canvas(data, options).then((canvas) => {
         // bajar la tabla 100px
         // const imgData = canvas.toDataURL('image/png');
@@ -101,15 +101,17 @@ export class MesTotalesComponent implements OnInit {
 
         const img = canvas.toDataURL('image/PNG');
         const bufferX = 15;
-        // bajar la tabla 100px
         const bufferY = 120;
         const imgProps = (doc as any).getImageProperties(img);
         const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
         doc.save('table.pdf');
-      })
 
+        //* cerrar sweetalert
+        that.SweetAlert2Helper.hideLoading();
+
+      })
     };
 
   }
@@ -130,7 +132,11 @@ export class MesTotalesComponent implements OnInit {
           )
         }
         else {
-          console.log('mes-totales.component.ts', this.TotalesDias);
+          //* ordernar por fecha
+          this.TotalesDias.sort((a: any, b: any) => {
+            return new Date((b.date).split('/').reverse().join('-')).getTime() - new Date((a.date).split('/').reverse().join('-')).getTime();
+          });
+
           setTimeout(() => {
             this.temp = [...this.TotalesDias];
             this.rows = this.TotalesDias;

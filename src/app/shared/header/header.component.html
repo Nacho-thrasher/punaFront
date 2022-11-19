@@ -46,11 +46,11 @@
         <span class="dropdown-item dropdown-header">{{Notificaciones.length}} Notificaciones</span>
         <div class="dropdown-divider"></div>
         <div class="" *ngFor="let notificacion of Notificaciones">
-          <a href="#" class="dropdown-item">
+          <div style="cursor: auto; " class="dropdown-item text-capitalize">
             <!-- <i class="fas fa-envelope mr-2"></i> -->
             {{notificacion.name.substring(0, 15)}}...
             <span class="float-right text-muted text-sm pb-1">Fecha:{{notificacion.date}} Vence:{{notificacion.dateVencimiento}}</span>
-          </a>
+          </div>
           <div class="dropdown-divider"></div>
         </div>
         <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->

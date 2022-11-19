@@ -12,6 +12,10 @@
           <li *ngIf="content" class="breadcrumb-item"><a [routerLink]="['/dashboard/',content]">{{titulo}}</a></li>
           <!-- <li *ngIf="content" class="breadcrumb-item active">Fixed Layout</li> -->
         </ol>
+        <!-- button cerrar sesion -->
+        <button *ngIf="isComensal" class="float-sm-right btn btn-danger btn-sm"
+          (click)="cerrarSesion()"
+        >Cerrar sesión</button>
       </div>
     </div>
   </div><!-- /.container-fluid -->

@@ -58,6 +58,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   public ultimaComidaTipo: string = '';
   public cargoUsuarioComensal: boolean = false;
   public usuarioComensalDetalle: any | null = null;
+  public menuSeleccionado: any | null = null;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -99,6 +100,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         this.usuarios = usuarios;
         console.log('usuarios => ',this.usuarios);
         this.menus = menus; //* menues, saludable etc
+        console.log('menus => ',this.menus);
         this.todosRegistrosDiariosDelDia = registrosDiarios;
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
         this.ultimaComidaTipo =
@@ -164,7 +166,6 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
   }
   onFormGroupChanges(formGroup: FormGroup): void {
     if (!formGroup) return
-
   }
   onFormGroupChanges3(formGroup3: FormGroup): void {
     if (!formGroup3) return
@@ -181,6 +182,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     //* cargar en la tarjeta el usuario comensal
     const form = this.formGroup.value;
     let ndocu = form.nDocu;
+    let menuSelec = form.tipo;
     //* asegurarse que exista ndocu
     if (ndocu) {
       //* pasarle trim para que no tenga espacios
@@ -192,6 +194,16 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     if (usuarioFind) {
       this.cargoUsuarioComensal = true;
       this.usuarioComensalDetalle = usuarioFind;
+      //* this.menus
+      console.log('acaaaa => ', menuSelec);
+      this.menuSeleccionado = this.menus.find((item: any) => {
+        console.log('item => ', item);
+        if (item.uid == menuSelec) {
+          return item;
+        }
+      });
+      this.menuSeleccionado = this.menuSeleccionado[this.HoraComidaActual!.tipo];
+
     } else {
       this.sweetAlert2Helper.error(
         'error',
@@ -202,7 +214,6 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         false
       );
     }
-
   }
   cancelarCargarUsuarioComensal(): void {
     this.cargoUsuarioComensal = false;

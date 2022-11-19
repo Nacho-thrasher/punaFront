@@ -19,54 +19,6 @@
   </div>
   <div class="row">
 
-    <!-- <div class="col-md-8 col-sm-12 border-radius p-2">
-      <h4 class="text-capitalize">Comida: {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
-          HoraComidaActual?.tipo == 'breakfast' ? 'desayuno' :
-          HoraComidaActual?.tipo == 'afternoonSnack' ? 'merienda' :
-          HoraComidaActual?.tipo == 'dinner' ? 'cena' : ''
-        }}</h4>
-      <hr>
-      <div class="row row-col-1 row-cols-md-3">
-
-        <div class="col mb-4"
-          *ngFor="let registroDiario of registrosDiarios; let i = index"
-        >
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title text-capitalize">{{registroDiario.usuario.userName}}</h5>
-              <p class="card-text">
-                <span>
-                  Empresa: {{registroDiario.usuario.empresa!.name}}
-                </span><br>
-                <span>
-                  DNI: {{registroDiario.usuario!.document}}
-                </span><br>
-                <span *ngIf="registroDiario?.breakfast?.dish">
-                  Desayuno: {{registroDiario ? registroDiario?.breakfast?.dish : ''}}
-                </span>
-                <span *ngIf="registroDiario?.lunch?.dish">
-                  Almuerzo: {{registroDiario ? registroDiario!.lunch.dish : ''}}
-                </span>
-                <span *ngIf="registroDiario?.afternoonSnack?.dish">
-                  Merienda: {{registroDiario ? registroDiario!.afternoonSnack.dish : ''}}
-                </span>
-                <span *ngIf="registroDiario?.dinner?.dish">
-                Cena: {{registroDiario ? registroDiario!.dinner.dish : ''}}
-                </span>
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row">
-                <div class="col">Nro: {{registroDiario.nro}}</div>
-                <div class="col">Fecha: {{registroDiario.date}} </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div> -->
-
     <div class="col-md-8 mx-auto col-sm-12 border-radius p-2">
       <h4 class="text-capitalize">{{fechaHoy}}</h4>
       <h4 class="text-capitalize">Comida: {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
@@ -107,14 +59,14 @@
                   {{ usuarioComensalDetalle?.document }}
                 </span>
               </div>
-              <!-- <div class="col">
+              <div class="col">
                 <h3 class="text-capitalize mb-0">
-                  {{ultimaComidaTipo}}:
+                  {{HoraComidaActual!.tipo}}:
                 </h3>
                 <span class="text-muted">
-                  {{ultimaComidaNombre ? ultimaComidaNombre : ''}}
+                  {{menuSeleccionado.dish ? menuSeleccionado.dish : ''}}
                 </span>
-              </div> -->
+              </div>
             </div>
           </div>
 

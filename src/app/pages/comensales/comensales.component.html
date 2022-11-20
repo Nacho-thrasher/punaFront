@@ -82,12 +82,16 @@
           <!-- input file -->
           <div class="input-group mb-3">
             <!-- input file -->
-            <div class="custom-file">
+            <div class="custom-file" >
               <input type="hidden" value="" name="...">
+              <!-- cambiar nombre de input -->
               <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"
-                (change)="upload($event)" #inputFile accept=".xls, .xlsx"
+                (change)="upload($event)" #inputFile accept=".xls, .xlsx" 
               >
-              <label class="custom-file-label" for="inputGroupFile01">Elegir Archivo</label>
+              <label class="custom-file-label" for="inputGroupFile01">
+               <!-- nombre del archivo  -->
+                {{fileName}}
+              </label>
             </div>
 
             <!-- button enviar  -->

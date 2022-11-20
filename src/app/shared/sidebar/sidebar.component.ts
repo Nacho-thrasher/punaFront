@@ -40,8 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.isComensal = this.roleUser == 'comensal';
-    console.log("sidebar => ",this.isComensal);
+    this.isComensal = this.roleUser == 'autoservicio comensal';
 
     $('[data-widget="treeview"]').Treeview("init");
     console.log(`sidebar menu`, this.sidebarService.menu);

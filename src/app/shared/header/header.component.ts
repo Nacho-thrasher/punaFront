@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isComensal = this.roleUser == 'comensal';
+    this.isComensal = this.roleUser == 'autoservicio comensal';
     this.usuario = this.usuarioService.usuario;
     this.Notificaciones = JSON.parse(localStorage.getItem('notifications')!) || [];
     this.Notificaciones.sort((a: any, b: any) => {

@@ -21,7 +21,8 @@
 
     <div class="col-md-8 mx-auto col-sm-12 border-radius p-2">
       <h4 class="text-capitalize">{{fechaHoy}}</h4>
-      <h4 class="text-capitalize">Comida: {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
+      <h4 class="text-capitalize">
+        Comida: {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
         HoraComidaActual?.tipo == 'breakfast' ? 'desayuno' :
         HoraComidaActual?.tipo == 'afternoonSnack' ? 'merienda' :
         HoraComidaActual?.tipo == 'dinner' ? 'cena' : ''
@@ -61,7 +62,11 @@
               </div>
               <div class="col">
                 <h3 class="text-capitalize mb-0">
-                  {{HoraComidaActual!.tipo}}:
+                  {{ HoraComidaActual?.tipo == 'lunch' ? 'almuerzo' :
+                    HoraComidaActual?.tipo == 'breakfast' ? 'desayuno' :
+                    HoraComidaActual?.tipo == 'afternoonSnack' ? 'merienda' :
+                    HoraComidaActual?.tipo == 'dinner' ? 'cena' : ''
+                  }}
                 </h3>
                 <span class="text-muted">
                   {{menuSeleccionado.dish ? menuSeleccionado.dish : ''}}
@@ -74,6 +79,7 @@
         </div>
       </div>
       <!-- * card se confirmo el usuario -->
+
       <!-- <div class="card border-radius" *ngIf="cargoUsuarioComensal">
         <div class="card-body p-4">
           <div class="container">
@@ -114,8 +120,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
       </div> -->
 
@@ -130,9 +134,6 @@
         <!-- input number -->
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <!-- <span class="input-group-text" id="basic-addon1">DNI</span> -->
-            <!-- class="input-group-text" -->
-            <!-- dropdown seleccionar dni o pasaporte defecto dni -->
             <div class="dropdown">
               <button
                 class="btn btn-secondary dropdown-toggle text-uppercase"
@@ -276,6 +277,8 @@
           <div class="form-group">
             <label for="message-text" class="col-form-label">Tipo Menu:</label>
             <select class="form-control" formControlName="tipoMenu">
+              <!-- seleccionado por defecto -->
+              <option selected disabled>Seleccione uno</option>
               <option class="text-capitalize" [value]="menu.uid" *ngFor="let menu of menus">
                 {{menu.type}}
               </option>
@@ -343,11 +346,6 @@
               </div>
             </div>
           </div>
-          <!-- * Email -->
-          <!-- <div class="form-group">
-            <label for="message-text" class="col-form-label">Email:</label>
-            <input type="email" class="form-control" id="email" formControlName="email">
-          </div> -->
           <!-- * TYPE DOCUMENT -->
           <div class="form-group">
             <label for="message-text" class="col-form-label">Tipo de documento:</label>

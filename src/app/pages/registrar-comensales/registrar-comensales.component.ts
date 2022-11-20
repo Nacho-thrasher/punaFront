@@ -96,7 +96,14 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     ])
     $combineLatest.pipe(takeUntil(this.unsubscribe$))
     .subscribe({
-      next: ([usuarios, menus, registrosDiarios, horaComidaActual, empresas, userTypes]) => {
+      next: ([
+        usuarios,
+        menus,
+        registrosDiarios,
+        horaComidaActual,
+        empresas,
+        userTypes
+      ]) => {
         this.usuarios = usuarios;
         console.log('usuarios => ',this.usuarios);
         this.menus = menus; //* menues, saludable etc
@@ -261,7 +268,6 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
     }
     else{
       //* si existe o no registro diario A la misma hora
-      console.log('existe el usuario', this.todosRegistrosDiariosDelDia);
 
       const registroExist = this.todosRegistrosDiariosDelDia.filter((item: any) => {
         if (item.usuario.uid == usuario?.uid) {
@@ -479,7 +485,6 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         idCompany: this.usuarioComensal!.empresa!.uid,
         fecha: fecha,
       }
-      console.log('args: ', args);
       this.registroDiarioService.crearRegistroManual(args)
       .subscribe({
         next: (res) => {
@@ -497,6 +502,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.log(err);
+          this.formGroup2.reset();
           this.sweetAlert2Helper.error(
             'Error',
             'No se pudo registrar el comensal',
@@ -505,6 +511,8 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
           );
         },
         complete: () => {
+          //* reset form
+          this.formGroup2.reset();
           this.getData();
         }
       })

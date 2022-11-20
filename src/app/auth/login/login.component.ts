@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
         // this.ngZone.run(() => {
         //   this.router.navigate(['/']);
         // });
-        if (this.roleUser == 'comensal') {
+        if (this.roleUser == 'autoservicio comensal') {
           console.log('redirigir comensal');
           this.ngZone.run(() => this.router.navigateByUrl('/dashboard/registrar-comensales'));
         } else {

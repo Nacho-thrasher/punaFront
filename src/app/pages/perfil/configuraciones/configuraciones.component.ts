@@ -163,7 +163,12 @@ export class ConfiguracionesComponent implements OnInit, OnDestroy {
 
   }
   editarHorario(horario: Horarios) {
-    $('#modalEditarLabel').html(`Editar Horario ${horario.tipo}`);
+    $('#modalEditarLabel').html(`Editar Horario ${
+      horario.tipo == 'lunch' ? 'almuerzo' :
+      horario.tipo == 'breakfast' ? 'desayuno' :
+      horario.tipo == 'afternoonSnack' ? 'merienda' :
+      horario.tipo == 'dinner' ? 'cena' : ''
+    }`);
     this.formGroup.setValue({
       horaInicio: horario.horaInicio,
       horaFin: horario.horaFin

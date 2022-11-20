@@ -61,6 +61,7 @@ export class ComensalesComponent implements OnInit, OnDestroy {
   public subiendoData: boolean = false;
   public numeroData: number = 0;
   public totalData: number = 0;
+  public fileName: string = 'Buscar archivo';
 
   constructor(
     private usuarioService: UsuarioService,
@@ -141,6 +142,9 @@ export class ComensalesComponent implements OnInit, OnDestroy {
     this.cargarUsuarios();
     this.cargarEmpresas();
     this.cargarUserTypes();
+
+    //* cambiar por id el nombre de boton
+    $('#inputGroupFile01').text('Elegir');
   }
 
   cargarUsuarios(){
@@ -258,6 +262,9 @@ export class ComensalesComponent implements OnInit, OnDestroy {
   }
 
   upload(event:any) {
+
+    //* cargar nombre de archivo
+    this.fileName = event.target.files[0].name;
     // si ya hay un archivo cargado, resetear
     console.log('event: ', event);
     this.file = event.target.files[0];

@@ -49,7 +49,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.UsuarioRole == 'comensal') {
+    if (this.UsuarioRole == 'autoservicio comensal') {
       this.isComensal = true;
     }
   }

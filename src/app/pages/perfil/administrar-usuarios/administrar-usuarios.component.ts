@@ -102,8 +102,9 @@ export class AdministrarUsuariosComponent implements OnInit {
 
     // let filter = event.target.value.toLowerCase();
     let filter = showAdmins ? 'puna administracion' : '';
+    console.log('filter =>', this.filteredData);
     this.rows = this.filteredData.filter( (item:any) => {
-      if (item.empresa.name.toLowerCase().indexOf(filter) !== -1) {
+      if(!filter || (!!item.empresa.name && item.empresa.name.toString().toLowerCase().indexOf(filter) !== -1)) {
         return true;
       }
       return;

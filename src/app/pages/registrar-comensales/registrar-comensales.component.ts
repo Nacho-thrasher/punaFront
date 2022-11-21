@@ -105,28 +105,29 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         userTypes
       ]) => {
         this.usuarios = usuarios;
-        console.log('usuarios => ',this.usuarios);
         this.menus = menus; //* menues, saludable etc
-        console.log('menus => ',this.menus);
         this.todosRegistrosDiariosDelDia = registrosDiarios;
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
+
         this.ultimaComidaTipo =
-        Object.keys(this.ultimoRegistroDiario?.dinner).length > 0 ? 'Cena' :
-        Object.keys(this.ultimoRegistroDiario?.lunch).length > 0 ? 'Almuerzo' :
         Object.keys(this.ultimoRegistroDiario?.breakfast).length > 0 ? 'Desayuno' :
+        Object.keys(this.ultimoRegistroDiario?.lunch).length > 0 ? 'Almuerzo' :
+        Object.keys(this.ultimoRegistroDiario?.dinner).length > 0 ? 'Cena' :
         Object.keys(this.ultimoRegistroDiario?.afternoonSnack).length > 0 ? 'Merienda' : '';
+
         this.ultimaComidaNombre =
-        Object.keys(this.ultimoRegistroDiario?.dinner).length > 0 ? this.ultimoRegistroDiario?.dinner.dish :
-        Object.keys(this.ultimoRegistroDiario?.lunch).length > 0 ? this.ultimoRegistroDiario?.lunch.dish :
         Object.keys(this.ultimoRegistroDiario?.breakfast).length > 0 ? this.ultimoRegistroDiario?.breakfast.dish :
+        Object.keys(this.ultimoRegistroDiario?.lunch).length > 0 ? this.ultimoRegistroDiario?.lunch.dish :
+        Object.keys(this.ultimoRegistroDiario?.dinner).length > 0 ? this.ultimoRegistroDiario?.dinner.dish :
         Object.keys(this.ultimoRegistroDiario?.afternoonSnack).length > 0 ? this.ultimoRegistroDiario?.afternoonSnack.dish : '';
-        console.log('ultimo registro diario => ',this.ultimoRegistroDiario);
+
+
+        console.log('ultima comida =>', this.ultimaComidaNombre, this.ultimaComidaTipo);
 
         this.cantidadRegistrosDiarios = registrosDiarios.length;
         this.registrosDiarios = registrosDiarios.filter((item) => {
           return item.uid != registrosDiarios[registrosDiarios.length - 1].uid;
         });
-        // foreach y agregar un numero a cada registro
         this.registrosDiarios.forEach((item, index) => {
           item.nro = index + 1;
         });

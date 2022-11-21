@@ -111,15 +111,15 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
         this.todosRegistrosDiariosDelDia = registrosDiarios;
         this.ultimoRegistroDiario = registrosDiarios[registrosDiarios.length - 1];
         this.ultimaComidaTipo =
-        Object.keys(this.ultimoRegistroDiario.dinner).length > 0 ? 'Cena' :
-        Object.keys(this.ultimoRegistroDiario.lunch).length > 0 ? 'Almuerzo' :
-        Object.keys(this.ultimoRegistroDiario.breakfast).length > 0 ? 'Desayuno' :
-        Object.keys(this.ultimoRegistroDiario.afternoonSnack).length > 0 ? 'Merienda' : '';
+        Object.keys(this.ultimoRegistroDiario?.dinner).length > 0 ? 'Cena' :
+        Object.keys(this.ultimoRegistroDiario?.lunch).length > 0 ? 'Almuerzo' :
+        Object.keys(this.ultimoRegistroDiario?.breakfast).length > 0 ? 'Desayuno' :
+        Object.keys(this.ultimoRegistroDiario?.afternoonSnack).length > 0 ? 'Merienda' : '';
         this.ultimaComidaNombre =
-        Object.keys(this.ultimoRegistroDiario.dinner).length > 0 ? this.ultimoRegistroDiario.dinner.dish :
-        Object.keys(this.ultimoRegistroDiario.lunch).length > 0 ? this.ultimoRegistroDiario.lunch.dish :
-        Object.keys(this.ultimoRegistroDiario.breakfast).length > 0 ? this.ultimoRegistroDiario.breakfast.dish :
-        Object.keys(this.ultimoRegistroDiario.afternoonSnack).length > 0 ? this.ultimoRegistroDiario.afternoonSnack.dish : '';
+        Object.keys(this.ultimoRegistroDiario?.dinner).length > 0 ? this.ultimoRegistroDiario?.dinner.dish :
+        Object.keys(this.ultimoRegistroDiario?.lunch).length > 0 ? this.ultimoRegistroDiario?.lunch.dish :
+        Object.keys(this.ultimoRegistroDiario?.breakfast).length > 0 ? this.ultimoRegistroDiario?.breakfast.dish :
+        Object.keys(this.ultimoRegistroDiario?.afternoonSnack).length > 0 ? this.ultimoRegistroDiario?.afternoonSnack.dish : '';
         console.log('ultimo registro diario => ',this.ultimoRegistroDiario);
 
         this.cantidadRegistrosDiarios = registrosDiarios.length;
@@ -304,7 +304,7 @@ export class RegistrarComensalesComponent implements OnInit, OnDestroy {
             false
           );
         }
-        else if (horaComidatipo == 'dinner' && registroExist.find((item: any) => { if (Object.keys(item.dinner).length > 0) return item })) {
+        else if (horaComidatipo == 'dinner' && registroExist.find((item: any) => { if (Object.keys(item?.dinner).length > 0) return item })) {
           console.log('ya registro cena');
           this.sweetAlert2Helper.error(
             'Error',
